@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4e0fcb65-1292-4c97-9791-2ffc5ac32722" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DatabaseView">
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="Index.cshtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/VA/Views/Member/Index.cshtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="316">
+              <caret line="220" column="14" lean-forward="false" selection-start-line="220" selection-start-column="14" selection-end-line="220" selection-end-column="14" />
+              <folding>
+                <marker date="1485793617876" expanded="true" signature="42:121" ph="@..." />
+                <marker date="1485793617876" expanded="true" signature="130:1059" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="156:1052" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="197:1041" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="231:1025" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="276:624" ph="&lt;select.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="643:885" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="718:862" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="902:1003" ph="&lt;button.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="1091:1972" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="1117:1463" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="1153:1295" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="1304:1452" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="1468:1964" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="1504:1652" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="1661:1818" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="1827:1953" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="1974:2199" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="2200:3233" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="2276:3221" ph="@..." />
+                <marker date="1485793617876" expanded="true" signature="2400:3215" ph="{...}" />
+                <marker date="1485793617876" expanded="true" signature="2423:3189" ph="&lt;table.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="2482:2719" ph="&lt;thead.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="2510:2694" ph="&lt;tr.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="2736:3168" ph="&lt;tbody.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="2766:3143" ph="@..." />
+                <marker date="1485793617876" expanded="true" signature="2797:3121" ph="{...}" />
+                <marker date="1485793617876" expanded="true" signature="2852:3094" ph="&lt;tr.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="3234:4731" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="3316:3486" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="3355:3479" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="3623:4724" ph="@..." />
+                <marker date="1485793617876" expanded="true" signature="3784:4718" ph="{...}" />
+                <marker date="1485793617876" expanded="true" signature="3807:4692" ph="&lt;table.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="3866:4154" ph="&lt;thead.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="3894:4129" ph="&lt;tr.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="4171:4671" ph="&lt;tbody.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="4201:4646" ph="@..." />
+                <marker date="1485793617876" expanded="true" signature="4235:4624" ph="{...}" />
+                <marker date="1485793617876" expanded="true" signature="4290:4597" ph="&lt;tr.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="4732:5901" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="4799:5894" ph="@..." />
+                <marker date="1485793617876" expanded="true" signature="4956:5888" ph="{...}" />
+                <marker date="1485793617876" expanded="true" signature="4979:5862" ph="&lt;table.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="5038:5325" ph="&lt;thead.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="5066:5300" ph="&lt;tr.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="5342:5841" ph="&lt;tbody.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="5372:5816" ph="@..." />
+                <marker date="1485793617876" expanded="true" signature="5405:5794" ph="{...}" />
+                <marker date="1485793617876" expanded="true" signature="5460:5767" ph="&lt;tr.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="5903:6384" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="5983:6072" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="6077:6384" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="6113:6384" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="6147:6382" ph="&lt;div.../&gt;" />
+                <marker date="1485793617876" expanded="true" signature="6203:6363" ph="&lt;div.../&gt;" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Member.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/VA/Models/Member.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="15" column="43" lean-forward="false" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
+              <folding>
+                <marker date="1485793629532" expanded="true" signature="6:181" ph="..." />
+                <marker date="1485793629532" expanded="true" signature="202:719" ph="{...}" />
+                <marker date="1485793629532" expanded="true" signature="228:717" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BundleConfig.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/VA/App_Start/BundleConfig.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="13" column="61" lean-forward="false" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="61" />
+              <folding>
+                <marker date="1485286494342" expanded="true" signature="6:48" ph="..." />
+                <marker date="1485286494342" expanded="true" signature="62:1493" ph="{...}" />
+                <marker date="1485286494342" expanded="true" signature="94:1491" ph="{...}" />
+                <marker date="1485286494342" expanded="true" signature="266:1485" ph="{...}" />
+                <marker date="1485286494342" expanded="true" signature="549:755" ph="/* Use the development version of Modernizr to develop with and learn from. Then, when you're ... */" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/VA/Repositories/MemberRepository.cs" />
+        <option value="$PROJECT_DIR$/VA/Controllers/HomeController.cs" />
+        <option value="$PROJECT_DIR$/VA/Views/Member/Index.cshtml" />
+        <option value="$PROJECT_DIR$/VA/Models/Member.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1938" />
+    <option name="height" value="1048" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="SolutionExplorer">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="VA (1 project)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="VA" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="VA (1 project)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="VA" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Views" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="VA (1 project)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="VA" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Views" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Member" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="VA (1 project)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="VA" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="App_Start" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Font" />
+  </component>
+  <component name="RunManager" selected=".NET Project.VA">
+    <configuration default="false" name="VA" type="DotNetProject" factoryName=".NET Project" temporary="true">
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/VA/VA.csproj" />
+      <option name="PROJECT_KIND" value="Web" />
+      <option name="PROJECT_TFM" value="Default" />
+      <option name="EXE_PATH" value="C:/Program Files/IIS Express/iisexpress.exe" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;/config:$PROJECT_DIR$/.idea/config/applicationhost.config&quot; /site:VA /apppool:Clr4IntegratedAppPool" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VA" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="DotNetProject" factoryName=".NET Project">
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue=".NET Project.Default" />
+      <item index="1" class="java.lang.String" itemvalue=".NET Project.VA" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue=".NET Project.VA" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4e0fcb65-1292-4c97-9791-2ffc5ac32722" name="Default" comment="" />
+      <created>1485533906251</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1485533906251</updated>
+      <workItem from="1485533915247" duration="540000" />
+      <workItem from="1485792678913" duration="1046000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1586000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Errors in solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UnitTesting" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Change Signature" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1796875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39956093" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/VA/Repositories/MemberRepository.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <marker date="1485539498134" expanded="true" signature="6:167" ph="..." />
+            <marker date="1485539498134" expanded="true" signature="250:1831" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="352:438" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="480:589" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="639:730" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="769:852" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="913:987" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="1259:1270" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="1330:1431" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="1473:1583" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="1588:1825" ph="/* IEnumerable&lt;Appointment&gt; XXXX(int month, int year) ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VA/Controllers/HomeController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1485539233234" expanded="true" signature="6:160" ph="..." />
+            <marker date="1485539233234" expanded="true" signature="233:3646" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="484:703" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="576:649" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="740:856" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="895:995" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1038:1138" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1176:1274" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1430:2230" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1603:1964" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1824:1900" ph="/* ViewBag.LoginSuccess = &quot;Login success!&quot;; ... */" />
+            <marker date="1485539233234" expanded="true" signature="1981:2220" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="2012:2095" ph="/* Session[&quot;username&quot;] = null; ... */" />
+            <marker date="1485539233234" expanded="true" signature="2268:2546" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="3592:3593" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="3592:3635" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VA/Repositories/MemberRepository.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <marker date="1485539498134" expanded="true" signature="6:167" ph="..." />
+            <marker date="1485539498134" expanded="true" signature="250:1831" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="352:438" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="480:589" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="639:730" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="769:852" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="913:987" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="1259:1270" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="1330:1431" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="1473:1583" ph="{...}" />
+            <marker date="1485539498134" expanded="true" signature="1588:1825" ph="/* IEnumerable&lt;Appointment&gt; XXXX(int month, int year) ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VA/Controllers/HomeController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="724">
+          <caret line="131" column="2" lean-forward="false" selection-start-line="131" selection-start-column="2" selection-end-line="131" selection-end-column="2" />
+          <folding>
+            <marker date="1485539233234" expanded="true" signature="6:160" ph="..." />
+            <marker date="1485539233234" expanded="true" signature="233:3646" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="484:703" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="576:649" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="740:856" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="895:995" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1038:1138" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1176:1274" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1430:2230" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1603:1964" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="1824:1900" ph="/* ViewBag.LoginSuccess = &quot;Login success!&quot;; ... */" />
+            <marker date="1485539233234" expanded="true" signature="1981:2220" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="2012:2095" ph="/* Session[&quot;username&quot;] = null; ... */" />
+            <marker date="1485539233234" expanded="true" signature="2268:2546" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="3592:3593" ph="{...}" />
+            <marker date="1485539233234" expanded="true" signature="3592:3635" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VA/App_Start/BundleConfig.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="61" lean-forward="false" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="61" />
+          <folding>
+            <marker date="1485286494342" expanded="true" signature="6:48" ph="..." />
+            <marker date="1485286494342" expanded="true" signature="62:1493" ph="{...}" />
+            <marker date="1485286494342" expanded="true" signature="94:1491" ph="{...}" />
+            <marker date="1485286494342" expanded="true" signature="266:1485" ph="{...}" />
+            <marker date="1485286494342" expanded="true" signature="549:755" ph="/* Use the development version of Modernizr to develop with and learn from. Then, when you're ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VA/Views/Member/Index.cshtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="220" column="14" lean-forward="false" selection-start-line="220" selection-start-column="14" selection-end-line="220" selection-end-column="14" />
+          <folding>
+            <marker date="1485793617876" expanded="true" signature="42:121" ph="@..." />
+            <marker date="1485793617876" expanded="true" signature="130:1059" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="156:1052" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="197:1041" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="231:1025" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="276:624" ph="&lt;select.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="643:885" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="718:862" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="902:1003" ph="&lt;button.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="1091:1972" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="1117:1463" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="1153:1295" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="1304:1452" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="1468:1964" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="1504:1652" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="1661:1818" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="1827:1953" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="1974:2199" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="2200:3233" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="2276:3221" ph="@..." />
+            <marker date="1485793617876" expanded="true" signature="2400:3215" ph="{...}" />
+            <marker date="1485793617876" expanded="true" signature="2423:3189" ph="&lt;table.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="2482:2719" ph="&lt;thead.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="2510:2694" ph="&lt;tr.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="2736:3168" ph="&lt;tbody.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="2766:3143" ph="@..." />
+            <marker date="1485793617876" expanded="true" signature="2797:3121" ph="{...}" />
+            <marker date="1485793617876" expanded="true" signature="2852:3094" ph="&lt;tr.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="3234:4731" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="3316:3486" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="3355:3479" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="3623:4724" ph="@..." />
+            <marker date="1485793617876" expanded="true" signature="3784:4718" ph="{...}" />
+            <marker date="1485793617876" expanded="true" signature="3807:4692" ph="&lt;table.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="3866:4154" ph="&lt;thead.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="3894:4129" ph="&lt;tr.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="4171:4671" ph="&lt;tbody.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="4201:4646" ph="@..." />
+            <marker date="1485793617876" expanded="true" signature="4235:4624" ph="{...}" />
+            <marker date="1485793617876" expanded="true" signature="4290:4597" ph="&lt;tr.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="4732:5901" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="4799:5894" ph="@..." />
+            <marker date="1485793617876" expanded="true" signature="4956:5888" ph="{...}" />
+            <marker date="1485793617876" expanded="true" signature="4979:5862" ph="&lt;table.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="5038:5325" ph="&lt;thead.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="5066:5300" ph="&lt;tr.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="5342:5841" ph="&lt;tbody.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="5372:5816" ph="@..." />
+            <marker date="1485793617876" expanded="true" signature="5405:5794" ph="{...}" />
+            <marker date="1485793617876" expanded="true" signature="5460:5767" ph="&lt;tr.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="5903:6384" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="5983:6072" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="6077:6384" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="6113:6384" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="6147:6382" ph="&lt;div.../&gt;" />
+            <marker date="1485793617876" expanded="true" signature="6203:6363" ph="&lt;div.../&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VA/Models/Member.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="15" column="43" lean-forward="false" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
+          <folding>
+            <marker date="1485793629532" expanded="true" signature="6:181" ph="..." />
+            <marker date="1485793629532" expanded="true" signature="202:719" ph="{...}" />
+            <marker date="1485793629532" expanded="true" signature="228:717" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

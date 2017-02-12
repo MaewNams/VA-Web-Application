@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="VAContext-Web.config Connection String" description="VAContext Connection String used in web.config by the application to access the database." defaultValue="Server=tcp:ruttikar.database.windows.net,1433;Initial Catalog=ruttikar;Persist Security Info=False;User ID=Ruttikar;Password=Maewnams0241;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\lukpa\\OneDrive\\เอกสาร\\visual\ studio\ 2015\\Projects\\VA\\VA\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='VAContext']/@connectionString" />
+  </parameter>
+</parameters>

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ruttikarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Administrator">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Appointment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="memberId" Type="Int32" Nullable="false" />
+    <Property Name="petId" Type="Int32" Nullable="false" />
+    <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="suggestion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_dbo_Appointment_dbo_Member_memberId" FromRole="Appointment" ToRole="Member" />
+    <NavigationProperty Name="Pet" Relationship="Self.FK_dbo_Appointment_dbo_Pet_petId" FromRole="Appointment" ToRole="Pet" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="codeId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="phonenumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Appointments" Relationship="Self.FK_dbo_Appointment_dbo_Member_memberId" FromRole="Member" ToRole="Appointment" />
+    <NavigationProperty Name="Pets" Relationship="Self.FK_dbo_Pet_dbo_Member_memberId" FromRole="Member" ToRole="Pet" />
+  </EntityType>
+  <EntityType Name="Pet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="memberId" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="typeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Appointments" Relationship="Self.FK_dbo_Appointment_dbo_Pet_petId" FromRole="Pet" ToRole="Appointment" />
+    <NavigationProperty Name="Member" Relationship="Self.FK_dbo_Pet_dbo_Member_memberId" FromRole="Pet" ToRole="Member" />
+    <NavigationProperty Name="PetType" Relationship="Self.FK_dbo_Pet_dbo_PetType_typeId" FromRole="Pet" ToRole="PetType" />
+  </EntityType>
+  <EntityType Name="PetType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Pets" Relationship="Self.FK_dbo_Pet_dbo_PetType_typeId" FromRole="PetType" ToRole="Pet" />
+  </EntityType>
+  <Association Name="FK_dbo_Appointment_dbo_Member_memberId">
+    <End Role="Member" Type="Self.Member" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Appointment">
+        <PropertyRef Name="memberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Appointment_dbo_Pet_petId">
+    <End Role="Pet" Type="Self.Pet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pet">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Appointment">
+        <PropertyRef Name="petId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Pet_dbo_Member_memberId">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="Pet" Type="Self.Pet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Pet">
+        <PropertyRef Name="memberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Pet_dbo_PetType_typeId">
+    <End Role="PetType" Type="Self.PetType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Pet" Type="Self.Pet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PetType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Pet">
+        <PropertyRef Name="typeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ruttikarEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="Administrators" EntityType="Self.Administrator" />
+    <EntitySet Name="Appointments" EntityType="Self.Appointment" />
+    <EntitySet Name="Members" EntityType="Self.Member" />
+    <EntitySet Name="Pets" EntityType="Self.Pet" />
+    <EntitySet Name="PetTypes" EntityType="Self.PetType" />
+    <AssociationSet Name="FK_dbo_Appointment_dbo_Member_memberId" Association="Self.FK_dbo_Appointment_dbo_Member_memberId">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Appointment" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Appointment_dbo_Pet_petId" Association="Self.FK_dbo_Appointment_dbo_Pet_petId">
+      <End Role="Pet" EntitySet="Pets" />
+      <End Role="Appointment" EntitySet="Appointments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Pet_dbo_Member_memberId" Association="Self.FK_dbo_Pet_dbo_Member_memberId">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Pet" EntitySet="Pets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Pet_dbo_PetType_typeId" Association="Self.FK_dbo_Pet_dbo_PetType_typeId">
+      <End Role="PetType" EntitySet="PetTypes" />
+      <End Role="Pet" EntitySet="Pets" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

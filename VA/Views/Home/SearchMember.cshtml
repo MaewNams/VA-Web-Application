@@ -1,0 +1,75 @@
+﻿@using VA.Models;
+@model VA.Models.Member
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="ui grid">
+    <div class="twelve wide column">
+        <div class="ui form">
+            <div class="inline fields">
+
+                <select name="condition" class="ui dropdown" id="select_condition">
+                    <option value="idCode">Member ID Code</option>
+                    <option value="name">Member name</option>
+                    <option value="address">Addresse</option>
+                    <option value="phone">Phone number</option>
+                </select>
+
+
+                <div class="four wide field" style="margin-left:15px">
+                    <div class="ui input">
+                        <input type="text" placeholder="Input keyword..." id="search_keyword">
+                    </div>
+                </div>
+                <button class="ui primary button search_button">
+                    Search
+                </button>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="ui divider"></div>
+@{
+    IEnumerable<Member> members = (IEnumerable<Member>)ViewData["Members"];
+
+    if (members != null && members.ToList().Count > 0)
+    {
+        <table class="ui selectable celled table">
+            <thead>
+                <tr >
+                    <th>CodeID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone number</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+            @{    foreach (var member in members)
+                {
+                <tr  class="clickable-row" data-id="@member.id" style="cursor: pointer">
+                    <td>@member.codeId</td>
+                    <td>@member.name</td>
+                    <td>@member.address</td>
+                    <td>@member.phonenumber</td>
+                </tr>
+              
+                    }
+                }
+            </tbody>
+        </table>
+                }
+                else
+                {
+                    <h3 class="ui center aligned header">
+                        No result found
+                    </h3>
+                }
+}

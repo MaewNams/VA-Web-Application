@@ -1,0 +1,76 @@
+﻿@using VA.Models;
+@{
+    ViewBag.Title = "Appointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    IEnumerable<Appointment> appWait = (IEnumerable<Appointment>)ViewData["MonthAppointmentCom"];
+    IEnumerable<Appointment> appCom = (IEnumerable<Appointment>)ViewData["DialyAppointmentCom"];
+}
+<h2>Appointment</h2>
+
+<div class="ui grid" style="padding-bottom: 15px">
+    <div class="sixteen wide column">
+        <div class="ui calendar all_app_calendar">
+            <div class="ui input left icon">
+                <i class="time icon"></i>
+                <input type="text" placeholder="Time" value="'@ViewBag.DateTime'">
+            </div>
+            Total appointment :  @appWait.ToList().Count
+        </div>
+
+           
+
+        
+        </div>
+</div>
+<div id="table_wait_appointment">
+    @{
+
+
+        if (appWait != null && appWait.ToList().Count > 0)
+        {
+            <table class="ui selectable celled table">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Member name</th>
+                    <th>Phone number</th>
+                    <th>Detail</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+
+                @{
+                    foreach (var app in appWait)
+                    {
+                        <tr>
+                            <td>@app.date.ToString("d")</td>
+                            <td>@app.Member.name    @app.Member.surname</td>
+                            <td>@app.Member.phonenumber</td>
+                            <td>@app.detail</td>
+                            <td class="collapsing">
+                                <button class="ui teal button">
+                                    <i class="write square icon"></i>
+                                    Edit
+                                </button>
+                            </td>
+                            <td class="collapsing">
+                                <button class="ui button delete_app_button"  data-id="@app.id">
+                                    <i class="remove icon"></i>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                    }
+                }
+                </tbody>
+            </table>
+        }
+    }
+</div>
