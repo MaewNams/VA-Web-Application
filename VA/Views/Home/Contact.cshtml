@@ -1,17 +1,179 @@
-﻿@{
-    ViewBag.Title = "Contact";
+﻿@using VA.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_test.cshtml";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+@{
+    IEnumerable<Appointment> dAppWait = (IEnumerable<Appointment>)ViewData["DialyAppointmentWait"];
+    IEnumerable<Appointment> dAppCom = (IEnumerable<Appointment>)ViewData["DialyAppointmentCom"];
+    IEnumerable<Appointment> mAppWait = (IEnumerable<Appointment>)ViewData["MonthAppointmentWait"];
+    IEnumerable<Appointment> mAppCom = (IEnumerable<Appointment>)ViewData["MonthAppointmentCom"];
+}
+<div class="ui vertical left visible sidebar menu" style="font-size:18px">
+    <div class="item" style="font-family: 'Raleway', sans-serif; font-size:48px;text-align:center;font-weight:bold;margin-bottom:55px;color:white;background-color:teal">
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+        VA
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+    </div>
+
+    <div class="ui secondary vertical pointing massive menu" style="color:darkgray">
+        <a class="active item" href="/VA/Home/" style="font-size:16px;">
+            <i class="home icon" style="float:left;padding-right:25px"></i>Home
+        </a>
+        <a class="active item"style="font-size:16px;color:#00B5AD;border-left: 5px #00B5AD solid;">
+            <i class="calendar icon" style="float:left;padding-right:25px"></i>
+            Appointment
+        </a>
+        <a class="item" href="/VA/Home/Member/" style="font-size:16px">
+            <i class="user icon" style="float:left;padding-right:25px"></i>
+            Member
+        </a>
+        <a href="/VA/VAProfile" class="item" style="font-size:16px">
+            <i class="setting icon" style="float:left;padding-right:25px"></i>
+            Clinic Profile
+        </a>
+    </div>
+</div>
+<div class="pusher">
+
+    <div class="ui secondary pointing massive menu" style="background-color:white;padding-right:270px;border:none!important;font-size:16px">
+        <div class="item">
+            <i class="paw icon"></i> Hello, administrator Maewnam
+        </div>
+        <div class="right menu">
+            <a href="/VA/Home/Login" class="ui item">
+                Login
+            </a>
+        </div>
+    </div>
+    <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
+        <h2 class="ui header" style="margin-bottom: 25px;">
+            <div class="content">
+                <i class="time icon"></i>   March, 9 2017
+                <div class="sub header">Today : 2 Appointments | This month : 12 Appointments</div>
+            </div>
+            <button class="ui right floated teal button">
+                <i class="plus icon"></i>
+                Create new member
+            </button>
+        </h2>
+
+        <div class="ui secondary pointing menu">
+            <a class="active item appointment" data-tab="first">
+                Daily
+            </a>
+            <a class="item appointment" data-tab="second">
+                Monthly
+            </a>
+            <div class="right menu">
+                <div class="ui form">
+                    <div class="inline fields">
+
+                        <select name="condition" class="ui dropdown" id="select_condition">
+                            <option value="idCode">Member ID Code</option>
+                            <option value="name">Member name</option>
+                            <option value="address">Addresse</option>
+                            <option value="phone">Phone number</option>
+                        </select>
+
+                        <div class="ui icon input" style="margin-left:15px;">
+                            <input type="text" placeholder="Search..." id="search_keyword">
+                            <i class="inverted circular search link icon search_button"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui active tab segment" data-tab="first">
+
+            <table class="ui single line selectable  table" style="border:none!important">
+                <thead>
+                    <tr>
+                        <th class="one wide">Date</th>
+                        <th class="four wide">Member name</th>
+                        <th class="two wide">Pet name</th>
+                        <th class="four wide">Detail</th>
+                        <th class="one wide">Status</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+
+
+                        if (dAppWait != null && dAppWait.ToList().Count > 0)
+                        {
+
+                            foreach (var app in dAppWait)
+                            {
+                                <tr>
+                                    <td>@app.date.ToString("d")</td>
+                                    <td>@app.Member.name</td>
+                                    <td> @app.Pet.name</td>
+                                    <td>@app.detail</td>
+                                    <td style="color:teal">@app.status</td>
+                                    <td style="text-align:right">
+                                        <button class="ui teal basic button" style="width:60%">View</button>
+
+                                    </td>
+                                    <td style="text-align:center">
+                                        <button class="circular ui icon dropdown button">
+                                            <i class="ellipsis vertical icon"></i>
+                                            <div class="menu">
+                                                <div class="item">Edit</div>
+                                                <div class="item">Delete</div>
+                                            </div>
+                                        </button>
+
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+
+
+                        if (dAppCom != null && dAppCom.ToList().Count > 0)
+                        {
+
+                            foreach (var app in dAppCom)
+                            {
+                                <tr>
+                                    <td>@app.date.ToString("d")</td>
+                                    <td>@app.Member.name</td>
+                                    <td> @app.Pet.name</td>
+                                    <td>@app.detail</td>
+                                    <td style="color:red">@app.status</td>
+                                    <td style="text-align:right">
+                                        <button class="ui teal basic button" style="width:60%">View</button>
+
+                                    </td>
+                                    <td style="text-align:center">
+                                        <button class="circular ui icon dropdown button">
+                                            <i class="ellipsis vertical icon"></i>
+                                            <div class="menu">
+                                                <div class="item">Delete</div>
+                                            </div>
+                                        </button>
+
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+
+                    }
+                </tbody>
+            </table>
+
+
+
+        </div>
+
+
+    </div>
+</div>

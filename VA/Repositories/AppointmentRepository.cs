@@ -25,6 +25,12 @@ namespace VA.Repositories
             _db.SaveChanges();
         }
 
+        public IEnumerable<Appointment> GetAll()
+        {
+            IEnumerable<Appointment> appList = _db.Appointment;
+            return appList;
+        }
+
         public IEnumerable<Appointment> GetByDayAndMonthAndYear(int day, int month, int year, string status)
         {
             IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.date.Day ==day && s.date.Month == month && s.date.Year == year && s.status == status).OrderBy(s => s.date);
@@ -35,8 +41,14 @@ namespace VA.Repositories
         {
             return _db.Appointment.FirstOrDefault(m => m.id == id);
         }
+        public IEnumerable<Appointment> GetByMemberId(int id, int month, int year)
+        {
+            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.memberId == id && s.date.Month == month && s.date.Year == year).OrderBy(s => s.date);
+            return appList;
+        }
 
-        public IEnumerable<Appointment> GetByMemberId(int id, int month, int year, string status)
+
+        public IEnumerable<Appointment> GetByMemberIdAndStatus(int id, int month, int year, string status)
         {
             IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.memberId == id && s.date.Month == month && s.date.Year == year && s.status == status).OrderBy(s=>s.date);
             return appList;
@@ -45,6 +57,12 @@ namespace VA.Repositories
         public IEnumerable<Appointment> GetByMonthAndYear(int month, int year, string status)
         {
             IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.date.Month == month && s.date.Year == year && s.status == status).OrderBy(s => s.date);
+            return appList;
+        }
+
+        public IEnumerable<Appointment> GetByPetID(int petID)
+        {
+            IEnumerable<Appointment> appList = _db.Appointment.Where(a => a.petId == petID);
             return appList;
         }
 

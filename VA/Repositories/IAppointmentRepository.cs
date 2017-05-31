@@ -14,7 +14,10 @@ namespace VA.Repositories
         void Update(Appointment model);
         void Delete(Appointment model);
         Appointment GetById(int id);
-        IEnumerable<Appointment> GetByMemberId(int id, int month, int year, string status);
+        IEnumerable<Appointment> GetAll();
+        IEnumerable<Appointment> GetByPetID(int petID);
+        IEnumerable<Appointment> GetByMemberId(int id, int month, int year);
+        IEnumerable<Appointment> GetByMemberIdAndStatus(int id, int month, int year, string status);
         IEnumerable<Appointment> GetByMonthAndYear(int month, int year, string status);
         IEnumerable<Appointment> GetByDayAndMonthAndYear(int day,int month, int year, string status);
     }

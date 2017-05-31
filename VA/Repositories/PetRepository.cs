@@ -26,10 +26,21 @@ namespace VA.Repositories
         {
             return _db.Pet.FirstOrDefault(m => m.id == id);
         }
-
+        public Pet GetByMemberIDAndNameAndSpecie(int memberId,string name,int specie)
+        {
+            return _db.Pet.FirstOrDefault(m => m.memberId == memberId && m.name == name && m.typeId == specie);
+        }
         public IEnumerable<Pet> GetByMemberID(int memberId)
         {
-            IEnumerable<Pet> petList = _db.Pet.Where(m => m.memberId == memberId);
+            IEnumerable<Pet> petList = _db.Pet.Where(m => m.memberId == memberId).OrderBy(m => m.name);
+            return petList;
+        }
+
+
+
+        public IEnumerable<Pet> GetAll()
+        {
+            IEnumerable<Pet> petList = _db.Pet.ToList();
             return petList;
         }
 

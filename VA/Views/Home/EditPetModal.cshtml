@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "EditPetModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="edit_app_detail_modal_@app.id" class="ui modal">
+
+
+    <i class="close icon"></i>
+    <div class="header">
+        Edit appointment
+    </div>
+
+    <div class="image content">
+
+        <form class="ui form">
+            <div class="field">
+                <label>Select date</label>
+                <div class="ui calendar calendar_date">
+                    <div class="ui input left icon">
+                        <i class="time icon"></i>
+                        <input type="text" placeholder="Date" name="date" id="date" value="@app.date">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>pet</label>
+                <input name="pet" type="text" id="pet" value="@app.Pet.name">
+            </div>
+            <input name="member" type="hidden" id="member" value="@app.memberId">
+            <div class="field">
+                <label>Short detail</label>
+                <input name="detail" type="text" id="detail" value="@app.detail">
+            </div>
+
+            <div class="field">
+                <label>Suggestion before come to clinic</label>
+                <input name="suggestion" type="text" id="suggestion" value="@app.suggestion">
+            </div>
+            <div class="ui error message"></div>
+
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">
+            Cancel
+        </div>
+        <div class="ui tiny green basic ok button">
+            <i class="checkmark icon"></i>
+            Confirm
+        </div>
+    </div>
+
+</div>
+
+<script>
+    (function () {
+        'use strict';
+
+        function remoteModal(idModal) {
+            var vm = this;
+            vm.modal = $(idModal);
+
+            if (vm.modal.length == 0) {
+                return false;
+            }
+
+            if (window.location.hash == idModal) {
+                openModal();
+            }
+
+            var services = {
+                open: openModal,
+                close: closeModal
+            };
+
+            return services;
+
+            // method to open modal
+            function openModal() {
+                vm.modal.modal('show');
+            }
+
+            // method to close modal
+            function closeModal() {
+                vm.modal.modal('hide');
+            }
+        }
+        Window.prototype.remoteModal = remoteModal;
+    })();
+
+    $(function () {
+        window.remoteModal('#myModal');
+    });
+</script>

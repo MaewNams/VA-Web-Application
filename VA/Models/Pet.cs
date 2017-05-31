@@ -10,6 +10,7 @@ namespace VA.Models
     public class Pet
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
         public int memberId { get; set; }
         public string name { get; set; }

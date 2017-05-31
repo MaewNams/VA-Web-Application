@@ -20,13 +20,14 @@ namespace VA.Repositories
 
         public void Delete(Member model)
         {
-            _db.Entry(model).State = EntityState.Deleted;
+            _db.Member.Remove(model);
             _db.SaveChanges();
         }
 
-        public Member GetByCodeID(string codeId)
+        public IEnumerable<Member> GetByCodeID(string codeId)
         {
-            return _db.Member.FirstOrDefault(m => m.codeId == codeId);
+            IEnumerable<Member> memberList = _db.Member.Where(s => s.codeId.Contains(codeId)).OrderBy(s => s.codeId);
+            return memberList;
         }
 
         public Member GetByID(int Id)
@@ -36,19 +37,20 @@ namespace VA.Repositories
 
         public IEnumerable<Member> QueryByName(string name)
         {
-            IEnumerable<Member> memberList = _db.Member.Where(s => s.name.Contains(name));
+            IEnumerable<Member> memberList = _db.Member.Where(s => s.name.Contains(name)).OrderBy(s =>s.name);
             return memberList;
         }
 
         public IEnumerable<Member> QueryByAddress(string address)
         {
-            IEnumerable<Member> memberList = _db.Member.Where(s => s.address.Contains(address));
+            IEnumerable<Member> memberList = _db.Member.Where(s => s.address.Contains(address)).OrderBy(s => s.address);
             return memberList;
         }
 
-        public Member GetByPhoneNumber(string phoneNumber)
+        public IEnumerable<Member> GetByPhoneNumber(string phoneNumber)
         {
-            return _db.Member.FirstOrDefault(m => m.phonenumber == phoneNumber);
+            IEnumerable<Member> memberList = _db.Member.Where(s => s.phonenumber.Contains(phoneNumber)).OrderBy(s => s.phonenumber);
+            return memberList;
         }
 
         public void Update(Member model)
@@ -62,6 +64,17 @@ namespace VA.Repositories
             IEnumerable<Member> memberList = _db.Member.ToList();
             return memberList;
         }
+
+        public Member GetByCodeIDAndPassword(string codeId, string password)
+        {
+            return _db.Member.FirstOrDefault(m => m.codeId == codeId && m.password == password);
+        }
+
+        public Member GetByNameAndSurname( string name, string surname)
+        {
+            return _db.Member.FirstOrDefault(m => m.name == name && m.surname == surname);
+        }
+
 
         /*     IEnumerable<Appointment> XXXX(int month, int year)
              {

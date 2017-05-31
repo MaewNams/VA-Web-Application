@@ -9,14 +9,12 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
-    <script src="~/Scripts/trumbowyg/dist/trumbowyg.min.js"></script>
-    <link rel="stylesheet" href="~/Scripts/trumbowyg/dist/ui/trumbowyg.min.css">
-    <script src="https://code.ospry.io/v1/ospry.js"></script>
     <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.address/1.6/jquery.address.js"></script>
+    <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js"></script>
+   
 
 </head>
 <body style="padding-left:150px;padding-right:150px">
@@ -27,9 +25,6 @@
                     <i class="paw icon"></i> VA
                 </a>
 
-                <a class=" item" href="/VA/Home/Appointment">
-                    <i class="paw icon"></i> Appointment
-                </a>
 
                 <div class="right menu">
                     <a href="/VA/Home/Logout" class="ui item">
@@ -45,11 +40,7 @@
             <a class=" item" href="/VA/Home"> 
                     <i class="paw icon"></i> VA
                 </a>
-                <div class="right menu">
-                    <a href="/VA/Home/Login" class="ui item">
-                        Login
-                    </a>
-                </div>
+    
             </div>
 
         }

@@ -10,8 +10,10 @@ namespace VA.Models
     public class Member
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
         public string codeId { get; set; }
+        public string password { get; set; }
         public string name { get; set; }
         public string surname { get; set; }
         public string address { get; set; }

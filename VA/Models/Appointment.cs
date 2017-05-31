@@ -10,6 +10,7 @@ namespace VA.Models
     public class Appointment
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
         public int memberId { get; set; }
         public int petId { get; set; }
@@ -18,7 +19,7 @@ namespace VA.Models
         public DateTime date { get; set; }
         public string status { get; set; }
 
-        [ForeignKey("memberId")]
+         [ForeignKey("memberId")]
         public virtual Member Member { get; set; }
 
         [ForeignKey("petId")]

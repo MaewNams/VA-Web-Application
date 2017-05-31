@@ -21,6 +21,7 @@ namespace VA
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                "~/Scripts/semantic.js",
+                 "~/Scripts/semantic.js",
                "~/Scripts/myscript.js",
                "~/Scripts/jquery.datetimepicker.full.js",
                "~/Scripts/main.js",

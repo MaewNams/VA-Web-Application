@@ -1,75 +1,171 @@
 ﻿@using VA.Models;
 @model VA.Models.Member
-@{
-    ViewBag.Title = "Home Page";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
+@{  ViewBag.Title = "Search member";
+    Layout = "~/Views/Shared/_test.cshtml";
 }
-<br />
-<div class="ui grid">
-    <div class="twelve wide column">
-        <div class="ui form">
-            <div class="inline fields">
-
-                <select name="condition" class="ui dropdown" id="select_condition">
-                    <option value="idCode">Member ID Code</option>
-                    <option value="name">Member name</option>
-                    <option value="address">Addresse</option>
-                    <option value="phone">Phone number</option>
-                </select>
-
-
-                <div class="four wide field" style="margin-left:15px">
-                    <div class="ui input">
-                        <input type="text" placeholder="Input keyword..." id="search_keyword">
-                    </div>
-                </div>
-                <button class="ui primary button search_button">
-                    Search
-                </button>
-
-
-
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="ui divider"></div>
 @{
     IEnumerable<Member> members = (IEnumerable<Member>)ViewData["Members"];
+}
 
-    if (members != null && members.ToList().Count > 0)
-    {
-        <table class="ui selectable celled table">
-            <thead>
-                <tr >
-                    <th>CodeID</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Phone number</th>
-                </tr>
-            </thead>
-            <tbody>
+<div class="ui vertical left visible sidebar menu" style="font-size:18px">
+    <div class="item" style="font-family: 'Raleway', sans-serif; font-size:48px;text-align:center;font-weight:bold;margin-bottom:55px;color:white;background-color:teal">
 
+        VA
 
-            @{    foreach (var member in members)
+    </div>
+
+    <div class="ui secondary vertical pointing massive menu" style="color:darkgray">
+        <a class="item" href="/VA/Home/" style="font-size:16px">
+            <i class="home icon" style="float:left;padding-right:25px"></i>Home
+        </a>
+        <a class="item" href="/VA/Home/Appointment" style="font-size:16px">
+            <i class="calendar icon" style="float:left;padding-right:25px"></i>
+            Appointment
+        </a>
+        <a class="active item" style="font-size:16px;color:#00B5AD;border-left: 5px #00B5AD solid;">
+            <i class="user icon" style="float:left;padding-right:25px"></i>
+            Member
+        </a>
+    </div>
+</div>
+<div class="pusher">
+
+    <div class="ui secondary pointing massive menu" style="background-color:white;padding-right:270px;border:none!important;font-size:16px">
+        <div class="item">
+            <i class="paw icon"></i> Hello, administrator  <text style="color:teal;padding-left:5px">  @Session["username"].ToString() </text>
+        </div>
+        <div class="right menu">
+            <a style="font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;" href="/VA/Home/Logout" class="ui item">
+                Logout
+            </a>
+        </div>
+    </div>
+    <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
+        <h2 class="ui header" style="margin-bottom: 25px;">
+            <div class="content">
+                <i class="user icon"></i>   Member
+                <div class="sub header">Total member : @members.Count()</div>
+            </div>
+            <button class="ui right floated teal button call_create_member_modal">
+                <i class="plus icon"></i>
+                Create new member
+            </button>
+        </h2>
+        <div class="ui modal" id="create_member_modal">
+            <div class="header">Create member account</div>
+            <div class="content">
+                <form class="ui form">
+                    <div class="inline fields">
+                        <div class="six wide field">
+                            <label>Name</label>
+                            <input type="text" placeholder="Name" name="name" id="create_name">
+                        </div>
+                        <div class="six wide field">
+                            <label>Surname</label>
+                            <input type="text" placeholder="Surname" name="surname" id="create_surname">
+                        </div>
+                    </div>
+                    <div class="inline fields">
+                        <div class="six wide field">
+                            <label>Address</label>
+                            <input type="text" placeholder="Address" name="address" id="create_address">
+                        </div>
+                        <div class="six wide field">
+                            <label>Phone number</label>
+                            <input type="text" placeholder="Phone number" name="phoneNumber" id="create_phoneNumber">
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <div class="ui teal button confirm_create_member_button" style="float: right">Submit</div>
+                        <div class="ui deny button" style="float: right">Cancel</div>
+                    </div>
+                    <br /><br />
+                </form>
+            </div>
+        </div>
+        <div class="ui secondary pointing menu">
+            <a class="item"  href="/VA/home/member">
+                All member
+            </a>
+            <text style="padding-top:25px;color:gray"><i class="right chevron icon divider"></i></text>
+            <a class="item active">
+              Search member
+            </a>
+       
+            <div class="right menu">
+                <div class="ui form">
+                    <div class="inline fields">
+
+                        <select name="condition" class="ui dropdown" id="select_condition">
+                            <option value="idCode">Member ID Code</option>
+                            <option value="name">Member name</option>
+                            <option value="address">Addresse</option>
+                            <option value="phone">Phone number</option>
+                        </select>
+
+                        <div class="ui icon input" style="margin-left:15px;">
+                            <input type="text" placeholder="Search..." id="search_keyword">
+                            <i class="inverted circular search link icon search_button"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui active tab segment" data-tab="first">
+            @{
+                if (members != null && members.ToList().Count > 0)
                 {
-                <tr  class="clickable-row" data-id="@member.id" style="cursor: pointer">
-                    <td>@member.codeId</td>
-                    <td>@member.name</td>
-                    <td>@member.address</td>
-                    <td>@member.phonenumber</td>
-                </tr>
-              
-                    }
-                }
-            </tbody>
-        </table>
+                    int index = 0;
+                    <table class="ui single line selectable  table" style="border:none!important">
+                        <thead>
+                            <tr>
+                                <th class="one wide">No</th>
+                                <th class="two wide">Id code</th>
+                                <th class="three wide">Name</th>
+                                <th class="three wide">Surname</th>
+                                <th class="three wide">Address</th>
+                                <th class="two wide">Phon number</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                              
+                            @foreach (var member in members)
+                            {
+                                index += 1;
+
+                                <tr class="clickable-row" data-id="@member.id" style="cursor:pointer">
+                                    <td>@index</td>
+                                    <td>@member.codeId</td>
+                                    <td>@member.name</td>
+                                    <td>@member.surname</td>
+                                    <td>@member.address</td>
+                                    <td>@member.phonenumber</td>
+                
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
                 }
                 else
                 {
-                    <h3 class="ui center aligned header">
-                        No result found
-                    </h3>
+                            <div style="text-align:center"> No Result found</div>
+
+
                 }
-}
+
+            }
+        </div>
+
+
+
+
+    </div>
+</div>

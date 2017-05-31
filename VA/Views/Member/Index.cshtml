@@ -1,337 +1,414 @@
 ﻿@using VA.Models;
 @model VA.Models.Member
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
+@{  ViewBag.Title = "Member Profile";
+    Layout = "~/Views/Shared/_test.cshtml";
 }
+
 @{
     IEnumerable<Appointment> appWait = (IEnumerable<Appointment>)ViewData["AppointmentsWait"];
     IEnumerable<Appointment> appCom = (IEnumerable<Appointment>)ViewData["AppointmentsCom"];
+    IEnumerable<PetType> pettypes = (IEnumerable<PetType>)ViewData["PetTypes"];
 }
 
-<br />
-<div class="ui grid">
-    <div class="twelve wide column">
-        <div class="ui form">
+
+<div class="ui vertical left visible sidebar menu" style="font-size:18px">
+    <div class="item" style="font-family: 'Raleway', sans-serif; font-size:48px;text-align:center;font-weight:bold;margin-bottom:55px;color:white;background-color:teal">
+
+        VA
+
+    </div>
+
+    <div class="ui secondary vertical pointing massive menu" style="color:darkgray;background-color: rgb(250, 250, 250);">
+
+        <a href="/VA/Home/Member/" class="item" style="font-size:16px;background-color:white!important">
+            <i class="left arrow icon" style="float:left;padding-right:25px"></i>
+            All Member
+        </a>
+        <div class="item"></div>
+        <div class="item" style="font-size:16px;color:#00B5AD;font-weight:bolder">
+            <i class="user icon" style="float:left;padding-right:25px"></i>
+            Member profile
+        </div>
+
+        <div class="item" style="font-size:16px">
+            Code ID : @Model.codeId
+        </div>
+        <div class="item" style="font-size:16px">
+            Password : @Model.password
+        </div>
+        <div class="item" style="font-size:16px">
+            Name : @Model.name @Model.surname
+        </div>
+        <div class="item" style="font-size:16px">
+            Address : @Model.address
+        </div>
+        <div class="item" style="font-size:16px">
+            Phone number : @Model.phonenumber
+        </div>
+        <div class="item" style="font-size:16px">
+            <button class="ui teal basic button call_edit_member_modal" style="width:65%">Edit Account</button>
+        </div>
+        <div class="item">
+
+        </div>
+
+        <div class="item" style="font-size:16px;background-color:white!important">
+            <button class="ui red basic button delete_member_button" data-id="@Model.id" style="width:65%">Delete Account</button>
+        </div>
+    </div>
+</div>
+<div class="ui modal" id="edit_member_modal">
+    <div class="header">Edit member account</div>
+    <div class="content">
+        <input type="hidden" id="edit_member_id" value="@Model.id">
+        <form class="ui form">
             <div class="inline fields">
+                <div class="six wide field">
+                    <label>Code ID</label>
+                    <input type="text" placeholder="" name="name" value="@Model.codeId" disabled="">
+                </div>
+                <div class="ten wide field">
+                    <label>Password</label>
+                    <input type="text" placeholder="" name="password" id="edit_password" value="@Model.password" disabled="" style="width:45%;margin-right:15px">
+                    <div class="ui button get_new_password">Generate new password</div>
+                </div>
+            </div>
+            <div class="inline fields">
+                <div class="six wide field">
+                    <label>Name</label>
+                    <input type="text" placeholder="" name="name" id="edit_name" value="@Model.name">
+                </div>
+                <div class="six wide field">
+                    <label>Surname</label>
+                    <input type="text" placeholder="" name="surname" id="edit_surname" value="@Model.surname">
+                </div>
+            </div>
+            <div class="inline fields">
+                <div class="six wide field">
+                    <label>Address</label>
+                    <input type="text" placeholder="" name="address" id="edit_address" value="@Model.address">
+                </div>
+                <div class="six wide field">
+                    <label>Phone number</label>
+                    <input type="text" placeholder="" name="phoneNumber" id="edit_phoneNumber" value="@Model.phonenumber">
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui teal button confirm_edit_member_button" style="float: right">Submit</div>
+                <div class="ui deny button" style="float: right">Cancel</div>
+            </div>
+            <br /><br />
+        </form>
+    </div>
+</div>
+<div class="pusher">
 
-                <select name="condition" class="ui dropdown" id="select_condition">
-                    <option value="idCode">Member ID Code</option>
-                    <option value="name">Member name</option>
-                    <option value="address">Addresse</option>
-                    <option value="phone">Phone number</option>
-                </select>
+    <div class="ui secondary pointing massive menu" style="background-color:white;padding-right:270px;border:none!important;font-size:16px">
+        <div class="item">
+            <i class="paw icon"></i> Hello, administrator  <text style="color:teal;padding-left:5px">  @Session["username"].ToString() </text>
+        </div>
+        <div class="right menu">
+            <a href="/VA/Home/Logout" class="ui item">
+                Logout
+            </a>
+        </div>
+    </div>
+    <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
+
+        <div class="ui top attached tabular menu">
+
+            <a class="item active" data-tab="first">Month appointment</a>
+            <a class="item " data-tab="third">Pet</a>
+        </div>
 
 
-                <div class="four wide field" style="margin-left:15px">
-                    <div class="ui input">
-                        <input type="text" placeholder="Input keyword..." id="search_keyword">
+
+        @* -------------------------Member's Appointment---------------------------------------- *@
+        <div class="ui bottom attached tab segment active" data-tab="first">
+            <div class="ui grid" style="padding-bottom: 15px">
+                <div class="eight wide column">
+                    <div class="ui calendar example7">
+                        <div class="ui input left icon">
+                            <i class="time icon"></i>
+                            <input type="text" placeholder="Time" value="'@ViewBag.DateTime.ToString("D")'">
+                        </div>
                     </div>
                 </div>
-                <button class="ui primary button search_button">
-                    Search
-                </button>
-
-
-
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="ui divider"></div>
-<div class="ui form">
-
-    <div class="six wide field">
-        <label>codeId : @Model.codeId</label>
-    </div>
-    
-    <div class="inline fields">
-        <div class="six wide field">
-            <label>Name</label>
-            <input type="text" placeholder="" value="@Model.name" name="name" id="name">
-        </div>
-        <div class="six wide field">
-            <label>Surname</label>
-            <input type="text" placeholder="" value="@Model.surname" name="surname" id="surname">
-        </div>
-    </div>
-    <div class="inline fields">
-        <div class="six wide field">
-            <label>Address</label>
-            <input type="text" placeholder="" value="@Model.address" name="address" id="address">
-        </div>
-        <div class="six wide field">
-            <label>Phone number</label>
-            <input type="text" placeholder="" value="@Model.phonenumber" name="phonenumber" id="phonenumber">
-        </div>
-        <div class="four wide column">
-            <button class="ui right floated button edit_member_button" data-id="@Model.id">Edit member account</button>
-        </div>
-    </div>
-
-</div>
-
-<div class="ui top attached tabular menu">
-
-    <a class="item active" data-tab="first">Month appointment</a>
-    <a class="item" data-tab="second">Complete appointment</a>
-    <a class="item " data-tab="third">Pet</a>
-</div>
-<div class="ui bottom attached tab segment active" data-tab="first">
-    <div class="ui grid" style="padding-bottom: 15px">
-        <div class="eight wide column">
-            <div class="ui calendar example7">
-                <div class="ui input left icon">
-                    <i class="time icon"></i>
-                    <input type="text" placeholder="Time" value="'@ViewBag.DateTime'" >
+                <div class="eight wide column">
+                    <button class="ui right floated teal button" id="call_create_app_modal">Create new appointment</button>
                 </div>
             </div>
-        </div>
-        <div class="eight wide column">
-            <button class="ui right floated button"  id="call_create_app_modal">Create new appointment</button>
-        </div>
-    </div>
 
-    <div class="ui equal width center aligned padded grid">
-        <div class="row">
-            <div class="column">
-                <text> Complete</text> 
-                @{
+            <div class="ui grid">
 
 
-                    if (appCom != null && appCom.ToList().Count > 0)
-                    {
-                        <table class="ui selectable celled table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Member name</th>
-                                    <th>Phone number</th>
-                                    <th>Detail</th>
+                <div class="sixteen wide column">
 
 
-                                </tr>
-                            </thead>
-                            <tbody>
-
-
-                                @{
-                                    foreach (var app in appCom)
-                                    {
-                                        <tr class="call_appComing_detail_modal" data-id="@app.id">
-                                            <td>@app.date.ToString("d")</td>
-                                            <td>@app.Member.name @app.Member.surname</td>
-                                            <td>@app.Member.phonenumber</td>
-                                            <td>@app.detail</td>
-                                        </tr>
-                                                    <div id="appComing_detail_modal_@app.id" class="ui modal">
-                                                        <i class="close icon"></i>
-                                                        <div class="header">
-                                                            aaa hello world
-                                                        </div>
-
-                                                        <div class="image content">
-
-                                                            <form class="ui form" id="create_app_form">
-                                                                <div class="ui calendar calendar_date">
-                                                                    <div class="ui input left icon">
-                                                                        <i class="time icon"></i>
-                                                                        <input type="text" name="date" id="date" value="@app.date">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="field">
-                                                                    <label>Pet</label>
-                                                                    <input name="pet" type="text" id="pet" value="@app.Pet.name">
-                                                                </div>
-
-                                                                <div class="field">
-                                                                    <label>Short detail</label>
-                                                                    <input name="detail" type="text" id="detail" value="@app.detail">
-                                                                </div>
-
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-
-                                    }
-                }
-            </div>
-
-
-            <div class="column">
-                <text>Waiting</text>   
-                @{
-
-
-                    if (appWait != null && appWait.ToList().Count > 0)
-                    {
-                        <table class="ui selectable celled table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Member name</th>
-                                    <th>Phone number</th>
-                                    <th>Detail</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
-
-                                @{
-                                    foreach (var app in appWait)
-                                    {
-                                        <tr class="call_appComing_detail_modal" data-id="@app.id">
-                                            <td>@app.date.ToString("d")</td>
-                                            <td>@app.Member.name @app.Member.surname</td>
-                                            <td>@app.Member.phonenumber</td>
-                                            <td>@app.detail</td>
-                                            <td class="collapsing">
-                                                <button class="ui teal button">
-                                                    <i class="write square icon"></i>
-                                                    Edit
-                                                </button>
-                                            </td>
-                                            <td class="collapsing">
-                                                <button class="ui button delete_app_button" data-id="@app.id">
-                                                    <i class="remove icon"></i>
-                                                    Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                                    <div id="appComing_detail_modal_@app.id" class="ui modal">
-                                                        <i class="close icon"></i>
-                                                        <div class="header">
-                                                            aaa hello world
-                                                        </div>
-
-                                                        <div class="image content">
-
-                                                            <form class="ui form" id="create_app_form">
-                                                                <div class="ui calendar calendar_date">
-                                                                    <div class="ui input left icon">
-                                                                        <i class="time icon"></i>
-                                                                        <input type="text" name="date" id="date" value="@app.date">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="field">
-                                                                    <label>Pet</label>
-                                                                    <input name="pet" type="text" id="pet" value="@app.Pet.name">
-                                                                </div>
-
-                                                                <div class="field">
-                                                                    <label>Short detail</label>
-                                                                    <input name="detail" type="text" id="detail" value="@app.detail">
-                                                                </div>
-
-                                                                <div class="field">
-                                                                    <label>Suggestion before come to clinic</label>
-                                                                    <input name="suggestion" type="text" id="suggestion" value="@app.suggestion">
-                                                                </div>
-
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-
-                                    }
-                }
-            </div>
-
-        </div>
-    </div>
-
-
-
-</div>
-<div class="ui bottom attached tab segment" data-tab="second">
-    <div class="ui grid" style="padding-bottom: 15px">
-        <div class="eight wide column">
-            <div class="ui calendar example7">
-                <div class="ui input left icon">
-                    <i class="time icon"></i>
-                    <input type="text" placeholder="Time" value="'@ViewBag.DateTime'">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="ui bottom attached tab segment" data-tab="third">
-
-    <div class="ui grid" style="padding-bottom: 15px">
-        <div class="eight wide column">
-        </div>
-        <div class="eight wide column">
-            <button class="ui right floated button" id="call_create_pet_modal">Create new pet account</button>
-        </div>
-    </div>
-
-    @{
-        IEnumerable<Pet> pets = (IEnumerable<Pet>)ViewData["Pets"];
-
-        if (pets != null && pets.ToList().Count > 0)
-        {
-            <table class="ui celled table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-
-                    @{    foreach (var pet in pets)
+                    @* ---------------------------------- Waiting monthly appointment---------------------------- *@
+                    <div class="ui segment">
+                        <div class="ui teal large label">
+                            Waiting appointment
+                        </div>
+                        @if (appWait != null && appWait.ToList().Count > 0)
                         {
+                        <table class="ui single line selectable  table" style="border:none!important">
+                            <thead>
+                                <tr>
+                                    <th class="one wide">Date</th>
+                                    <th class="two wide">Pet name</th>
+                                    <th class="four wide">Detail</th>
+                                    <th class="four wide">Suggestion</th>
+                                    <th class="one wide">Status</th>
+                                    <th class="two wide" style="text-align:center">Edit</th>
+                                    <th class="two wide" style="text-align:center">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var app in appWait)
+                {
+                                    <tr>
+                                        <td>@app.date.ToString("d")</td>
+                                        <td> @app.Pet.name</td>
+                                        <td>@app.detail</td>
+                                        <td>@app.suggestion</td>
+                                        <td style="color:teal">@app.status</td>
+                                        <td style="text-align:right">
+                                            <button class="fluid ui teal basic button call_edit_app_modal" data-id="@app.id">edit</button>
+
+                                        </td>
+                                        <td style="text-align:right">
+                                            <button class="fluid ui red basic button delete_app_button" data-id="@app.id">delete</button>
+                                        </td>
+                                    </tr>
+                                    <div id="edit_app_modal_@app.id" class="ui modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
+                                        <div class="header">
+                                            Edit Appointment
+                                        </div>
+
+                                        <div class="content">
+
+                                            <div class="ui form" id="edit_app_form">
+                                                <div class="field">
+                                                    <label>Appointment date<text style="color:darkred"> ( Can't change )</text></label>
+                                                    <div class="ui calendar calendar_date">
+                                                        <div class="ui disabled input left icon">
+                                                            <i class="time icon"></i>
+                                                            <input type="text" name="date" value="@app.date">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <label>Pet name <text style="color:darkred"> ( Can't change )</text></label>
+                                                    <div class="ui disabled input left icon">
+                                                        <i class="paw icon"></i>
+                                                        <input type="text" name="petName" value="@app.Pet.name">
+                                                    </div>
+
+                                                </div>
+                                                <div class="field">
+                                                    <label>Short detail</label>
+                                                    <input name="detail" type="text" id="edit_detail_@app.id" value="@app.detail">
+                                                </div>
+                                                <input type="hidden" id="edit_app_@app.id" value="@app.id">
+                                                <div class="field">
+                                                    <label>Suggestion before come to clinic</label>
+                                                    <input name="suggestion" type="text" id="edit_suggestion_@app.id" value="@app.suggestion">
+                                                </div>
+                                                <div class="ui error message"></div>
+
+                                            </div>
+                                        </div>
+                                        <div class="actions">
+                                            <div class="ui black deny button">
+                                                Cancel
+                                            </div>
+                                            <div class="ui tiny green basic button confirm_edit_app_button" value="@app.id">
+                                                <i class="checkmark icon"></i>
+                                                Confirm
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+                            </tbody>
+                        </table>
+
+                        }
+                        else
+                        {  <div style="text-align:center"> No Appointment</div>}
+                    </div>
+
+
+                    @* ----------------------------------Complete monthly appointment---------------------------- *@
+                    <div class="ui segment">
+
+                        <div class="ui grey large label">
+                            Complete appointment
+                        </div>
+
+                        @if (appCom != null && appCom.ToList().Count > 0)
+                            {
+                        <table class="ui single line selectable  table" style="border:none!important">
+                            <thead>
+                                <tr>
+                                    <th class="one wide">Date</th>
+                                    <th class="two wide">Pet name</th>
+                                    <th class="four wide">Detail</th>
+                                    <th class="four wide">Suggestion</th>
+                                    <th class="one wide">Status</th>
+                                    <th class="two wide" style="text-align:center">Delete</th>
+                                    <th class="two wide" ></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var app in appCom)
+                                        {
+                                    <tr>
+                                        <td>@app.date.ToString("d")</td>
+                                        <td>@app.Member.name</td>
+                                        <td> @app.Pet.name</td>
+                                        <td>@app.detail</td>
+                                        <td style="color:red">@app.status</td>
+                                        <td style="text-align:center">
+                                            <button class="fluid ui red basic button">delete</button>
+                                        </td>
+                                    </tr>
+
+                                        }
+
+                            </tbody>
+                        </table>
+                            }
+                            else
+                            {  <div style="text-align:center"> No Appointment</div>}
+
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+        @* -------------------------Member's Pet---------------------------------------- *@
+        <div class="ui bottom attached tab segment" data-tab="third">
+
+            <div class="ui grid" style="padding-bottom: 15px">
+                <div class="eight wide column">
+                </div>
+                <div class="eight wide column">
+                    <button class="ui right floated teal button" id="call_create_pet_modal">Create new pet account</button>
+                </div>
+            </div>
+
+            @{
+                IEnumerable<Pet> pets = (IEnumerable<Pet>)ViewData["Pets"];
+
+                if (pets != null && pets.ToList().Count > 0)
+                {
+                    <table class="ui celled table">
+                        <thead>
                             <tr>
-                                <td>@pet.name</td>
-                                <td>@pet.PetType.name</td>
-                                <td class="collapsing">
-                                    <button class="ui teal button">
-                                        <i class="write square icon"></i>
-                                        Edit
-                                    </button>
-                                </td>
-                                <td class="collapsing">
-                                    <button class="ui button delete_pet_button"  data-id="@pet.id">
-                                        <i class="remove icon"></i>
-                                        Delete
-                                    </button>
-                                </td>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
-
-                        }
-                    }
-                </tbody>
-            </table>
-                        }
-    }
+                        </thead>
+                        <tbody>
 
 
+                            @{    foreach (var pet in pets)
+                                {
+                                    <tr>
+                                        <td>@pet.name</td>
+                                        <td>@pet.PetType.name</td>
+                                        <td class="collapsing">
+                                            <button class="ui teal button call_edit_pet_modal" data-id="@pet.id">
+                                                <i class="write square icon"></i>
+                                                Edit
+                                            </button>
+                                        </td>
+                                        <td class="collapsing">
+                                            <button class="ui button delete_pet_button" data-id="@pet.id">
+                                                <i class="remove icon"></i>
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                        <div class="ui modal" id="edit_pet_modal_@pet.id" style="left: 60%;width: 40%;margin-top: -114.5px;">
+                                            <div class="header">
+                                                Edit pet
+                                            </div>
+                                            <div class="content">
+                                                <div class="ui form" id="edit_pet_form">
+                                                    <input type="hidden" id="edit_pet_@pet.id" value="@pet.id">
+                                                    <input type="hidden" id="edit_pet_type" value="@pet.PetType.id">
+                                                    <div class="field">
+                                                        <label>Pet name</label>
+                                                        <input name="petName" type="text" id="edit_petName_@pet.id" value="@pet.name">
+                                                    </div>
+
+                                                    <select name="specie" class="ui dropdown" id="select_edit_specie_@pet.id">
+                                                        @{
+                                                            if (pettypes != null && pettypes.ToList().Count > 0)
+                                                            {
+                                                                foreach (var type in pettypes)
+                                                                {
+                                                                    <option value="@type.id">@type.name</option>
+                                                                }
+                                                            }
+                                                        }
+
+                                                    </select>
+                                                    <script type="text/javascript">
+                                                        $("#select_edit_specie_@pet.id").val('@pet.typeId');
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            <div class="actions">
+                                                <div class="ui black deny button">
+                                                    Cancel
+                                                </div>
+                                                <div class="ui green basic button confirm_edit_pet_button" value="@pet.id">
+                                                    <i class="checkmark icon"></i>
+                                                    Confirm
+                                                </div>
+                                            </div>
+                                        </div>
+                                                            }
+
+                            }
+                        </tbody>
+                    </table>
+                                                            }
+                                                            else
+                                                            {  <div class="ui segment" style="text-align:center"> No pet profile yet</div>}
+            }
 
 
 
+
+
+        </div>
+
+
+    </div>
 </div>
+
+
 <div class="ui modal" id="create_app_modal">
-    <i class="close icon"></i>
     <div class="header">
         Create appointment for @Model.name @Model.surname
     </div>
 
     <div class="image content">
-        
+
         <form class="ui form" id="create_app_form">
             <div class="field">
                 <label>Select date</label>
@@ -342,33 +419,33 @@
                     </div>
                 </div>
             </div>
-                <div class="field">
-                    <label>Select pet</label>
-                    <select name="pet" class="ui dropdown" id="select_pet">
-                        @{
-                            if (pets != null && pets.ToList().Count > 0)
-                            {
-                                foreach (var pet in pets)
+            <div class="field">
+                <label>Select pet</label>
+                <select name="pet" class="ui dropdown" id="select_pet">
+                    @{
+                                if (pets != null && pets.ToList().Count > 0)
                                 {
-                                    <option value="@pet.id">@pet.name</option>
+                                    foreach (var pet in pets)
+                                    {
+                            <option value="@pet.id">[@pet.PetType.name] @pet.name </option>
+                                    }
                                 }
-                            }
-                        }
-                    </select>
-                </div>
-                <input name="member" type="hidden" id="member" value="@Model.id">
-                <div class="field">
-                    <label>Short detail</label>
-                    <input name="detail" type="text" id="detail">
-                </div>
+                    }
+                </select>
+            </div>
+            <input name="member" type="hidden" id="member" value="@Model.id">
+            <div class="field">
+                <label>Short detail</label>
+                <input name="detail" type="text" id="detail">
+            </div>
 
-                <div class="field">
-                    <label>Suggestion before come to clinic</label>
-                    <input name="suggestion" type="text" id="suggestion">
-                </div>
-                <div class="ui error message"></div>
+            <div class="field">
+                <label>Suggestion before come to clinic</label>
+                <input name="suggestion" type="text" id="suggestion">
+            </div>
+            <div class="ui error message"></div>
 
-</form>
+        </form>
     </div>
     <div class="actions">
         <div class="ui black deny button">
@@ -382,7 +459,7 @@
 </div>
 
 
-<div class="ui modal" id="create_pet_modal">
+<div class="ui modal" id="create_pet_modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
     <i class="close icon"></i>
     <div class="header">
         Create new pet account for @Model.name @Model.surname
@@ -395,15 +472,14 @@
             </div>
 
             <select name="specie" class="ui dropdown" id="select_specie">
-                @{    IEnumerable<PetType> pettypes = (IEnumerable<PetType>)ViewData["PetTypes"];
-
-                    if (pettypes != null && pettypes.ToList().Count > 0)
-                    {
-                        foreach (var type in pettypes)
-                        {
-                            <option value="@type.id">@type.name</option>
-                        }
-                    }
+                @{
+                            if (pettypes != null && pettypes.ToList().Count > 0)
+                            {
+                                foreach (var type in pettypes)
+                                {
+                        <option value="@type.id">@type.name</option>
+                                }
+                            }
                 }
             </select>
             <div class="ui error message"></div>
@@ -419,3 +495,4 @@
         </div>
     </div>
 </div>
+

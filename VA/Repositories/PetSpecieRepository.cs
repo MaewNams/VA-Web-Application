@@ -27,9 +27,9 @@ namespace VA.Repositories
             return petTypeList;
         }
 
-        public Pet GetById(int id)
+        public PetType GetById(int id)
         {
-            throw new NotImplementedException();
+            return _db.PetType.FirstOrDefault(m => m.id == id);
         }
 
         public void Update(PetType model)

@@ -12,7 +12,7 @@ namespace VA.Repositories
         void Add(PetType model);
         void Update(PetType model);
         void Delete(PetType model);
-        Pet GetById(int id);
+        PetType GetById(int id);
         IEnumerable<PetType> GetAll();
     }
 }

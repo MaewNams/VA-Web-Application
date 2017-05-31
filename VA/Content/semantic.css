@@ -21227,7 +21227,7 @@ Floated Menu / Item
   top: 0%;
   left: 0px;
   width: 100%;
-  height: 1px;
+  height: 0px;
   background: rgba(34, 36, 38, 0.1);
 }
 
@@ -21694,7 +21694,7 @@ Floated Menu / Item
 .ui.secondary.pointing.menu .active.item {
   background-color: transparent;
   box-shadow: none;
-  border-color: #1B1C1D;
+  border-color: #00B5AD;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.95);
 }
@@ -21716,24 +21716,25 @@ Floated Menu / Item
 
 .ui.secondary.vertical.pointing.menu {
   border-bottom-width: 0px;
-  border-right-width: 2px;
-  border-right-style: solid;
-  border-right-color: rgba(34, 36, 38, 0.15);
+  border-left-width: 2px;
+  border-left-style: solid;
+  border-left-color: rgba(34, 36, 38, 0.15);
 }
 
 .ui.secondary.vertical.pointing.menu .item {
   border-bottom: none;
-  border-right-style: solid;
-  border-right-color: transparent;
+  border-left-style: solid;
+  border-left-color: transparent;
   border-radius: 0em !important;
-  margin: 0em -2px 0em 0em;
-  border-right-width: 2px;
+  margin: 0em 0em 0em 0em;
+  border-left-width: 5px;
 }
 
 /* Vertical Active */
 
 .ui.secondary.vertical.pointing.menu .active.item {
-  border-color: #1B1C1D;
+  border-color: #00B5AD;
+
 }
 
 /* Inverted */
