@@ -33,7 +33,13 @@ namespace VA.Repositories
 
         public IEnumerable<Appointment> GetByDayAndMonthAndYear(int day, int month, int year, string status)
         {
-            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.date.Day ==day && s.date.Month == month && s.date.Year == year && s.status == status).OrderBy(s => s.date);
+            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.date.Day ==day && s.date.Month == month && s.date.Year == year && s.status == status).OrderBy(s => s.date).OrderBy(s => s.startTime);
+            return appList;
+        }
+
+        public IEnumerable<Appointment> GetByDayAndMonthAndYearNoStatus(int id, int day, int month, int year)
+        {
+            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.memberId == id && s.date.Day == day && s.date.Month == month && s.date.Year == year).OrderBy(s => s.startTime);
             return appList;
         }
 
@@ -43,20 +49,20 @@ namespace VA.Repositories
         }
         public IEnumerable<Appointment> GetByMemberId(int id, int month, int year)
         {
-            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.memberId == id && s.date.Month == month && s.date.Year == year).OrderBy(s => s.date);
+            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.memberId == id && s.date.Month == month && s.date.Year == year).OrderBy(s => s.date).OrderBy(s => s.startTime);
             return appList;
         }
 
 
         public IEnumerable<Appointment> GetByMemberIdAndStatus(int id, int month, int year, string status)
         {
-            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.memberId == id && s.date.Month == month && s.date.Year == year && s.status == status).OrderBy(s=>s.date);
+            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.memberId == id && s.date.Month == month && s.date.Year == year && s.status == status).OrderBy(s=>s.date).OrderBy(s => s.startTime);
             return appList;
         }
 
         public IEnumerable<Appointment> GetByMonthAndYear(int month, int year, string status)
         {
-            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.date.Month == month && s.date.Year == year && s.status == status).OrderBy(s => s.date);
+            IEnumerable<Appointment> appList = _db.Appointment.Where(s => s.date.Month == month && s.date.Year == year && s.status == status).OrderBy(s => s.date).OrderBy(s => s.startTime);
             return appList;
         }
 

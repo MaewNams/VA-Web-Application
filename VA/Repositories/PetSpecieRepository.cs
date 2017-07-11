@@ -13,12 +13,14 @@ namespace VA.Repositories
         private readonly VAContext _db = new VAContext();
         public void Add(PetType model)
         {
-            throw new NotImplementedException();
+            _db.PetType.Add(model);
+            _db.SaveChanges();
         }
 
         public void Delete(PetType model)
         {
-            throw new NotImplementedException();
+            _db.Entry(model).State = EntityState.Deleted;
+            _db.SaveChanges();
         }
 
         public IEnumerable<PetType> GetAll()

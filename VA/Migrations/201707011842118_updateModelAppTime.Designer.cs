@@ -7,13 +7,13 @@ namespace VA.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Initial : IMigrationMetadata
+    public sealed partial class updateModelAppTime : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(updateModelAppTime));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704180832203_Initial"; }
+            get { return "201707011842118_updateModelAppTime"; }
         }
         
         string IMigrationMetadata.Source

@@ -197,7 +197,12 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Owin
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\es\Hangfire.Core.resources.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\zh\Hangfire.Core.resources.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.csprojResolveAssemblyReference.cache
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.Initial.resources
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.updateModel.resources
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.updateModelAppTime.resources
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.csproj.GenerateResource.Cache
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.pdb
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.upDateModelTimeBlock.resources
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.updateAppointmentModelWithType.resources
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.upDateAppointmentDateTime.resources
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.upDateAppointmentDateTime2.resources

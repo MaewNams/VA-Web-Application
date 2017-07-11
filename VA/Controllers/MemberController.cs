@@ -8,6 +8,7 @@ using VA.Models;
 using VA.Repositories;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace VA.Controllers
 {
@@ -18,6 +19,9 @@ namespace VA.Controllers
         private AppointmentRepository AppointmentService = new AppointmentRepository();
         private MemberRepository MemberService = new MemberRepository();
         private PetSpecieRepository PetSpecieService = new PetSpecieRepository();
+        private TimeBlockRepository TimeBlockService = new TimeBlockRepository();
+        private AppTimeRepository AppTimeService = new AppTimeRepository();
+        private VAServiceRepository VAService = new VAServiceRepository();
         private readonly Random _random = new Random();
 
         //[Route("Member/{Id}")]
@@ -46,46 +50,12 @@ namespace VA.Controllers
             ViewBag.Month = month.Value;
             return View(member);
         }
-        public string GetRandomIDCode()
-        {
-            const string randomAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            const int alphabetAmount = 6;
-
-            var result = "";
-
-            for (var i = 1; i <= alphabetAmount; i++)
-            {
-                var characterPosition = _random.Next(0, randomAlphabet.Length - 1);
-                var character = randomAlphabet[characterPosition];
-                result += character;
-            }
-
-            return result;
-        }
-
-        [HttpPost]  
-        public JsonResult GetRandomPassword()
-        {
-            const string randomAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            const int alphabetAmount = 6;
-
-            var result = "";
-
-
-            for (var i = 1; i <= alphabetAmount; i++)
-            {
-                var characterPosition = _random.Next(0, randomAlphabet.Length - 1);
-                var character = randomAlphabet[characterPosition];
-                result += character;
-            }
-            return Json(new { Result = "Success", newPassword = result});
-        }
 
         [HttpPost]
-        public ActionResult CreateMember(string name, string surname, string address, string phoneNumber)
+        public ActionResult CreateMember(string name, string surname, string address, string email, string phoneNumber)
         {
             Member checkName = MemberService.GetByNameAndSurname(name, surname);
-            if(checkName != null)
+            if (checkName != null)
             {
                 return Json(new { Result = "Fail, member with name" + name + "and surname " + surname + " already exits in the system" });
             }
@@ -115,33 +85,26 @@ namespace VA.Controllers
                 return Json(new { Result = "Fail, phone number have to contain 10 numeric character" });
             }
 
-            string codeID ;
-            string password;
-            Member result ;
-            do
-            {
-                codeID = GetRandomIDCode();
-                result = MemberService.GetByCodeIDAndPassword(codeID, "");
-                password = GetRandomIDCode();
-            } while (result != null);
+            string password = name[0].ToString().ToUpper() + phoneNumber;
+
 
             List<Member> CheckMem = MemberService.GetAll().ToList();
             int lastID = CheckMem.LastOrDefault().id;
 
 
             Member member = new Member();
-            member.id = lastID+1;
+            member.id = lastID + 1;
             member.name = name;
             member.surname = surname;
             member.address = address;
             member.phonenumber = phoneNumber;
-            member.codeId = codeID;
+            member.email = email;
             member.password = password;
             MemberService.Add(member);
-            return Json(new { Result = "Success", newMemberId= member.id });
+            return Json(new { Result = "Success", newMemberId = member.id });
         }
         [HttpPost]
-        public ActionResult CreateApp(int? memberID, int? petID, string detail, string suggestion, DateTime date)
+        public ActionResult CreateApp(int? memberID, int? petID, int? serviceID, string suggestion, DateTime date, DateTime startTime, DateTime endTime)
         {
             List<Appointment> CheckApp = AppointmentService.GetAll().ToList();
             int lastID = CheckApp.LastOrDefault().id;
@@ -150,9 +113,11 @@ namespace VA.Controllers
             appointment.id = lastID + 1;
             appointment.memberId = Int32.Parse(memberID.ToString());
             appointment.petId = Int32.Parse(petID.ToString());
-            appointment.detail = detail;
+            appointment.serviceId = Int32.Parse(serviceID.ToString());
             appointment.suggestion = suggestion;
             appointment.date = date;
+            appointment.startTime = startTime;
+            appointment.endTime = endTime;
             appointment.status = "Waiting";
             AppointmentService.Add(appointment);
             return Json(new { Result = "Success" });
@@ -171,7 +136,7 @@ namespace VA.Controllers
             }
 
             Pet pet = new Pet();
-            pet.id = lastID + 1; 
+            pet.id = lastID + 1;
             pet.memberId = Int32.Parse(memberID.ToString());
             pet.typeId = Int32.Parse(petType.ToString());
             pet.name = petName;
@@ -193,7 +158,7 @@ namespace VA.Controllers
             pet.typeId = petType.Value;
             PetService.Update(pet);
             Debug.WriteLine(pet.name + "second");
-            
+
             return Json(new { Result = "Success" });
         }
 
@@ -204,7 +169,7 @@ namespace VA.Controllers
             Member checkName = MemberService.GetByNameAndSurname(name, surname);
             if (checkName != null && checkName.id != id)
             {
-                return Json(new { Result = "Fail, member with name"+ name + "and surname " + surname + " already exits in the system" });
+                return Json(new { Result = "Fail, member with name" + name + "and surname " + surname + " already exits in the system" });
             }
 
             Boolean isNumber = Regex.IsMatch(phonenumber, @"^\d+$");
@@ -224,11 +189,11 @@ namespace VA.Controllers
             {
                 return Json(new { Result = "Fail, phone number is required" });
             }
-            if ( isNumber == false)
+            if (isNumber == false)
             {
                 return Json(new { Result = "Fail, phone number can only contain 0-9" });
             }
-            if(phonenumber.Length != 10)
+            if (phonenumber.Length != 10)
             {
                 return Json(new { Result = "Fail, phone number have to contain 10 numeric character" });
             }
@@ -242,7 +207,14 @@ namespace VA.Controllers
             MemberService.Update(member);
             return Json(new { Result = "Success" });
         }
-
+        [HttpPost]
+        public ActionResult ResetPassword(int memberid)
+        {
+            Member member = MemberService.GetByID(memberid);
+            member.password = member.name[0].ToString().ToUpper() + member.phonenumber;
+            MemberService.Update(member);
+            return Json(new { Result = "Success" });
+        }
 
         [HttpPost]
         public ActionResult DeletePet(int petid)
@@ -297,8 +269,275 @@ namespace VA.Controllers
 
 
 
+
+        /*Test*/
+        //[Route("Member/{Id}")]
+        public ActionResult TestCreateApp(int id, int? day, int? month, int? year)
+        {
+            ViewData["warning"] = null;
+            if (TempData["warning"] != null)
+            {
+                var ls = (List<string>)TempData["warning"];
+                foreach (string str in ls)
+                {
+
+                    ViewData["warning"] = str;
+
+
+                }
+            }
+
+            /* if (Session["Authen"] == null)
+             {
+                 return RedirectToAction("Login", "Home");
+             }*/
+
+            if (month == null && year == null)
+            {
+                day = DateTime.Now.Day;
+                month = DateTime.Now.Month;
+                year = DateTime.Now.Year;
+
+            }
+
+            // Check if the system already have that day time table -- if not, create one//
+            TimeBlock checkExits = TimeBlockService.GetByDate(day.Value, month.Value, year.Value);
+            if (checkExits == null)
+            {
+                TimeSpan start = new TimeSpan(09, 30, 0);
+                TimeSpan end = new TimeSpan(21, 30, 0);
+                DateTime startTime = new DateTime(year.Value, month.Value, day.Value) + start;
+                DateTime endTime = new DateTime(year.Value, month.Value, day.Value) + end;
+                var hours = new List<DateTime>();
+                hours.Add(startTime);
+                var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
+                                        startTime.Hour, startTime.Minute, 0, startTime.Kind);
+
+                while ((next = next.AddHours(0.5)) < endTime)
+                {
+                    hours.Add(next);
+                }
+                hours.Add(endTime);
+                int lastTimeID;
+                List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
+                if (CheckTime.Count() > 0)
+                {
+                    lastTimeID = CheckTime.LastOrDefault().id;
+                }
+                else
+                {
+                    lastTimeID = 0;
+                }
+                foreach (var hour in hours)
+                {
+                    TimeBlock timeblock = new TimeBlock();
+                    timeblock.id = lastTimeID + 1;
+                    timeblock.startTime = hour;
+                    timeblock.endTime = hour.AddHours(0.5);
+                    timeblock.numberofCase = 0;
+                    timeblock.status = "Free";
+                    TimeBlockService.Add(timeblock);
+                }
+            }
+
+            ///
+
+            Member member = MemberService.GetByID(id);
+            ViewData["Pets"] = PetService.GetByMemberID(id);
+            ViewData["PetTypes"] = PetSpecieService.GetAll();
+            ViewData["Services"] = VAService.GetAll();
+            ViewData["TimeBlock"] = TimeBlockService.GetListByDate(day.Value, month.Value, year.Value);
+            ViewData["AllApp"] = AppointmentService.GetByDayAndMonthAndYearNoStatus(id, day.Value, month.Value, year.Value);
+            ViewData["AppointmentsWait"] = AppointmentService.GetByMemberIdAndStatus(id, month.Value, year.Value, "Waiting");
+            ViewData["AppointmentsCom"] = AppointmentService.GetByMemberIdAndStatus(id, month.Value, year.Value, "Complete");
+
+            var dateTime = new DateTime(year.Value, month.Value, day.Value);
+            ViewBag.DateTime = dateTime;
+            ViewBag.Year = year.Value;
+            ViewBag.Month = month.Value;
+            return View(member);
+        }
+
+        [HttpPost]
+        public ActionResult CheckTimeSlot(int? serviceID, DateTime date, DateTime? startTime, DateTime? endTime)
+        {
+            // Create slot of time //
+            var hours = new List<DateTime>();
+
+            var start = new DateTime(date.Year, date.Month, date.Day,
+                                    startTime.Value.Hour, startTime.Value.Minute, 0, startTime.Value.Kind);
+            var end = new DateTime(date.Year, date.Month, date.Day,
+                                    endTime.Value.Hour, endTime.Value.Minute, 0, endTime.Value.Kind);
+            hours.Add(start);
+
+            while ((start = start.AddHours(0.5)) < end)
+            {
+                hours.Add(start);
+            }
+
+            List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
+            DateTime checkStart, checkEnd;
+            VAService service = VAService.GetById(serviceID.Value);
+            var warningmessage = new List<String>();
+            TempData.Remove("warning");
+            ViewData["RequireConfirmation"] = false;
+            foreach (var hour in hours)
+            {
+                checkStart = new DateTime(date.Year, date.Month, date.Day,
+                                   hour.Hour, hour.Minute, 0, startTime.Value.Kind);
+                checkEnd = checkStart.AddHours(0.5);
+                TimeBlock checkTimeBlock = TimeBlockService.GetByTime(checkStart, checkEnd);
+
+                // Service not surgery
+                if (service.description != "Surgery")
+                {
+                    if (checkTimeBlock != null)
+                    {
+                        if (checkTimeBlock.status == "Busy")
+                        {
+                            warningmessage.Add("You already have" + checkTimeBlock.numberofCase + " case between" + checkStart + "to" + checkEnd + '\n');
+                            ViewData["RequireConfirmation"] = true;
+                        }
+                        if (checkTimeBlock.status == "Full")
+                        {
+                            return Json(new { Result = "You already have a surgery case between" + checkStart + "-" + checkEnd + " , please change appointment time" });
+                        }
+                    }
+                }
+
+                // Service is surgery
+                else
+                {
+                    if (checkTimeBlock.status != "Free")
+                    {
+                        return Json(new { Result = " Surgery case require 'Free' time slot but you already have a case between" + checkStart + "-" + checkEnd + " , please change appointment time" });
+                    }
+                }
+                TempData["warning"] = warningmessage;
+                /*    Console.WriteLine(warningmessage);*/
+            }
+
+            if ((bool)ViewData["RequireConfirmation"])
+            {
+                return Json(new { Result = "Confirm" });
+            }
+            else { return Json(new { Result = "Success" }); }
+
+        }
+
+        public JsonResult GetWarningMessage()
+        {
+            if (TempData["warning"] != null)
+            {
+                var ls = (List<string>)TempData["warning"];
+                string[][] newKeys = ls.Select(x => new string[] { x }).ToArray();
+                string json = JsonConvert.SerializeObject(newKeys);
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            return Json("OK");
+        }
+
+        [HttpPost]
+        public ActionResult TestCreateApp(int? memberID, int? petID, int? serviceID, string suggestion, DateTime date, DateTime? startTime, DateTime? endTime)
+        {
+
+            VAService service = VAService.GetById(serviceID.Value);
+            //Create app//
+            int lastID;
+            List<Appointment> CheckApp = AppointmentService.GetAll().ToList();
+            if (CheckApp.Count() > 0)
+            {
+                lastID = CheckApp.LastOrDefault().id;
+            }
+            else
+            {
+                lastID = 0;
+            }
+
+       
+            Appointment appointment = new Appointment();
+            appointment.id = lastID + 1;
+            appointment.memberId = Int32.Parse(memberID.ToString());
+            appointment.petId = Int32.Parse(petID.ToString());
+            appointment.serviceId = Int32.Parse(serviceID.ToString());
+            appointment.suggestion = suggestion;
+            appointment.date = date;
+       /*     if (type == "allDay")
+            {
+                startTime = new DateTime(1900,01,01);
+                endTime = new DateTime(1900, 01, 01);
+            }*/
+            appointment.startTime = startTime;
+            appointment.endTime = endTime;
+            appointment.status = "Waiting";
+            AppointmentService.Add(appointment);
+/*
+           if (type != "allDay")
+            {
+                // Create slot of time //
+                var hours = new List<DateTime>();
+
+                var start = new DateTime(date.Year, date.Month, date.Day,
+                                        startTime.Value.Hour, startTime.Value.Minute, 0, startTime.Value.Kind);
+                var end = new DateTime(date.Year, date.Month, date.Day,
+                                        endTime.Value.Hour, endTime.Value.Minute, 0, startTime.Value.Kind);
+                hours.Add(start);
+
+                while ((start = start.AddHours(0.5)) < end)
+                {
+                    hours.Add(start);
+                }
+                int lastAppTime;
+                List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
+                DateTime checkStart, checkEnd;
+                var warningmessage = new List<String>();
+                foreach (var hour in hours)
+                {
+                    checkStart = new DateTime(date.Year, date.Month, date.Day,
+                                        hour.Hour, hour.Minute, 0, startTime.Value.Kind);
+                    checkEnd = checkStart.AddHours(0.5);
+
+                    TimeBlock checkTimeBlock = TimeBlockService.GetByTime(checkStart, checkEnd);
+
+                    List<AppointmentTimeBlock> CheckAppTime = AppTimeService.GetAll().ToList();
+                    if (CheckAppTime.Count() > 0)
+                    {
+                        lastAppTime = CheckAppTime.LastOrDefault().id;
+                    }
+                    else
+                    {
+                        lastAppTime = 0;
+                    }
+
+                    //Create appointment
+                    AppointmentTimeBlock appTime = new AppointmentTimeBlock();
+                    appTime.id = lastAppTime + 1;
+                    appTime.timeId = checkTimeBlock.id;
+                    appTime.appointmentID = appointment.id;
+                    checkTimeBlock.numberofCase += 1;
+                    TimeBlockService.Update(checkTimeBlock);
+
+                    // If case is not surgery
+                    if (service.description != "Surgery")
+                    {
+                        // Still not fix the number of case that can take at a time
+                        if (checkTimeBlock.numberofCase > 1)
+                        {
+                            checkTimeBlock.status = "Busy";
+                            TimeBlockService.Update(checkTimeBlock);
+                        }
+                    }
+                    else
+                    {
+                        checkTimeBlock.status = "Full";
+
+                    }
+                }
+            }*/
+
+            return Json(new { Result = "Success" });
+        }
+
     }
-
-
 
 }

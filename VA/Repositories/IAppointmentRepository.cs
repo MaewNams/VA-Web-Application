@@ -20,5 +20,6 @@ namespace VA.Repositories
         IEnumerable<Appointment> GetByMemberIdAndStatus(int id, int month, int year, string status);
         IEnumerable<Appointment> GetByMonthAndYear(int month, int year, string status);
         IEnumerable<Appointment> GetByDayAndMonthAndYear(int day,int month, int year, string status);
+        IEnumerable<Appointment> GetByDayAndMonthAndYearNoStatus(int id, int day, int month, int year);
     }
 }

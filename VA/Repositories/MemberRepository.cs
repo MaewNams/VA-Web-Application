@@ -24,24 +24,19 @@ namespace VA.Repositories
             _db.SaveChanges();
         }
 
-        public IEnumerable<Member> GetByCodeID(string codeId)
-        {
-            IEnumerable<Member> memberList = _db.Member.Where(s => s.codeId.Contains(codeId)).OrderBy(s => s.codeId);
-            return memberList;
-        }
 
         public Member GetByID(int Id)
         {
             return _db.Member.FirstOrDefault(m => m.id == Id);
         }
 
-        public IEnumerable<Member> QueryByName(string name)
+        public IEnumerable<Member> GetByName(string name)
         {
             IEnumerable<Member> memberList = _db.Member.Where(s => s.name.Contains(name)).OrderBy(s =>s.name);
             return memberList;
         }
 
-        public IEnumerable<Member> QueryByAddress(string address)
+        public IEnumerable<Member> GetByAddress(string address)
         {
             IEnumerable<Member> memberList = _db.Member.Where(s => s.address.Contains(address)).OrderBy(s => s.address);
             return memberList;
@@ -65,14 +60,25 @@ namespace VA.Repositories
             return memberList;
         }
 
-        public Member GetByCodeIDAndPassword(string codeId, string password)
+        public Member GetByEmailAndPassword(string email, string password)
         {
-            return _db.Member.FirstOrDefault(m => m.codeId == codeId && m.password == password);
+            return _db.Member.FirstOrDefault(m => m.email == email && m.password == password);
         }
 
         public Member GetByNameAndSurname( string name, string surname)
         {
             return _db.Member.FirstOrDefault(m => m.name == name && m.surname == surname);
+        }
+
+        public Member GetByIDAndEmail(int id, string email)
+        {
+            return _db.Member.FirstOrDefault(m => m.id == id && m.email == email);
+        }
+
+        public IEnumerable<Member> GetByEmail(string email)
+        {
+            IEnumerable<Member> memberList = _db.Member.Where(s => s.email.Contains(email)).OrderBy(s => s.email).ToList();
+            return memberList;
         }
 
 

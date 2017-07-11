@@ -248,19 +248,19 @@ namespace VA.Controllers
             }
 
             if ( condition == "idCode" ) {
-                ViewData["Members"] = MemberService.GetByCodeID(keyword);
+            /*    ViewData["Members"] = MemberService.GetByCodeID(keyword);*/   
                 return View();
             }
 
             if (condition == "name")
             {
-                ViewData["Members"] = MemberService.QueryByName(keyword);
+                ViewData["Members"] = MemberService.GetByName(keyword);
                 return View();
             }
 
             if (condition == "address")
             {
-                ViewData["Members"] = MemberService.QueryByAddress(keyword);
+                ViewData["Members"] = MemberService.GetByAddress(keyword);
                 return View();
             }
             if (condition == "phone") {

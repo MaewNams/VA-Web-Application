@@ -18,6 +18,8 @@ namespace VA.Controllers
         private AppointmentRepository AppointmentService = new AppointmentRepository();
         private MemberRepository MemberService = new MemberRepository();
         private PetRepository PetService = new PetRepository();
+        private PetSpecieRepository PetTypeService = new PetSpecieRepository();
+        private VAServiceRepository VAService = new VAServiceRepository();
         // GET: Service
         public ActionResult SMSSend()
         {
@@ -49,17 +51,20 @@ namespace VA.Controllers
         public ActionResult TruncateDB()
         {
             _db.Appointment.RemoveRange(_db.Appointment);
+            _db.AppointmentTimeBlock.RemoveRange(_db.AppointmentTimeBlock);
             _db.Pet.RemoveRange(_db.Pet);
+            _db.Service.RemoveRange(_db.Service);
             _db.Member.RemoveRange(_db.Member);
+            _db.TimeBlock.RemoveRange(_db.TimeBlock);
             _db.SaveChanges();
 
             // Add member
             List<Member> members = new List<Member>()
             {
-                new Member {id=1, codeId = "A1B1C1", password="123456", name ="Alice", surname ="White", address ="Wonderland 11/2", phonenumber="0111111111" },
-                 new Member {id=2, codeId = "B2C2D2", password="AA22AA", name ="Redhood", surname ="Red", address ="Forest 123", phonenumber="0211111113" },
-                  new Member {id=3, codeId = "A2B3C1", password="654321", name ="Mad", surname ="Hatter", address ="Wonderland 3326", phonenumber="0300000000" },
-                   new Member {id=4, codeId = "B2C1D2", password="123ABC", name ="Wolffy", surname ="Gray", address ="Deep Deep Forest 26", phonenumber="0888888888" }
+                new Member {id=1, email="email1@mail", password="A0111111111", name ="Alice", surname ="White", address ="Wonderland 11/2", phonenumber="0111111111" },
+                 new Member {id=2,email="email2@mail",  password="R0211111113", name ="Redhood", surname ="Red", address ="Forest 123", phonenumber="0211111113" },
+                  new Member {id=3,email="email3@mail",  password="M0300000000", name ="Mad", surname ="Hatter", address ="Wonderland 3326", phonenumber="0300000000" },
+                   new Member {id=4,email="email4@mail",  password="W0888888888", name ="Wolffy", surname ="Gray", address ="Deep Deep Forest 26", phonenumber="0888888888" }
             };
             foreach (Member member in members)
             {
@@ -67,13 +72,39 @@ namespace VA.Controllers
             }
 
 
+            // Add type
+            List<PetType> types = new List<PetType>()
+            {
+                new PetType {id=1, name ="cat"},
+                     new PetType {id=2, name ="dog"},
+                new PetType {id=3, name ="rabbit"},
+            };
+            foreach (PetType type in types)
+            {
+                PetTypeService.Add(type);
+            }
+
+
+            // Add type
+            List<VAService> services = new List<VAService>()
+            {
+                new VAService {id=1, description ="Vaccination"},
+                new VAService {id=2, description ="Fllow up"},
+                new VAService {id=3, description ="Surgery"},
+            };
+            foreach (VAService service in services)
+            {
+                VAService.Add(service);
+            }
+
             // Add pet
             List<Pet> pets = new List<Pet>()
             {
                 new Pet {id=1, memberId = 2,  name ="Little Cat", typeId = 1 },
-                 new Pet {id=2, memberId = 2,  name ="Big Wolf", typeId = 2 },
-                  new Pet {id=3, memberId = 1,  name ="White rabbit", typeId = 3 },
-                   new Pet {id=4, memberId = 3, name ="Black cat", typeId = 1}
+                new Pet {id=2, memberId = 2,  name ="Big Wolf", typeId = 2 },
+                new Pet {id=3, memberId = 1,  name ="White rabbit", typeId = 3 },
+                new Pet {id=4, memberId = 3, name ="Black cat", typeId = 1},
+                new Pet {id=5, memberId = 1,  name ="Black rabbit", typeId = 3 }
             };
             foreach (Pet pet in pets)
             {
@@ -83,18 +114,18 @@ namespace VA.Controllers
 
 
             // Add appointment
-            List<Appointment> appointments = new List<Appointment>()
-            {
-                new Appointment {id=1, date = new DateTime(2017, 4, 6), memberId = 2, petId =1, detail ="Get heart worm vaccine", suggestion = "Do not drink and eat 4 hour before come to clinic", status ="Complete" },
-                new Appointment {id =2, date = new DateTime(2017, 4, 6), memberId = 3, petId =4, detail ="Get hrabi vaccine", suggestion = "None", status ="Complete" },
-                new Appointment {id =3, date = new DateTime(2017, 4, 10), memberId = 2, petId =2, detail ="Get HIV vaccine", suggestion = "None", status ="Waiting" },
-                new Appointment {id =4, date = new DateTime(2017, 5, 10), memberId = 2, petId =1, detail ="Check health", suggestion = "None", status ="Waiting" }
-            };
-            foreach (Appointment appointment in appointments)
-            {
-              AppointmentService.Add(appointment);
+            /*    List<Appointment> appointments = new List<Appointment>()
+                    {
+                        new Appointment {id=1, date = new DateTime(2017, 4, 6), memberId = 2, petId =1, serviceId = 1, suggestion = "Do not drink and eat 4 hour before come to clinic", status ="Complete" },
+                        new Appointment {id =2, date = new DateTime(2017, 4, 6), memberId = 3, petId =4, serviceId = 2, suggestion = "None", status ="Complete" },
+                        new Appointment {id =3, date = new DateTime(2017, 4, 10), memberId = 2, petId =2, serviceId = 3, suggestion = "None", status ="Waiting" },
+                        new Appointment {id =4, date = new DateTime(2017, 5, 10), memberId = 2, petId =1,serviceId = 1, suggestion = "None", status ="Waiting" }
+                    };
+                    foreach (Appointment appointment in appointments)
+                    {
+                      AppointmentService.Add(appointment);
 
-            }
+                    }*/
 
             return Json(new { Result = "Success" });
         }

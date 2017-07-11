@@ -14,20 +14,21 @@ namespace VA.Controllers
     public class APIController : Controller
     {
         private VAContext _db = new VAContext();
+        private TimeBlockRepository TimeBlockService = new TimeBlockRepository();
         private AppointmentRepository AppointmentService = new AppointmentRepository();
         private MemberRepository MemberService = new MemberRepository();
         private VAProfileRepository VAProfileService = new VAProfileRepository();
         // GET: API
 
-        public ActionResult Login(string memberIdCode, string password)
+        public ActionResult Login(string email, string password)
         {
           
-            var login = MemberService.GetByCodeIDAndPassword(memberIdCode,password);
+         var login = MemberService.GetByEmailAndPassword(email,password);
             var a = 0 ;
             if (login != null)
             {
                 a = login.id;
-            }
+            }    
             return Json(JsonConvert.SerializeObject(a), JsonRequestBehavior.AllowGet);
         }
 
@@ -38,10 +39,10 @@ namespace VA.Controllers
             var member = new Member
             {
                 id = m.id,
-                codeId = m.codeId,
                 password = m.password,
                 name = m.name,
                 surname = m.surname,
+                email = m.email,
                 address = m.address,
                 phonenumber = m.phonenumber
             };
@@ -65,15 +66,78 @@ namespace VA.Controllers
             {
                 appointmentId = s.id,
                 date = s.date,
+                start = s.startTime,
+                end = s.endTime,
                 petName = s.Pet.name,
-                detail = s.detail,
+                service = s.VAService.description,
                 suggestion = s.suggestion
            
             });
+           
                return Json(JsonConvert.SerializeObject(a), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ClinicProfile()
+        public ActionResult CheckTimetble(int? memberId, int?day, int? month, int? year)
+        {
+
+
+            if (month == null)
+            {
+                month = DateTime.Now.Month;
+            }
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+            if(day == null)
+            {
+                day = DateTime.Now.Day;
+            }
+            // Check if the system already have that day time table -- if not, create one//
+            TimeBlock checkExits = TimeBlockService.GetByDate(day.Value, month.Value, year.Value);
+            if (checkExits == null)
+            {
+                TimeSpan start = new TimeSpan(09, 30, 0);
+                TimeSpan end = new TimeSpan(21, 30, 0);
+                DateTime startTime = new DateTime(year.Value, month.Value, day.Value) + start;
+                DateTime endTime = new DateTime(year.Value, month.Value, day.Value) + end;
+                var hours = new List<DateTime>();
+                hours.Add(startTime);
+                var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
+                                        startTime.Hour, startTime.Minute, 0, startTime.Kind);
+
+                while ((next = next.AddHours(0.5)) < endTime)
+                {
+                    hours.Add(next);
+                }
+                hours.Add(endTime);
+                int lastTimeID;
+                List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
+                if (CheckTime.Count() > 0)
+                {
+                    lastTimeID = CheckTime.LastOrDefault().id;
+                }
+                else
+                {
+                    lastTimeID = 0;
+                }
+                foreach (var hour in hours)
+                {
+                    TimeBlock timeblock = new TimeBlock();
+                    timeblock.id = lastTimeID + 1;
+                    timeblock.startTime = hour;
+                    timeblock.endTime = hour.AddHours(0.5);
+                    timeblock.numberofCase = 0;
+                    timeblock.status = "Free";
+                    TimeBlockService.Add(timeblock);
+                }
+            }
+
+            var timetable = TimeBlockService.GetListByDate(day.Value,month.Value, year.Value);
+            return Json(JsonConvert.SerializeObject(timetable), JsonRequestBehavior.AllowGet);
+        }
+
+            public ActionResult ClinicProfile()
         {
             var c = VAProfileService.Get();
 
@@ -114,9 +178,16 @@ namespace VA.Controllers
         }
         }
 
-        public ActionResult ChangMemberInfo(int id, string name, string surname, string address, string phonenumber)
+        public ActionResult ChangMemberInfo(int id,string email, string name, string surname, string address, string phonenumber)
         {
             Boolean isNumber = Regex.IsMatch(phonenumber, @"^\d+$");
+            Member checkmail = MemberService.GetByIDAndEmail(id, email);
+            Member checkname = MemberService.GetByNameAndSurname(name, surname);
+         
+            if (String.IsNullOrEmpty(email))
+            {
+                return Json(new { message = "Fail, email is required" }, JsonRequestBehavior.AllowGet);
+            }
             if (String.IsNullOrEmpty(name))
             {
                 return Json(new { message = "Fail, name is required" }, JsonRequestBehavior.AllowGet);
@@ -141,11 +212,19 @@ namespace VA.Controllers
             {
                 return Json(new { message = "Fail, phone number have to contain 10 numeric character" }, JsonRequestBehavior.AllowGet);
             }
-
+            if (checkmail.id != id)
+            {
+                return Json(new { message = "Fail, the email is already exits in the system" }, JsonRequestBehavior.AllowGet);
+            }
+            if (checkname.id != id)
+            {
+                return Json(new { message = "Fail, member with name"+ name + " and surname " +surname + "is alredy exits in the system" }, JsonRequestBehavior.AllowGet);
+            }
             Member member = MemberService.GetByID(id);
             member.name = name;
             member.surname = surname;
             member.address = address;
+            member.email = email;
             member.phonenumber = phonenumber;
             MemberService.Update(member);
             return Json(new { message = "Edit success" }, JsonRequestBehavior.AllowGet);

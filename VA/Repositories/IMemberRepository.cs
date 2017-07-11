@@ -14,13 +14,14 @@ namespace VA.Repositories
         void Update(Member model);
         void Delete(Member model);
         Member GetByID(int Id);
-        Member GetByCodeIDAndPassword(string codeId, string password);
+        Member GetByIDAndEmail(int id,string email);
+        Member GetByEmailAndPassword(string email, string password);
         Member GetByNameAndSurname(string name, string surname);
+        IEnumerable<Member> GetByEmail(string email);
         IEnumerable<Member> GetByPhoneNumber(string phoneNumber);
-        IEnumerable<Member> GetByCodeID(string codeId);
+        IEnumerable<Member> GetByName(string name);
+        IEnumerable<Member> GetByAddress(string address);
         IEnumerable<Member> GetAll();
-        IEnumerable<Member> QueryByName(string name);
-        IEnumerable<Member> QueryByAddress(string address);
 
     }
 }

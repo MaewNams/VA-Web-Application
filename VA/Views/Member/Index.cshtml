@@ -31,12 +31,7 @@
             Member profile
         </div>
 
-        <div class="item" style="font-size:16px">
-            Code ID : @Model.codeId
-        </div>
-        <div class="item" style="font-size:16px">
-            Password : @Model.password
-        </div>
+
         <div class="item" style="font-size:16px">
             Name : @Model.name @Model.surname
         </div>
@@ -52,7 +47,9 @@
         <div class="item">
 
         </div>
-
+        <div class="item" style="font-size:16px;background-color:white!important">
+            <button class="ui blue basic button get_new_password" data-id="@Model.id" style="width:65%">Reset Password</button>
+        </div>
         <div class="item" style="font-size:16px;background-color:white!important">
             <button class="ui red basic button delete_member_button" data-id="@Model.id" style="width:65%">Delete Account</button>
         </div>
@@ -64,10 +61,7 @@
         <input type="hidden" id="edit_member_id" value="@Model.id">
         <form class="ui form">
             <div class="inline fields">
-                <div class="six wide field">
-                    <label>Code ID</label>
-                    <input type="text" placeholder="" name="name" value="@Model.codeId" disabled="">
-                </div>
+
                 <div class="ten wide field">
                     <label>Password</label>
                     <input type="text" placeholder="" name="password" id="edit_password" value="@Model.password" disabled="" style="width:45%;margin-right:15px">
@@ -137,6 +131,7 @@
                 </div>
                 <div class="eight wide column">
                     <button class="ui right floated teal button" id="call_create_app_modal">Create new appointment</button>
+                    <button class="ui right floated teal button" data-id="@Model.id"  >Test Create new appointment</button>
                 </div>
             </div>
 

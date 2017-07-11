@@ -15,9 +15,8 @@ namespace VA.Service
 
             // instantiate a new Twilio Rest Client
             var client = new TwilioRestClient(AccountSid, AuthToken);
-
             // make an associative array of people we know, indexed by phone number
-            var result = client.SendMessage("765-441-3261", phoneNumber, string.Format("Hello {0}, tomorrow you have appointment with us! " + message, name));
+            var result = client.SendMessage("412-413-9257", phoneNumber, string.Format("Hello {0}, tomorrow you have appointment with us! " + message, name));
 
         }
     }

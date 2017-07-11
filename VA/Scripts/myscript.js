@@ -3,76 +3,76 @@ $(document).ready(function () {
 
 
     $('#create_member_account')
-       .form({
-           name: {
-               identifier: 'name',
-               rules: [
-                   {
-                       type: 'empty',
-                       prompt: 'Fail, name is required'
-                   }
-               ]
-           },
-           surname: {
-               identifier: 'surname',
-               rules: [
-                   {
-                       type: 'empty',
-                       prompt: 'Fail, surname is required'
-                   }
-               ]
-           },
-           address: {
-               identifier: 'address',
-               rules: [
-                   {
-                       type: 'empty',
-                       prompt: 'Fail, address is required'
-                   }
-               ]
-           },
-           phoneNumber: {
-               identifier: 'phoneNumber',
-               rules: [
-                   {
-                       type: 'empty',
-                       prompt: 'Fail, phone number is required'
-                   },
-                   {
-                       type: 'exactLength[10]',
-                       prompt: 'Fail, phone number have to contain 10 numeric character'
-                   },
-                   {
-                       type: 'number',
-                       prompt: 'Fail, phone number can only contain 0-9'
-                   }
-               ]
-           }
+        .form({
+            name: {
+                identifier: 'name',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Fail, name is required'
+                    }
+                ]
+            },
+            surname: {
+                identifier: 'surname',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Fail, surname is required'
+                    }
+                ]
+            },
+            address: {
+                identifier: 'address',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Fail, address is required'
+                    }
+                ]
+            },
+            phoneNumber: {
+                identifier: 'phoneNumber',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Fail, phone number is required'
+                    },
+                    {
+                        type: 'exactLength[10]',
+                        prompt: 'Fail, phone number have to contain 10 numeric character'
+                    },
+                    {
+                        type: 'number',
+                        prompt: 'Fail, phone number can only contain 0-9'
+                    }
+                ]
+            }
 
-       }, {
-           on: 'blur',
-           inline: false,
-           onSuccess: function (e) {
-               e.preventDefault();
-               $.post(BaseURL + '/VA/Member/CreateMember', {
-                   name: $('#name').val(),
-                   surname: $('#surname').val(),
-                   address: $('#address').val(),
-                   phoneNumber: $('#phoneNumber').val(),
-               }, function (data) {
-                   if (data.Result == "Success") {
-                       alert("Crete success");
-                       window.location.href = BaseURL + "/VA/Member/Index/" + data.newMemberId;
-                   } else {
-                       alert(data.Result);
-                   }
-               })
+        }, {
+            on: 'blur',
+            inline: false,
+            onSuccess: function (e) {
+                e.preventDefault();
+                $.post(BaseURL + '/VA/Member/CreateMember', {
+                    name: $('#name').val(),
+                    surname: $('#surname').val(),
+                    address: $('#address').val(),
+                    phoneNumber: $('#phoneNumber').val(),
+                }, function (data) {
+                    if (data.Result == "Success") {
+                        alert("Crete success");
+                        window.location.href = BaseURL + "/VA/Member/Index/" + data.newMemberId;
+                    } else {
+                        alert(data.Result);
+                    }
+                })
 
-           },
-           onFailure: function () {
-               return false;
-           }
-       });
+            },
+            onFailure: function () {
+                return false;
+            }
+        });
 
     /*create member account*/
     $(".call_create_member_modal").click(function (e) {
@@ -87,21 +87,21 @@ $(document).ready(function () {
         e.preventDefault();
         var appid = $(this).attr("value");
         $.post(BaseURL + '/VA/Member/CreateMember',
-                {
-                    name: $('#create_name').val(),
-                    surname: $('#create_surname').val(),
-                    address: $('#create_address').val(),
-                    phoneNumber: $('#create_phoneNumber').val()
+            {
+                name: $('#create_name').val(),
+                surname: $('#create_surname').val(),
+                address: $('#create_address').val(),
+                phoneNumber: $('#create_phoneNumber').val()
 
-                },
-                function (data) {
-                    if (data.Result == "Success") {
-                        alert("Create success");
-                        window.location.href = BaseURL + "/VA/Member/Index/" + data.newMemberId;
-                    } else {
-                        alert(data.Result);
-                    }
-                })
+            },
+            function (data) {
+                if (data.Result == "Success") {
+                    alert("Create success");
+                    window.location.href = BaseURL + "/VA/Member/Index/" + data.newMemberId;
+                } else {
+                    alert(data.Result);
+                }
+            })
 
     });
 
@@ -118,42 +118,61 @@ $(document).ready(function () {
 
 
     $('.get_new_password').click(function (e) {
-        var newRandomPassword = "";
         e.preventDefault();
-        $.post(BaseURL + '/VA/Member/GetRandomPassword',
+        if (confirm("Do you want to reset member's password?")) {
+            $.post(BaseURL + '/VA/Member/ResetPassword',
+                { memberid: $(this).data('id') },
                 function (data) {
                     if (data.Result == "Success") {
-                        newRandomPassword = data.newPassword;
-                        $('input[name=password]').val(newRandomPassword);
-                    } else {
-                        alert(data.Result);
-                    }
-                })
-
-    });
-
-
-    $('.confirm_edit_member_button').click(function (e) {
-        e.preventDefault();
-        var appid = $(this).attr("value");
-        $.post(BaseURL + '/VA/Member/Edit',
-                {
-                    id: $('#edit_member_id').val(),
-                    name: $('#edit_name').val(),
-                    surname: $('#edit_surname').val(),
-                    address: $('#edit_address').val(),
-                    phonenumber: $('#edit_phoneNumber').val(),
-                    password: $('#edit_password').val()
-
-                },
-                function (data) {
-                    if (data.Result == "Success") {
-                        alert("Edit success");
+                        alert("Reset password success");
                         window.location.reload();
                     } else {
                         alert(data.Result);
                     }
                 })
+        }
+
+    });
+
+    $('.ui.checkbox')
+        .checkbox()
+        ;
+
+    $('.mycheck').checkbox({
+        onChecked: function () {
+            $("#start").prop('disabled', true);
+            $("#end").prop('disabled', true);
+            $("#type").val("allDay");
+        },
+        onUnchecked: function () {
+            $("#start").prop('disabled', false);
+            $("#end").prop('disabled', false);
+            $("#type").val("setTime");
+
+        }
+    });
+
+    $('.confirm_edit_member_button').click(function (e) {
+        e.preventDefault();
+        var appid = $(this).attr("value");
+        $.post(BaseURL + '/VA/Member/Edit',
+            {
+                id: $('#edit_member_id').val(),
+                name: $('#edit_name').val(),
+                surname: $('#edit_surname').val(),
+                address: $('#edit_address').val(),
+                phonenumber: $('#edit_phoneNumber').val(),
+                password: $('#edit_password').val()
+
+            },
+            function (data) {
+                if (data.Result == "Success") {
+                    alert("Edit success");
+                    window.location.reload();
+                } else {
+                    alert(data.Result);
+                }
+            })
 
     });
 
@@ -172,20 +191,20 @@ $(document).ready(function () {
         e.preventDefault();
         var appid = $(this).attr("value");
         $.post(BaseURL + '/VA/Appointment/Edit',
-                {
-                    appid: $('#edit_app_' + appid).val(),
-                    detail: $('#edit_detail_' + appid).val(),
-                    suggestion: $('#edit_suggestion_' + appid).val()
+            {
+                appid: $('#edit_app_' + appid).val(),
+                detail: $('#edit_detail_' + appid).val(),
+                suggestion: $('#edit_suggestion_' + appid).val()
 
-                },
-                function (data) {
-                    if (data.Result == "Success") {
-                        alert("Edit success");
-                        window.location.reload();
-                    } else {
-                        alert(data.Result);
-                    }
-                })
+            },
+            function (data) {
+                if (data.Result == "Success") {
+                    alert("Edit success");
+                    window.location.reload();
+                } else {
+                    alert(data.Result);
+                }
+            })
 
     });
 
@@ -204,20 +223,20 @@ $(document).ready(function () {
         e.preventDefault();
         var appid = $(this).attr("value");
         $.post(BaseURL + '/VA/Appointment/Edit',
-                {
-                    appid: $('#edit_mApp_' + appid).val(),
-                    detail: $('#edit_mApp_detail_' + appid).val(),
-                    suggestion: $('#edit_mApp_suggestion_' + appid).val()
+            {
+                appid: $('#edit_mApp_' + appid).val(),
+                detail: $('#edit_mApp_detail_' + appid).val(),
+                suggestion: $('#edit_mApp_suggestion_' + appid).val()
 
-                },
-                function (data) {
-                    if (data.Result == "Success") {
-                        alert("Edit success");
-                        window.location.reload();
-                    } else {
-                        alert(data.Result);
-                    }
-                })
+            },
+            function (data) {
+                if (data.Result == "Success") {
+                    alert("Edit success");
+                    window.location.reload();
+                } else {
+                    alert(data.Result);
+                }
+            })
 
     });
 
@@ -241,20 +260,20 @@ $(document).ready(function () {
         console.log("type" + $('#select_edit_specie_' + petid));
         console.log("name" + $('#edit_petName_' + petid));
         $.post(BaseURL + '/VA/Member/EditPet',
-                {
-                    petID: $('#edit_pet_' + petid).val(),
-                    petType: $('#select_edit_specie_' + petid).val(),
-                    petName: $('#edit_petName_' + petid).val(),
+            {
+                petID: $('#edit_pet_' + petid).val(),
+                petType: $('#select_edit_specie_' + petid).val(),
+                petName: $('#edit_petName_' + petid).val(),
 
-                },
-                function (data) {
-                    if (data.Result == "Success") {
-                        alert("Edit success");
-                        window.location.reload();
-                    } else {
-                        alert(data.Result);
-                    }
-                })
+            },
+            function (data) {
+                if (data.Result == "Success") {
+                    alert("Edit success");
+                    window.location.reload();
+                } else {
+                    alert(data.Result);
+                }
+            })
 
     });
 
@@ -262,16 +281,16 @@ $(document).ready(function () {
 
 
     $('#create_app_modal')
-    .modal({
-        detachable: true,
-        closable: false,
-        onApprove: function () {
-            $('#create_app_form').submit(); //Return false as to not close modal dialog
-            return false;
-        }
+        .modal({
+            detachable: true,
+            closable: false,
+            onApprove: function () {
+                $('#create_app_form').submit(); //Return false as to not close modal dialog
+                return false;
+            }
 
-    })
-    ;
+        })
+        ;
 
     $('#create_pet_modal').modal({
         detachable: true,
@@ -282,96 +301,96 @@ $(document).ready(function () {
             return false;
         }
     })
-    ;
+        ;
 
 
     var formValidationRulesApp =
-{
-    pet: {
-        identifier: 'pet',
-        rules: [
-          {
-              type: 'empty',
-              prompt: 'Fail, pet name is required'
-          }
-        ]
-    },
-    date: {
-        identifier: 'date',
-        rules: [
-          {
-              type: 'empty',
-              prompt: 'Fail, appointment date is required'
-          }
-        ]
-    },
-    detail: {
-        identifier: 'detail',
-        rules: [
-          {
-              type: 'empty',
-              prompt: 'Fail, appointment detail is required'
-          }
-        ]
-    }
-}
+        {
+            pet: {
+                identifier: 'pet',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Fail, pet name is required'
+                    }
+                ]
+            },
+            date: {
+                identifier: 'date',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Fail, appointment date is required'
+                    }
+                ]
+            },
+            detail: {
+                identifier: 'detail',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Fail, appointment detail is required'
+                    }
+                ]
+            }
+        }
 
     var formValidationRulesPet =
-{
-    petName: {
-        identifier: 'petName',
-        rules: [
-            {
-                type: 'empty',
-                prompt: 'Fail, pet name is required'
+        {
+            petName: {
+                identifier: 'petName',
+                rules: [
+                    {
+                        type: 'empty',
+                        prompt: 'Fail, pet name is required'
+                    }
+                ]
             }
-        ]
-    }
-}
+        }
 
     var formSettingsApp =
-    {
-        onSuccess: function (e) {
-            e.preventDefault();
-            $.post(BaseURL + '/VA/Member/CreateApp', {
-                memberID: $('#member').val(),
-                petId: $('#select_pet').val(),
-                detail: $('#detail').val(),
-                suggestion: $('#suggestion').val(),
-                date: $('#date').val(),
-            }, function (data) {
-                if (data.Result == "Success") {
-                    alert("Create success");
-                    window.location.reload();
-                } else {
-                    alert(data.Result);
-                    $('.modal').modal('hide');
-                }
-            })
+        {
+            onSuccess: function (e) {
+                e.preventDefault();
+                $.post(BaseURL + '/VA/Member/CreateApp', {
+                    memberID: $('#member').val(),
+                    petId: $('#select_pet').val(),
+                    detail: $('#detail').val(),
+                    suggestion: $('#suggestion').val(),
+                    date: $('#date').val(),
+                }, function (data) {
+                    if (data.Result == "Success") {
+                        alert("Create success");
+                        window.location.reload();
+                    } else {
+                        alert(data.Result);
+                        $('.modal').modal('hide');
+                    }
+                })
 
+            }
         }
-    }
 
     var formSettingsPet =
-{
-    onSuccess: function (e) {
-        e.preventDefault();
-        $.post(BaseURL + '/VA/Member/CreatePet', {
-            memberID: $('#member').val(),
-            petType: $('#select_specie').val(),
-            petName: $('#petName').val()
-        }, function (data) {
-            if (data.Result == "Success") {
-                alert("Create success");
-                window.location.reload();
-            } else {
-                $('#create_pet_form').form('add prompt', 'petName');
-                $('.form .error.message').html(data.Result).show();
-            }
-        })
+        {
+            onSuccess: function (e) {
+                e.preventDefault();
+                $.post(BaseURL + '/VA/Member/CreatePet', {
+                    memberID: $('#member').val(),
+                    petType: $('#select_specie').val(),
+                    petName: $('#petName').val()
+                }, function (data) {
+                    if (data.Result == "Success") {
+                        alert("Create success");
+                        window.location.reload();
+                    } else {
+                        $('#create_pet_form').form('add prompt', 'petName');
+                        $('.form .error.message').html(data.Result).show();
+                    }
+                })
 
-    }
-}
+            }
+        }
 
 
     $('#create_app_form').form(formValidationRulesApp, formSettingsApp);
@@ -401,20 +420,20 @@ $(document).ready(function () {
 
 
     $('.ui.dropdown')
-      .dropdown()
-    ;
+        .dropdown()
+        ;
     $('#select_condition').dropdown();
 
     $('.menu .item').tab({
     }
-        );
+    );
 
     $('.search_button').on('click', function () {
 
         condition = $('#select_condition').val(),
 
             keyword = $('#search_keyword').val(),
-        console.log("data is" + condition + " keyword is" + keyword);
+            console.log("data is" + condition + " keyword is" + keyword);
         window.location.href = BaseURL + "/VA/home/member/" + condition + "/" + keyword;
         /*   window.location.href = window.location.origin + "/Forums/Create/" + type;*/
     });
@@ -433,9 +452,9 @@ $(document).ready(function () {
         type: 'month',
         onChange: function (date) {
             month = new Date(date).getMonth() + 1,
-            year = new Date(date).getFullYear(),
-         memberID = $('#member').val(),
-        window.location.href = BaseURL + "/VA/Member/Index/" + memberID + "?month=" + month + "&year=" + year;
+                year = new Date(date).getFullYear(),
+                memberID = $('#member').val(),
+                window.location.href = BaseURL + "/VA/Member/Index/" + memberID + "?month=" + month + "&year=" + year;
         },
     });
 
@@ -443,8 +462,8 @@ $(document).ready(function () {
         type: 'month',
         onChange: function (date) {
             month = new Date(date).getMonth() + 1,
-            year = new Date(date).getFullYear(),
-        window.location.href = BaseURL + "/VA/" + "?month=" + month + "&year=" + year;
+                year = new Date(date).getFullYear(),
+                window.location.href = BaseURL + "/VA/" + "?month=" + month + "&year=" + year;
         },
     });
 
@@ -457,8 +476,8 @@ $(document).ready(function () {
         type: 'month',
         onChange: function (date) {
             month = new Date(date).getMonth() + 1,
-            year = new Date(date).getFullYear(),
-        window.location.href = BaseURL + "/VA/Home/Monthly/" + "?month=" + month + "&year=" + year;
+                year = new Date(date).getFullYear(),
+                window.location.href = BaseURL + "/VA/Home/Monthly/" + "?month=" + month + "&year=" + year;
         },
     });
 
@@ -466,9 +485,20 @@ $(document).ready(function () {
         type: 'date',
         onChange: function (date) {
             day = new Date(date).getDate(),
-            month = new Date(date).getMonth() + 1,
-            year = new Date(date).getFullYear(),
-        window.location.href = BaseURL + "/VA/Home/Appointment" + "?day=" + day + "&month=" + month + "&year=" + year;
+                month = new Date(date).getMonth() + 1,
+                year = new Date(date).getFullYear(),
+                memberID = $('#member').val(),
+                window.location.href = BaseURL + "/VA/Member/TestCreateApp" + "?id=" + memberID + "&day=" + day + "&month=" + month + "&year=" + year + "#/third";
+        },
+    });
+
+    $('.test_app_calendar2').calendar({
+        type: 'date',
+        onChange: function (date) {
+            day = new Date(date).getDate(),
+                month = new Date(date).getMonth() + 1,
+                year = new Date(date).getFullYear(),
+                window.location.href = BaseURL + "/VA/Home/Appointment" + "?day=" + day + "&month=" + month + "&year=" + year;
         },
     });
 
@@ -555,10 +585,10 @@ $(document).ready(function () {
       */
 
     $('.ui.menu .item')
-  .tab({
-      history: true,
-      historyType: 'hash'
-  });
+        .tab({
+            history: true,
+            historyType: 'hash'
+        });
     $('.edit_member_button').click(function (e) {
         e.preventDefault();
         if (confirm("Do you want to edit this member account?")) {
@@ -661,6 +691,88 @@ $(document).ready(function () {
                 }
             })
         }
+    });
+    $('#timeOnlyExample .time').timepicker({
+        'minTime': '09:30am',
+        'maxTime': '11:30pm',
+        'timeFormat': 'g:ia'
+    });
+
+    var timeOnlyExampleEl = document.getElementById('timeOnlyExample');
+    var timeOnlyDatepair = new Datepair(timeOnlyExampleEl);
+
+
+    /*test*/
+    $('.test_create_button').click(function (e) {
+        e.preventDefault();
+        $.post(BaseURL + '/VA/Member/CheckTimeSlot', {
+            serviceID: $('#select_service').val(),
+            date: $('#date').val(),
+            startTime: $('#start').val(),
+            endTime: $('#end').val(),
+            type: $("#type").val()
+        }, function (data) {
+            if (data.Result == "Success") {
+                e.preventDefault();
+                $.post(BaseURL + '/VA/Member/TestCreateApp', {
+                    memberID: $('#member').val(),
+                    petID: $('#select_pet').val(),
+                    serviceID: $('#select_service').val(),
+                    suggestion: $('#suggestion').val(),
+                    date: $('#date').val(),
+                    startTime: $('#start').val(),
+                    endTime: $('#end').val(),
+                }, function (data) {
+                    if (data.Result == "Success") {
+                        alert("Create success");
+                        window.location.reload();
+                    }
+                }
+                )
+            } if (data.Result == "Confirm") {
+
+                $.ajax({
+                    url: BaseURL + '/VA/Member/GetWarningMessage',
+                    type: "POST",
+                    error: function (response) {
+                        if (!response.Success)
+                            alert("Server error.");
+                    },
+                    success: function (response) {
+                        $(".result").html(response);
+                        $('#test_modal')
+                            .modal('show')
+                            ;
+                    }
+                });
+
+            }
+            else {
+                alert(data.Result);
+            }
+        })
+
+    });
+
+    $('.confirm_create_button').click(function (e) {
+        e.preventDefault();
+        $.post(BaseURL + '/VA/Member/TestCreateApp', {
+            memberID: $('#member').val(),
+            petID: $('#select_pet').val(),
+            serviceID: $('#select_service').val(),
+            suggestion: $('#suggestion').val(),
+            date: $('#date').val(),
+            startTime: $('#start').val(),
+            endTime: $('#end').val(),
+            type: $("#type").val()
+        }, function (data) {
+            if (data.Result == "Success") {
+                alert("Create success");
+                window.location.reload();
+            }
+            else { alert(data.Result) }
+        }
+        )
     });
 
 });

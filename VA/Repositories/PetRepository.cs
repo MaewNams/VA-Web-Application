@@ -36,8 +36,6 @@ namespace VA.Repositories
             return petList;
         }
 
-
-
         public IEnumerable<Pet> GetAll()
         {
             IEnumerable<Pet> petList = _db.Pet.ToList();

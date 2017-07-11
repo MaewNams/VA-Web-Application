@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,16 +14,25 @@ namespace VA.Models
         public int id { get; set; }
         public int memberId { get; set; }
         public int petId { get; set; }
+        public int serviceId { get; set; }
         public string detail { get; set; }
         public string suggestion { get; set; }
         public DateTime date { get; set; }
+        public Nullable<DateTime> startTime { get; set; }
+        public Nullable<DateTime> endTime { get; set; }
         public string status { get; set; }
 
-         [ForeignKey("memberId")]
+        [ForeignKey("memberId")]
         public virtual Member Member { get; set; }
 
         [ForeignKey("petId")]
         public virtual Pet Pet { get; set; }
+
+        [ForeignKey("serviceId")]
+        public virtual VAService VAService { get; set; }
+
+        [InverseProperty("Appointment")]
+        public virtual ICollection<AppointmentTimeBlock> AppointmentTimeBlock { get; set; }
 
     }
 }

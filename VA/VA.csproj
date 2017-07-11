@@ -237,33 +237,63 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201704180832203_Initial.cs" />
-    <Compile Include="Migrations\201704180832203_Initial.Designer.cs">
-      <DependentUpon>201704180832203_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201706241129525_updateModel.cs" />
+    <Compile Include="Migrations\201706241129525_updateModel.Designer.cs">
+      <DependentUpon>201706241129525_updateModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707011842118_updateModelAppTime.cs" />
+    <Compile Include="Migrations\201707011842118_updateModelAppTime.Designer.cs">
+      <DependentUpon>201707011842118_updateModelAppTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707042234280_upDateModelTimeBlock.cs" />
+    <Compile Include="Migrations\201707042234280_upDateModelTimeBlock.Designer.cs">
+      <DependentUpon>201707042234280_upDateModelTimeBlock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707071923353_updateAppointmentModelWithType.cs" />
+    <Compile Include="Migrations\201707071923353_updateAppointmentModelWithType.Designer.cs">
+      <DependentUpon>201707071923353_updateAppointmentModelWithType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707072048553_upDateAppointmentDateTime.cs" />
+    <Compile Include="Migrations\201707072048553_upDateAppointmentDateTime.Designer.cs">
+      <DependentUpon>201707072048553_upDateAppointmentDateTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707072056295_upDateAppointmentDateTime2.cs" />
+    <Compile Include="Migrations\201707072056295_upDateAppointmentDateTime2.Designer.cs">
+      <DependentUpon>201707072056295_upDateAppointmentDateTime2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\Appointment.cs" />
+    <Compile Include="Models\AppointmentTimeBlock.cs" />
+    <Compile Include="Models\TimeBlock.cs" />
     <Compile Include="Models\Clinic.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Pet.cs" />
     <Compile Include="Models\PetType.cs" />
+    <Compile Include="Models\VAService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AdministratorRepository.cs" />
     <Compile Include="Repositories\AppointmentRepository.cs" />
+    <Compile Include="Repositories\AppTimeRepository.cs" />
     <Compile Include="Repositories\IAdministratorRepository.cs" />
     <Compile Include="Repositories\IAppointmentRepository.cs" />
+    <Compile Include="Repositories\IAppTimeRepository.cs" />
     <Compile Include="Repositories\IMemberRepository.cs" />
     <Compile Include="Repositories\IPetRepository.cs" />
     <Compile Include="Repositories\IPetSpecieRepository.cs" />
+    <Compile Include="Repositories\IServiceRepository.cs" />
+    <Compile Include="Repositories\ITimeBlockRepository.cs" />
     <Compile Include="Repositories\IVAProfileRepository.cs" />
     <Compile Include="Repositories\MemberRepository.cs" />
     <Compile Include="Repositories\PetRepository.cs" />
     <Compile Include="Repositories\PetSpecieRepository.cs" />
+    <Compile Include="Repositories\TimeBlockRepository.cs" />
     <Compile Include="Repositories\VAProfileRepository.cs" />
+    <Compile Include="Repositories\VAServiceRepository.cs" />
     <Compile Include="Service\SMSService.cs" />
     <Compile Include="ViewModel\AppointmentViewModel.cs" />
     <Compile Include="ViewModel\LoginResultViewModel.cs" />
+    <Compile Include="ViewModel\TimetableViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -340,6 +370,7 @@
     <Content Include="Views\Shared\_test.cshtml" />
     <Content Include="Views\Home\Member.cshtml" />
     <Content Include="Views\Home\VAProfile.cshtml" />
+    <Content Include="Views\Member\TestCreateApp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -357,8 +388,23 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704180832203_Initial.resx">
-      <DependentUpon>201704180832203_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706241129525_updateModel.resx">
+      <DependentUpon>201706241129525_updateModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707011842118_updateModelAppTime.resx">
+      <DependentUpon>201707011842118_updateModelAppTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707042234280_upDateModelTimeBlock.resx">
+      <DependentUpon>201707042234280_upDateModelTimeBlock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707071923353_updateAppointmentModelWithType.resx">
+      <DependentUpon>201707071923353_updateAppointmentModelWithType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707072048553_upDateAppointmentDateTime.resx">
+      <DependentUpon>201707072048553_upDateAppointmentDateTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707072056295_upDateAppointmentDateTime2.resx">
+      <DependentUpon>201707072056295_upDateAppointmentDateTime2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
