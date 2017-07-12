@@ -25,7 +25,7 @@ namespace VA.Repositories
 
         public IEnumerable<PetType> GetAll()
         {
-            IEnumerable<PetType> petTypeList = _db.PetType;
+            IEnumerable<PetType> petTypeList = _db.PetType.OrderBy(p => p.name);
             return petTypeList;
         }
 
@@ -34,9 +34,15 @@ namespace VA.Repositories
             return _db.PetType.FirstOrDefault(m => m.id == id);
         }
 
+        public PetType GetByName(string name)
+        {
+            return _db.PetType.FirstOrDefault(m => m.name == name);
+        }
+
         public void Update(PetType model)
         {
-            throw new NotImplementedException();
+            _db.Entry(model).State = EntityState.Modified;
+            _db.SaveChanges();
         }
     }
 }

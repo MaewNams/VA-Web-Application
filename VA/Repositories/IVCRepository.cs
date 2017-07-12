@@ -9,7 +9,7 @@ using VA.Models;
 
 namespace VA.Repositories
 {
-    interface IVAProfileRepository
+    interface IVCRepository
     {
         Clinic Get();
         void Update(Clinic model);

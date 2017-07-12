@@ -9,7 +9,7 @@ using VA.Models;
 
 namespace VA.Repositories
 {
-    public class VAProfileRepository : IVAProfileRepository
+    public class VCRepository : IVCRepository
     {
         private readonly VAContext _db = new VAContext();
 

@@ -274,6 +274,18 @@
     <Compile Include="Migrations\201707121805332_test.Designer.cs">
       <DependentUpon>201707121805332_test.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707121928414_updatAppointmentModelAgain.cs" />
+    <Compile Include="Migrations\201707121928414_updatAppointmentModelAgain.Designer.cs">
+      <DependentUpon>201707121928414_updatAppointmentModelAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707122229573_updateClinicModel.cs" />
+    <Compile Include="Migrations\201707122229573_updateClinicModel.Designer.cs">
+      <DependentUpon>201707122229573_updateClinicModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707122326146_upDateModelType.cs" />
+    <Compile Include="Migrations\201707122326146_upDateModelType.Designer.cs">
+      <DependentUpon>201707122326146_upDateModelType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -296,13 +308,14 @@
     <Compile Include="Repositories\IPetSpecieRepository.cs" />
     <Compile Include="Repositories\IServiceRepository.cs" />
     <Compile Include="Repositories\ITimeBlockRepository.cs" />
-    <Compile Include="Repositories\IVAProfileRepository.cs" />
+    <Compile Include="Repositories\IVCRepository.cs" />
     <Compile Include="Repositories\MemberRepository.cs" />
     <Compile Include="Repositories\PetRepository.cs" />
     <Compile Include="Repositories\PetSpecieRepository.cs" />
     <Compile Include="Repositories\TimeBlockRepository.cs" />
-    <Compile Include="Repositories\VAProfileRepository.cs" />
+    <Compile Include="Repositories\VCRepository.cs" />
     <Compile Include="Repositories\VAServiceRepository.cs" />
+    <Compile Include="Service\SMSSchedule.cs" />
     <Compile Include="Service\SMSService.cs" />
     <Compile Include="ViewModel\AppointmentViewModel.cs" />
     <Compile Include="ViewModel\LoginResultViewModel.cs" />
@@ -382,8 +395,9 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Shared\_test.cshtml" />
     <Content Include="Views\Home\Member.cshtml" />
-    <Content Include="Views\Home\VAProfile.cshtml" />
+    <Content Include="Views\Home\VASetting.cshtml" />
     <Content Include="Views\Member\TestCreateApp.cshtml" />
+    <Content Include="Views\Home\PetSpecie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -421,6 +435,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707121805332_test.resx">
       <DependentUpon>201707121805332_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707121928414_updatAppointmentModelAgain.resx">
+      <DependentUpon>201707121928414_updatAppointmentModelAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707122229573_updateClinicModel.resx">
+      <DependentUpon>201707122229573_updateClinicModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707122326146_upDateModelType.resx">
+      <DependentUpon>201707122326146_upDateModelType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,10 +1,13 @@
 ﻿@using VA.Models;
-@{  ViewBag.Title = "All Member";
+@{
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_test.cshtml";
 }
 @{
-    IEnumerable<Member> members = (IEnumerable<Member>)ViewData["AllMember"];
+    IEnumerable<PetType> species = (IEnumerable<PetType>)ViewData["PetSpecies"];
+
 }
+
 
 <div class="ui vertical left visible sidebar menu" style="font-size:18px">
     <div class="item" style="font-family: 'Raleway', sans-serif; font-size:48px;text-align:center;font-weight:bold;margin-bottom:55px;color:white;background-color:teal">
@@ -14,22 +17,22 @@
     </div>
 
     <div class="ui secondary vertical pointing massive menu" style="color:darkgray">
-        <a class="item" href="/VA/Home/" style="font-size:16px">
+        <a class="item" style="font-size:16px" href="/VA/Home/">
             <i class="home icon" style="float:left;padding-right:25px"></i>Home
         </a>
         <a class="item" href="/VA/Home/Appointment" style="font-size:16px">
             <i class="calendar icon" style="float:left;padding-right:25px"></i>
             Appointment
         </a>
-        <a class="active item" style="font-size:16px;color:#00B5AD;border-left: 5px #00B5AD solid;">
+        <a class="item" style="font-size:16px" href="/VA/Home/Member">
             <i class="user icon" style="float:left;padding-right:25px"></i>
             Member
         </a>
-        <a class="item" href="/VA/Home/PetSpecie" style="font-size:16px;">
+        <a class="active item" style="font-size:16px;color:#00B5AD;border-left: 5px #00B5AD solid;">
             <i class="setting icon" style="float:left;padding-right:25px"></i>
-            Pet specie
+            Pet specie 
         </a>
-        <a class="item" href="/VA/Home/VASetting" style="font-size:16px;">
+        <a class="item" style="font-size:16px;" href="/VA/Home/VASetting">>
             <i class="setting icon" style="float:left;padding-right:25px"></i>
             Clinic Setting
         </a>
@@ -39,20 +42,16 @@
 
     <div class="ui secondary pointing massive menu" style="background-color:white;padding-right:270px;border:none!important;font-size:16px">
         <div class="item">
-            <i class="paw icon"></i> Hello, administrator  <text style="color:teal;padding-left:5px">  @Session["username"].ToString() </text>
+            <i class="paw icon"></i> Hello, administrator Maewnam
         </div>
         <div class="right menu">
-            <a style="font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;" href="/VA/Home/Logout" class="ui item">
+            <a href="/VA/Home/Logout" class="ui item">
                 Logout
             </a>
         </div>
     </div>
     <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
         <h2 class="ui header" style="margin-bottom: 25px;">
-            <div class="content">
-                <i class="user icon"></i>   Member
-                <div class="sub header">Total member : @members.Count()</div>
-            </div>
             <button class="ui right floated teal button call_create_member_modal">
                 <i class="plus icon"></i>
                 Create new member
@@ -122,34 +121,62 @@
                 <thead>
                     <tr>
                         <th class="one wide">No</th>
-                        <th class="two wide">Id code</th>
-                        <th class="three wide">Name</th>
-                        <th class="three wide">Surname</th>
-                        <th class="three wide">Address</th>
-                        <th class="two wide">Phon number</th>
-
-
+                        <th class="two wide">Name</th>
+                        <th class="two wide">Edit</th>
+                        <th class="two wide">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     @{
 
 
-                        if (members != null && members.ToList().Count > 0)
+                        if (species != null && species.ToList().Count > 0)
                         {
                             int index = 0;
-                            foreach (var member in members)
+                            foreach (var specie in species)
                             {
                                 index += 1;
 
-                                <tr class="clickable-row" data-id="@member.id" style="cursor:pointer">
+                                <tr >
                                     <td>@index</td>
-                        <td>@member.email</td>
-                        <td>@member.name</td>
-                        <td>@member.surname</td>
-                        <td>@member.address</td>
-                        <td>@member.phonenumber</td>
-                    </tr>
+                                    <td>@specie.name</td>
+                                    <td>
+                                        <button class="ui blue basic button call_edit_type_modal" data-id="@specie">Edit</button>
+                                    </td>
+                                    <td >
+                                        <button class="ui red basic button delete_type_button" data-id="@specie.id" style="width:65%">Delete Type</button>
+                                    </td>
+                                    <div id="edit_type_modal_@specie.id" class="ui modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
+                                        <div class="header">
+                                            Edit Specie
+                                        </div>
+
+                                        <div class="content">
+
+                                            <div class="ui form">
+                                                <div class="field">
+                                                    <label>Type name <text style="color:darkred"> ( Can't change )</text></label>
+                                                    <div class="ui disabled input left icon">
+                                                        <i class="paw icon"></i>
+                                                        <input type="text" name="typeName" value="@specie.name">
+                                                    </div>
+
+                                                </div>
+                                                <div class="ui error message"></div>
+
+                                            </div>
+                                        </div>
+                                        <div class="actions">
+                                            <div class="ui black deny button">
+                                                Cancel
+                                            </div>
+                                            <div class="ui tiny green basic button confirm_edit_type_button" value="@specie.id">
+                                                <i class="checkmark icon"></i>
+                                                Confirm
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
                             }
                         }
 
@@ -169,3 +196,4 @@
 
     </div>
 </div>
+

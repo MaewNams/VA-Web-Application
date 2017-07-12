@@ -47,5 +47,10 @@ namespace VA.Repositories
             _db.Entry(model).State = EntityState.Modified;
             _db.SaveChanges();
         }
+
+        public Pet GetByType(int typeId)
+        {
+            return _db.Pet.FirstOrDefault(m => m.typeId == typeId);
+        }
     }
 }

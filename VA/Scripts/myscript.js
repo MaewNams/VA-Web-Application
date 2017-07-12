@@ -240,6 +240,36 @@ $(document).ready(function () {
 
     });
 
+
+    /*edit pet Type*/
+    $(".call_edit_type_modal").click(function (e) {
+        e.preventDefault();
+        var thisObject = $(this);
+        typeID: $(this).data('id')
+        $('#edit_type_modal_' + thisObject.data('id')).modal({
+            detachable: true,
+            closable: false,
+        }).modal('show');;
+    });
+
+    $('.confirm_edit_type_button').click(function (e) {
+        e.preventDefault();
+        var typeID = $(this).attr("value");
+        $.post(BaseURL + '/VA/Home/EditSpecie',
+            {
+                typeID: $('#edit_type_' + typeID).val(),
+                name: $('#edit_name_' + typeID).val(),
+            },
+            function (data) {
+                if (data.Result == "Success") {
+                    alert("Edit success");
+                    window.location.reload();
+                } else {
+                    alert(data.Result);
+                }
+            })
+
+    });
     /**/
 
     $(".call_edit_pet_modal").click(function (e) {
@@ -654,15 +684,13 @@ $(document).ready(function () {
 
 
 
-    $('.edit_VA_Profile_button').click(function (e) {
+    $('.VA_Setting_button').click(function (e) {
 
         e.preventDefault();
-        if (confirm("Do you want to edit Clinic detail?")) {
+        if (confirm("Do you want to edit maximum case that clinic can take?")) {
             $.post(BaseURL + '/VA/Home/EditClinic',
                 {
-                    address: $('#address').val(),
-                    phoneNumber: $('#phoneNumber').val(),
-                    open: $('#open').val(),
+                    caseNumber: $('#maximumCase').val(),
                 },
                 function (data) {
                     if (data.Result == "Success") {
@@ -692,6 +720,23 @@ $(document).ready(function () {
             })
         }
     });
+
+    $('.delete_type_button').click(function (e) {
+        e.preventDefault();
+        if (confirm("Do you want to delete this pet type?")) {
+            $.post(BaseURL + '/VA/Member/DeleteSpecie', {
+                typeID: $(this).data('id')
+            }, function (data) {
+                if (data.Result == "Success") {
+                    alert("Delete success");
+                    window.location.href = BaseURL + "/VA/Home/PetSpecie/";
+                } else {
+                    alert(data.Result);
+                }
+            })
+        }
+    });
+
     $('#timeOnlyExample .time').timepicker({
         'minTime': '09:30am',
         'maxTime': '11:30pm',

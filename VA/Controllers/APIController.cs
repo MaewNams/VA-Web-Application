@@ -17,7 +17,7 @@ namespace VA.Controllers
         private TimeBlockRepository TimeBlockService = new TimeBlockRepository();
         private AppointmentRepository AppointmentService = new AppointmentRepository();
         private MemberRepository MemberService = new MemberRepository();
-        private VAProfileRepository VAProfileService = new VAProfileRepository();
+        private VCRepository VCService = new VCRepository();
         // GET: API
 
         public ActionResult Login(string email, string password)
@@ -137,18 +137,6 @@ namespace VA.Controllers
             return Json(JsonConvert.SerializeObject(timetable), JsonRequestBehavior.AllowGet);
         }
 
-            public ActionResult ClinicProfile()
-        {
-            var c = VAProfileService.Get();
-
-            var clinic = new Clinic
-            {
-                address = c.address,
-                phonenumber = c.phonenumber,
-                openingDetail = c.openingDetail
-            };
-            return Json(JsonConvert.SerializeObject(clinic), JsonRequestBehavior.AllowGet);
-        }
 
         public ActionResult ChangPassword(int id, string password, string rePassword)
         {

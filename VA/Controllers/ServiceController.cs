@@ -21,7 +21,8 @@ namespace VA.Controllers
         private PetSpecieRepository PetTypeService = new PetSpecieRepository();
         private VAServiceRepository VAService = new VAServiceRepository();
         // GET: Service
-        public ActionResult SMSSend()
+
+        /*public ActionResult SMSSend()
         {
             int day = DateTime.Now.Day + 1;
             int month = DateTime.Now.Month;
@@ -45,7 +46,7 @@ namespace VA.Controllers
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
-        }
+        }*/
 
         [HttpPost]
         public ActionResult TruncateDB()
@@ -53,6 +54,7 @@ namespace VA.Controllers
             _db.Appointment.RemoveRange(_db.Appointment);
             _db.AppointmentTimeBlock.RemoveRange(_db.AppointmentTimeBlock);
             _db.Pet.RemoveRange(_db.Pet);
+            _db.PetType.RemoveRange(_db.PetType);
             _db.Service.RemoveRange(_db.Service);
             _db.Member.RemoveRange(_db.Member);
             _db.TimeBlock.RemoveRange(_db.TimeBlock);
@@ -76,7 +78,7 @@ namespace VA.Controllers
             List<PetType> types = new List<PetType>()
             {
                 new PetType {id=1, name ="cat"},
-                     new PetType {id=2, name ="dog"},
+                new PetType {id=2, name ="dog"},
                 new PetType {id=3, name ="rabbit"},
             };
             foreach (PetType type in types)

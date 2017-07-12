@@ -438,7 +438,7 @@ namespace VA.Controllers
         }
 
         [HttpPost]
-        public ActionResult TestCreateApp(int? memberID, int? petID, int? serviceID, string suggestion, DateTime date, DateTime? startTime, DateTime? endTime)
+        public ActionResult TestCreateApp(int? memberID, int? petID, int? serviceID, string suggestion, DateTime date, DateTime startTime, DateTime endTime)
         {
 
             VAService service = VAService.GetById(serviceID.Value);
@@ -467,7 +467,7 @@ namespace VA.Controllers
                 startTime = new DateTime(1900,01,01);
                 endTime = new DateTime(1900, 01, 01);
             }*/
-            appointment.startTime = startTime;
+           appointment.startTime = startTime;
             appointment.endTime = endTime;
             appointment.status = "Waiting";
             AppointmentService.Add(appointment);
