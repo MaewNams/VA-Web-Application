@@ -139,7 +139,7 @@ namespace VA.Controllers
             Boolean isNumber = Regex.IsMatch(caseNumber, @"^\d+$");
             if (isNumber == false)
             {
-                return Json(new { Result = "Fail, maximum case can only contain 0-9" });
+                return Json(new { Result = "Fail, maximum case can only numeric character" });
             }
             Clinic clinic = VCService.Get();
             clinic.maximumCase = Int32.Parse(caseNumber.ToString());
@@ -211,7 +211,7 @@ namespace VA.Controllers
 
             if (deletePetType != null)
             {
-                return Json(new { Result = "Fail, cannot delete pet specie which have a pet.Please delete all pet which belong to the specie before try again" });
+                return Json(new { Result = "Fail, cannot delete the pet specie. Please delete all pet which belong to the specie '"+deletePetType.PetType.name+"' before try again" });
             }
             /////////
             PetType deleteType = SpecieService.GetById(id);

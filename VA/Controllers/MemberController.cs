@@ -22,6 +22,7 @@ namespace VA.Controllers
         private TimeBlockRepository TimeBlockService = new TimeBlockRepository();
         private AppTimeRepository AppTimeService = new AppTimeRepository();
         private VAServiceRepository VAService = new VAServiceRepository();
+        private VCRepository VCService = new VCRepository();
         private readonly Random _random = new Random();
 
         //[Route("Member/{Id}")]
@@ -462,25 +463,25 @@ namespace VA.Controllers
             appointment.serviceId = Int32.Parse(serviceID.ToString());
             appointment.suggestion = suggestion;
             appointment.date = date;
-       /*     if (type == "allDay")
-            {
-                startTime = new DateTime(1900,01,01);
-                endTime = new DateTime(1900, 01, 01);
-            }*/
+            /*     if (type == "allDay")
+                 {
+                     startTime = new DateTime(1900,01,01);
+                     endTime = new DateTime(1900, 01, 01);
+                 }*/
+
+            //Create object clinic to get maximum case
+            Clinic clinic = VCService.Get();
            appointment.startTime = startTime;
             appointment.endTime = endTime;
             appointment.status = "Waiting";
             AppointmentService.Add(appointment);
-/*
-           if (type != "allDay")
-            {
-                // Create slot of time //
+
                 var hours = new List<DateTime>();
 
                 var start = new DateTime(date.Year, date.Month, date.Day,
-                                        startTime.Value.Hour, startTime.Value.Minute, 0, startTime.Value.Kind);
+                                        startTime.Hour, startTime.Minute, 0, startTime.Kind);
                 var end = new DateTime(date.Year, date.Month, date.Day,
-                                        endTime.Value.Hour, endTime.Value.Minute, 0, startTime.Value.Kind);
+                                        endTime.Hour, endTime.Minute, 0, startTime.Kind);
                 hours.Add(start);
 
                 while ((start = start.AddHours(0.5)) < end)
@@ -494,7 +495,7 @@ namespace VA.Controllers
                 foreach (var hour in hours)
                 {
                     checkStart = new DateTime(date.Year, date.Month, date.Day,
-                                        hour.Hour, hour.Minute, 0, startTime.Value.Kind);
+                                        hour.Hour, hour.Minute, 0, startTime.Kind);
                     checkEnd = checkStart.AddHours(0.5);
 
                     TimeBlock checkTimeBlock = TimeBlockService.GetByTime(checkStart, checkEnd);
@@ -521,7 +522,7 @@ namespace VA.Controllers
                     if (service.description != "Surgery")
                     {
                         // Still not fix the number of case that can take at a time
-                        if (checkTimeBlock.numberofCase > 1)
+                        if (checkTimeBlock.numberofCase > clinic.maximumCase)
                         {
                             checkTimeBlock.status = "Busy";
                             TimeBlockService.Update(checkTimeBlock);
@@ -533,7 +534,7 @@ namespace VA.Controllers
 
                     }
                 }
-            }*/
+            
 
             return Json(new { Result = "Success" });
         }

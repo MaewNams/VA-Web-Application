@@ -246,45 +246,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201706241129525_updateModel.cs" />
-    <Compile Include="Migrations\201706241129525_updateModel.Designer.cs">
-      <DependentUpon>201706241129525_updateModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707011842118_updateModelAppTime.cs" />
-    <Compile Include="Migrations\201707011842118_updateModelAppTime.Designer.cs">
-      <DependentUpon>201707011842118_updateModelAppTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707042234280_upDateModelTimeBlock.cs" />
-    <Compile Include="Migrations\201707042234280_upDateModelTimeBlock.Designer.cs">
-      <DependentUpon>201707042234280_upDateModelTimeBlock.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707071923353_updateAppointmentModelWithType.cs" />
-    <Compile Include="Migrations\201707071923353_updateAppointmentModelWithType.Designer.cs">
-      <DependentUpon>201707071923353_updateAppointmentModelWithType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707072048553_upDateAppointmentDateTime.cs" />
-    <Compile Include="Migrations\201707072048553_upDateAppointmentDateTime.Designer.cs">
-      <DependentUpon>201707072048553_upDateAppointmentDateTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707072056295_upDateAppointmentDateTime2.cs" />
-    <Compile Include="Migrations\201707072056295_upDateAppointmentDateTime2.Designer.cs">
-      <DependentUpon>201707072056295_upDateAppointmentDateTime2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707121805332_test.cs" />
-    <Compile Include="Migrations\201707121805332_test.Designer.cs">
-      <DependentUpon>201707121805332_test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707121928414_updatAppointmentModelAgain.cs" />
-    <Compile Include="Migrations\201707121928414_updatAppointmentModelAgain.Designer.cs">
-      <DependentUpon>201707121928414_updatAppointmentModelAgain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707122229573_updateClinicModel.cs" />
-    <Compile Include="Migrations\201707122229573_updateClinicModel.Designer.cs">
-      <DependentUpon>201707122229573_updateClinicModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707122326146_upDateModelType.cs" />
-    <Compile Include="Migrations\201707122326146_upDateModelType.Designer.cs">
-      <DependentUpon>201707122326146_upDateModelType.cs</DependentUpon>
+    <Compile Include="Migrations\201707122349598_InitialCreate.cs" />
+    <Compile Include="Migrations\201707122349598_InitialCreate.Designer.cs">
+      <DependentUpon>201707122349598_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -315,6 +279,7 @@
     <Compile Include="Repositories\TimeBlockRepository.cs" />
     <Compile Include="Repositories\VCRepository.cs" />
     <Compile Include="Repositories\VAServiceRepository.cs" />
+    <Compile Include="Service\CalendarSchedule.cs" />
     <Compile Include="Service\SMSSchedule.cs" />
     <Compile Include="Service\SMSService.cs" />
     <Compile Include="ViewModel\AppointmentViewModel.cs" />
@@ -415,35 +380,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706241129525_updateModel.resx">
-      <DependentUpon>201706241129525_updateModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707011842118_updateModelAppTime.resx">
-      <DependentUpon>201707011842118_updateModelAppTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707042234280_upDateModelTimeBlock.resx">
-      <DependentUpon>201707042234280_upDateModelTimeBlock.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707071923353_updateAppointmentModelWithType.resx">
-      <DependentUpon>201707071923353_updateAppointmentModelWithType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707072048553_upDateAppointmentDateTime.resx">
-      <DependentUpon>201707072048553_upDateAppointmentDateTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707072056295_upDateAppointmentDateTime2.resx">
-      <DependentUpon>201707072056295_upDateAppointmentDateTime2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707121805332_test.resx">
-      <DependentUpon>201707121805332_test.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707121928414_updatAppointmentModelAgain.resx">
-      <DependentUpon>201707121928414_updatAppointmentModelAgain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707122229573_updateClinicModel.resx">
-      <DependentUpon>201707122229573_updateClinicModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707122326146_upDateModelType.resx">
-      <DependentUpon>201707122326146_upDateModelType.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707122349598_InitialCreate.resx">
+      <DependentUpon>201707122349598_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

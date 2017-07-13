@@ -13,10 +13,15 @@ namespace VA.Repositories
     {
         private readonly VAContext _db = new VAContext();
 
+        public void Add(Clinic model)
+        {
+            _db.Clinic.Add(model);
+            _db.SaveChanges();
+        }
         public void Update(Clinic model)
-        { 
-                _db.Entry(model).State = EntityState.Modified;
-                _db.SaveChanges();
+        {
+            _db.Entry(model).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
         public Clinic Get()

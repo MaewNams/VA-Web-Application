@@ -18,6 +18,7 @@ namespace VA
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             SMSSchedule.Start();
+        //    CalendarSchedule.Start();
         }
     }
 }

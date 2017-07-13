@@ -52,66 +52,19 @@
     </div>
     <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
         <h2 class="ui header" style="margin-bottom: 25px;">
-            <button class="ui right floated teal button call_create_member_modal">
-                <i class="plus icon"></i>
-                Create new member
-            </button>
+ 
         </h2>
-        <div class="ui modal" id="create_member_modal">
-            <div class="header">Create member account</div>
-            <div class="content">
-                <form class="ui form">
-                    <div class="inline fields">
-                        <div class="six wide field">
-                            <label>Name</label>
-                            <input type="text" placeholder="Name" name="name" id="create_name">
-                        </div>
-                        <div class="six wide field">
-                            <label>Surname</label>
-                            <input type="text" placeholder="Surname" name="surname" id="create_surname">
-                        </div>
-                    </div>
-                    <div class="inline fields">
-                        <div class="six wide field">
-                            <label>Address</label>
-                            <input type="text" placeholder="Address" name="address" id="create_address">
-                        </div>
-                        <div class="six wide field">
-                            <label>Phone number</label>
-                            <input type="text" placeholder="Phone number" name="phoneNumber" id="create_phoneNumber">
-                        </div>
-                    </div>
-                    <div class="actions">
-                        <div class="ui teal button confirm_create_member_button" style="float: right">Submit</div>
-                        <div class="ui deny button" style="float: right">Cancel</div>
-                    </div>
-                    <br /><br />
-                </form>
-            </div>
-        </div>
         <div class="ui secondary pointing menu">
-            <a class="item active">
-                All member
-            </a>
             <div class="right menu">
                 <div class="ui form">
                     <div class="inline fields">
-
-                        <select name="condition" class="ui dropdown" id="select_condition">
-                            <option value="idCode">Member ID Code</option>
-                            <option value="name">Member name</option>
-                            <option value="address">Addresse</option>
-                            <option value="phone">Phone number</option>
-                        </select>
-
-                        <div class="ui icon input" style="margin-left:15px;">
-                            <input type="text" placeholder="Search..." id="search_keyword">
-                            <i class="inverted circular search link icon search_button"></i>
-                        </div>
+                        <button class="ui right floated teal button call_create_specie_modal">
+                            <i class="plus icon"></i>
+                            Create new pet specie
+                        </button>
                     </div>
 
                 </div>
-
             </div>
         </div>
 
@@ -141,42 +94,42 @@
                                     <td>@index</td>
                                     <td>@specie.name</td>
                                     <td>
-                                        <button class="ui blue basic button call_edit_type_modal" data-id="@specie">Edit</button>
+                                        <button class="ui blue basic button call_edit_type_modal" data-id="@specie.id">Edit</button>
                                     </td>
                                     <td >
                                         <button class="ui red basic button delete_type_button" data-id="@specie.id" style="width:65%">Delete Type</button>
                                     </td>
-                                    <div id="edit_type_modal_@specie.id" class="ui modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
-                                        <div class="header">
-                                            Edit Specie
-                                        </div>
+                                </tr>
+                                <div id="edit_type_modal_@specie.id" class="ui modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
+                                    <div class="header">
+                                        Edit Specie
+                                    </div>
 
-                                        <div class="content">
+                                    <div class="content">
 
-                                            <div class="ui form">
-                                                <div class="field">
-                                                    <label>Type name <text style="color:darkred"> ( Can't change )</text></label>
-                                                    <div class="ui disabled input left icon">
-                                                        <i class="paw icon"></i>
-                                                        <input type="text" name="typeName" value="@specie.name">
-                                                    </div>
-
+                                        <div class="ui form">
+                                            <div class="field">
+                                                <label>Type name</label>
+                                                <div class="ui input left icon">
+                                                    <i class="paw icon"></i>
+                                                    <input type="text" name="typeName" value="@specie.name" id="edit_name_@specie.id">
                                                 </div>
-                                                <div class="ui error message"></div>
+                                                <input type="hidden" id="edit_type_@specie.id" value="@specie.id">
+                                            </div>
+                                            <div class="ui error message"></div>
 
-                                            </div>
-                                        </div>
-                                        <div class="actions">
-                                            <div class="ui black deny button">
-                                                Cancel
-                                            </div>
-                                            <div class="ui tiny green basic button confirm_edit_type_button" value="@specie.id">
-                                                <i class="checkmark icon"></i>
-                                                Confirm
-                                            </div>
                                         </div>
                                     </div>
-                                </tr>
+                                    <div class="actions">
+                                        <div class="ui black deny button">
+                                            Cancel
+                                        </div>
+                                        <div class="ui tiny green basic button confirm_edit_type_button" value="@specie.id">
+                                            <i class="checkmark icon"></i>
+                                            Confirm
+                                        </div>
+                                    </div>
+                                </div>
                             }
                         }
 
@@ -197,3 +150,27 @@
     </div>
 </div>
 
+<div class="ui modal" id="create_specie_modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
+    <i class="close icon"></i>
+    <div class="header">
+        Create new pet specie
+    </div>
+    <div class="image content">
+        <form class="ui form" id="create_pet_form">
+            <div class="field">
+                <label>Pet specie</label>
+                <input name="petName" type="text" id="petSpecie">
+            </div>
+            <div class="ui error message"></div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">
+            Cancel
+        </div>
+        <div class="ui green basic button confirm_create_specie_button">
+            <i class="checkmark icon"></i>
+            Confirm
+        </div>
+    </div>
+</div>

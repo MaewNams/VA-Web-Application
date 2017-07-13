@@ -240,7 +240,33 @@ $(document).ready(function () {
 
     });
 
+    /*--------------------------------- Pet Type ---------------------*/
+    /*create pet specie*/
+    $(".call_create_specie_modal").click(function (e) {
+        e.preventDefault();
+        $('#create_specie_modal').modal({
+            detachable: true,
+            closable: false,
+        }).modal('show');;
+    });
 
+    $('.confirm_create_specie_button').click(function (e) {
+        e.preventDefault();
+        $.post(BaseURL + '/VA/Home/AddSpecie',
+            {
+                name: $('#petSpecie').val(),
+
+            },
+            function (data) {
+                if (data.Result == "Success") {
+                    alert("Create success");
+                    window.location.href = BaseURL + "/VA/Home/PetSpecie/";
+                } else {
+                    alert(data.Result);
+                }
+            })
+
+    });
     /*edit pet Type*/
     $(".call_edit_type_modal").click(function (e) {
         e.preventDefault();
@@ -255,6 +281,9 @@ $(document).ready(function () {
     $('.confirm_edit_type_button').click(function (e) {
         e.preventDefault();
         var typeID = $(this).attr("value");
+        console.log(typeID);
+        console.log("type" + $('#edit_type_' + typeID).val());
+        console.log("name" + $('#edit_name_' + typeID).val());
         $.post(BaseURL + '/VA/Home/EditSpecie',
             {
                 typeID: $('#edit_type_' + typeID).val(),
@@ -688,7 +717,7 @@ $(document).ready(function () {
 
         e.preventDefault();
         if (confirm("Do you want to edit maximum case that clinic can take?")) {
-            $.post(BaseURL + '/VA/Home/EditClinic',
+            $.post(BaseURL + '/VA/Home/VASetting',
                 {
                     caseNumber: $('#maximumCase').val(),
                 },
@@ -698,7 +727,6 @@ $(document).ready(function () {
                         window.location.reload();
                     } else {
                         alert(data.Result);
-                        window.location.reload();
                     }
                 })
         }
@@ -724,7 +752,7 @@ $(document).ready(function () {
     $('.delete_type_button').click(function (e) {
         e.preventDefault();
         if (confirm("Do you want to delete this pet type?")) {
-            $.post(BaseURL + '/VA/Member/DeleteSpecie', {
+            $.post(BaseURL + '/VA/Home/DeleteSpecie', {
                 typeID: $(this).data('id')
             }, function (data) {
                 if (data.Result == "Success") {

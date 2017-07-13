@@ -28,6 +28,12 @@ namespace VA.Repositories
             return timeList;
         }
 
+        public IEnumerable<TimeBlock> GetAllNotFull()
+        {
+            IEnumerable<TimeBlock> timeList = _db.TimeBlock.Where(m => m.status != "Full");
+            return timeList;
+        }
+
         public TimeBlock GetByDate(int day, int month, int year)
         {
             return _db.TimeBlock.FirstOrDefault(m => m.startTime.Day == day && m.startTime.Month == month && m.startTime.Year == year);

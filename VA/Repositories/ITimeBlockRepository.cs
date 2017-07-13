@@ -17,6 +17,7 @@ namespace VA.Repositories
         TimeBlock GetByDate(int day, int month, int year);
         TimeBlock GetByTime(DateTime startTime, DateTime endTime);
         IEnumerable<TimeBlock> GetAll();
+        IEnumerable<TimeBlock> GetAllNotFull();
         IEnumerable<TimeBlock> GetListByDate(int day, int month, int year);
         IEnumerable<TimeBlock> GetListByMonthAndYear(int month, int year);
     }
