@@ -46,7 +46,7 @@ namespace VA.Service
                     for (int j = 1; j <= DateTime.DaysInMonth(current.Year, i); j++)
                     {
                         //Start from today
-                        DateTime dt = new DateTime(current.Year, current.Month, i);
+                        DateTime dt = new DateTime(current.Year, current.Month, j);
                         TimeBlock checkExits = TimeBlockService.GetByDate(dt.Day, dt.Month, dt.Year);
 
                         //Loop for hour in day

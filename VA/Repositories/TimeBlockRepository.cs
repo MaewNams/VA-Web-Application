@@ -44,6 +44,11 @@ namespace VA.Repositories
             return _db.TimeBlock.FirstOrDefault(m => m.startTime == startTime && m.endTime == endTime);
         }
 
+        public TimeBlock GetLast()
+        {
+            return _db.TimeBlock.OrderByDescending(m => m.id).FirstOrDefault();
+        }
+
         public IEnumerable<TimeBlock> GetListByDate(int day, int month, int year)
         {
             IEnumerable<TimeBlock> timeList = _db.TimeBlock.Where(m => m.startTime.Day == day && m.startTime.Month == month && m.startTime.Year == year);

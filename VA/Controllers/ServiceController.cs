@@ -72,62 +72,53 @@ namespace VA.Controllers
             TimeSpan end = new TimeSpan(21, 30, 0);
 
 
-            // Check if the system already have  today time table  -- if not, create this month + five month = 6 month//
+            //Check if the system already have today time table -- if not, create this week time table 
             TimeBlock checkTodayExits = TimeBlockService.GetByDate(current.Day, current.Month, current.Year);
+            var monday = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
 
-            //To day is not exits --> Create for six month
+            //To day is not exits --> Create for this week 
             if (checkTodayExits == null)
             {
-                int totalmonth = current.Month + 5;
-                //Loop for this month + next 5 month
-                for (int i = current.Month; i <= totalmonth; i++)
+                int lastDay = monday.Day + 6;
+                //Loop for this week
+                for (int i = monday.Day; i <= lastDay; i++)
                 {
-                    //Loop for day in month
-                    for (int j = 1; j <= DateTime.DaysInMonth(current.Year, i); j++)
-                    {
-                        //Start from today
-                        DateTime dt = new DateTime(current.Year, current.Month, i);
-                        TimeBlock checkExits = TimeBlockService.GetByDate(dt.Day, dt.Month, dt.Year);
+                    //Start from monday -> sunday
+                    DateTime dt = new DateTime(monday.Year, monday.Month, i);
+                    //Loop for hour in day
 
-                        //Loop for hour in day
-                        if (checkExits == null)
+                        DateTime startTime = new DateTime(dt.Year, dt.Month, dt.Day) + start;
+                        DateTime endTime = new DateTime(dt.Year, dt.Month, dt.Day) + end;
+                        var hours = new List<DateTime>();
+                        hours.Add(startTime);
+                        var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
+                                                startTime.Hour, startTime.Minute, 0, startTime.Kind);
+
+                        while ((next = next.AddHours(0.5)) < endTime)
                         {
-
-                            DateTime startTime = new DateTime(dt.Year, dt.Month, dt.Day) + start;
-                            DateTime endTime = new DateTime(dt.Year, dt.Month, dt.Day) + end;
-                            var hours = new List<DateTime>();
-                            hours.Add(startTime);
-                            var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
-                                                    startTime.Hour, startTime.Minute, 0, startTime.Kind);
-
-                            while ((next = next.AddHours(0.5)) < endTime)
-                            {
-                                hours.Add(next);
-                            }
-                            hours.Add(endTime);
-                            int lastTimeID;
-                            List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
-                            if (CheckTime.Count() > 0)
-                            {
-                                lastTimeID = CheckTime.LastOrDefault().id;
-                            }
-                            else
-                            {
-                                lastTimeID = 0;
-                            }
-                            foreach (var hour in hours)
-                            {
-                                TimeBlock timeblock = new TimeBlock();
-                                timeblock.id = lastTimeID + 1;
-                                timeblock.startTime = hour;
-                                timeblock.endTime = hour.AddHours(0.5);
-                                timeblock.numberofCase = 0;
-                                timeblock.status = "Free";
-                                TimeBlockService.Add(timeblock);
-                              
-                            }
+                            hours.Add(next);
                         }
-                    }
+                        hours.Add(endTime);
+                        int lastTimeID;
+                        TimeBlock checkLast = TimeBlockService.GetLast();
+                        if (checkLast != null)
+                        {
+                            lastTimeID = checkLast.id;
+                        }
+                        else
+                        {
+                            lastTimeID = 0;
+                        }
+                        foreach (var hour in hours)
+                        {
+                            TimeBlock timeblock = new TimeBlock();
+                            timeblock.id = lastTimeID + 1;
+                            timeblock.startTime = hour;
+                            timeblock.endTime = hour.AddHours(0.5);
+                            timeblock.numberofCase = 0;
+                            timeblock.status = "Free";
+                            TimeBlockService.Add(timeblock);
+                        }
                 }
             }
 

@@ -10,6 +10,7 @@ namespace VA.Models
     public class TimeBlock
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }

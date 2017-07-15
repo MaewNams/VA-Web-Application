@@ -14,6 +14,7 @@ namespace VA.Repositories
         void Add(TimeBlock model);
         void Update(TimeBlock model);
         void Delete(TimeBlock model);
+        TimeBlock GetLast();
         TimeBlock GetByDate(int day, int month, int year);
         TimeBlock GetByTime(DateTime startTime, DateTime endTime);
         IEnumerable<TimeBlock> GetAll();
