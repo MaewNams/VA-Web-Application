@@ -19,12 +19,19 @@ namespace VA.Repositories
 
         public void Delete(TimeBlock model)
         {
-            throw new NotImplementedException();
+            _db.Entry(model).State = EntityState.Deleted;
+            _db.SaveChanges();
         }
 
         public IEnumerable<TimeBlock> GetAll()
         {
             IEnumerable<TimeBlock> timeList = _db.TimeBlock;
+            return timeList;
+        }
+
+        public IEnumerable<TimeBlock> GetAllFromToday(DateTime now)
+        {
+            IEnumerable<TimeBlock> timeList = _db.TimeBlock.Where(m => m.startTime.Date >= now.Date);
             return timeList;
         }
 
@@ -37,6 +44,11 @@ namespace VA.Repositories
         public TimeBlock GetByDate(int day, int month, int year)
         {
             return _db.TimeBlock.FirstOrDefault(m => m.startTime.Day == day && m.startTime.Month == month && m.startTime.Year == year);
+        }
+
+        public TimeBlock GetByID(int id)
+        {
+            return _db.TimeBlock.FirstOrDefault(m => m.id == id);
         }
 
         public TimeBlock GetByTime(DateTime startTime, DateTime endTime)

@@ -18,15 +18,9 @@ namespace VA.Controllers
         // GET: Appointment
 
         [HttpPost]
-        public ActionResult Edit(int? appid, string detail, string suggestion)
+        public ActionResult Edit(int? appid,  string suggestion)
         {
-            if (String.IsNullOrEmpty(detail))
-            {
-                return Json(new { Result = "Fail, appointment detail is required" });
-            }
-
             Appointment appointment = AppointmentService.GetById(appid.Value);
-            appointment.detail = detail;
             appointment.suggestion = suggestion;
             AppointmentService.Update(appointment);
             return Json(new { Result = "Success" });

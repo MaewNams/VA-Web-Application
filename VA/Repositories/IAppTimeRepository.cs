@@ -13,6 +13,8 @@ namespace VA.Repositories
         void Add(AppointmentTimeBlock model);
         void Update(AppointmentTimeBlock model);
         void Delete(AppointmentTimeBlock model);
+        AppointmentTimeBlock GetLast();
         IEnumerable<AppointmentTimeBlock> GetAll();
+        IEnumerable<AppointmentTimeBlock> GetByAppointmentID(int id);
     }
 }

@@ -20,7 +20,8 @@ namespace VA.Repositories
         }
         public void Delete(AppointmentTimeBlock model)
         {
-            throw new NotImplementedException();
+            _db.Entry(model).State = EntityState.Deleted;
+            _db.SaveChanges();
         }
 
         public IEnumerable<AppointmentTimeBlock> GetAll()
@@ -29,9 +30,21 @@ namespace VA.Repositories
             return appTimeList;
         }
 
+        public IEnumerable<AppointmentTimeBlock> GetByAppointmentID(int id)
+        {
+            IEnumerable<AppointmentTimeBlock> appList = _db.AppointmentTimeBlock.Where(a => a.appointmentID == id);
+            return appList;
+        }
+
+        public AppointmentTimeBlock GetLast()
+        {
+            return _db.AppointmentTimeBlock.OrderByDescending(m => m.id).FirstOrDefault();
+        }
+
         public void Update(AppointmentTimeBlock model)
         {
-            throw new NotImplementedException();
+            _db.Entry(model).State = EntityState.Modified;
+            _db.SaveChanges();
         }
     }
 }

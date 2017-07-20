@@ -90,6 +90,7 @@ $(document).ready(function () {
             {
                 name: $('#create_name').val(),
                 surname: $('#create_surname').val(),
+                email: $('#create_email').val(),
                 address: $('#create_address').val(),
                 phoneNumber: $('#create_phoneNumber').val()
 
@@ -162,7 +163,7 @@ $(document).ready(function () {
                 surname: $('#edit_surname').val(),
                 address: $('#edit_address').val(),
                 phonenumber: $('#edit_phoneNumber').val(),
-                password: $('#edit_password').val()
+                email: $('#edit_email').val()
 
             },
             function (data) {
@@ -193,7 +194,6 @@ $(document).ready(function () {
         $.post(BaseURL + '/VA/Appointment/Edit',
             {
                 appid: $('#edit_app_' + appid).val(),
-                detail: $('#edit_detail_' + appid).val(),
                 suggestion: $('#edit_suggestion_' + appid).val()
 
             },
@@ -547,7 +547,7 @@ $(document).ready(function () {
                 month = new Date(date).getMonth() + 1,
                 year = new Date(date).getFullYear(),
                 memberID = $('#member').val(),
-                window.location.href = BaseURL + "/VA/Member/TestCreateApp" + "?id=" + memberID + "&day=" + day + "&month=" + month + "&year=" + year + "#/third";
+                window.location.href = BaseURL + "/VA/Member/index" + "?id=" + memberID + "&day=" + day + "&month=" + month + "&year=" + year + "#/third";
         },
     });
 
@@ -787,7 +787,7 @@ $(document).ready(function () {
         }, function (data) {
             if (data.Result == "Success") {
                 e.preventDefault();
-                $.post(BaseURL + '/VA/Member/TestCreateApp', {
+                $.post(BaseURL + '/VA/Member/Index', {
                     memberID: $('#member').val(),
                     petID: $('#select_pet').val(),
                     serviceID: $('#select_service').val(),
@@ -829,7 +829,7 @@ $(document).ready(function () {
 
     $('.confirm_create_button').click(function (e) {
         e.preventDefault();
-        $.post(BaseURL + '/VA/Member/TestCreateApp', {
+        $.post(BaseURL + '/VA/Member/index', {
             memberID: $('#member').val(),
             petID: $('#select_pet').val(),
             serviceID: $('#select_service').val(),

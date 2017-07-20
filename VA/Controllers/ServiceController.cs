@@ -72,14 +72,14 @@ namespace VA.Controllers
             TimeSpan end = new TimeSpan(21, 30, 0);
 
 
-            //Check if the system already have today time table -- if not, create this week time table 
+            //Check if the system already have today time table -- if not, create this week + next week time table 
             TimeBlock checkTodayExits = TimeBlockService.GetByDate(current.Day, current.Month, current.Year);
             var monday = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
 
             //To day is not exits --> Create for this week 
             if (checkTodayExits == null)
             {
-                int lastDay = monday.Day + 6;
+                int lastDay = monday.Day + 13;
                 //Loop for this week
                 for (int i = monday.Day; i <= lastDay; i++)
                 {
@@ -118,11 +118,12 @@ namespace VA.Controllers
                             timeblock.numberofCase = 0;
                             timeblock.status = "Free";
                             TimeBlockService.Add(timeblock);
+                            lastTimeID += 1;
                         }
                 }
             }
 
-            /*
+            
             // Add member
             List<Member> members = new List<Member>()
             {
@@ -180,7 +181,7 @@ namespace VA.Controllers
             Clinic clinic = new Clinic();
             clinic.maximumCase = 0;
             VCService.Add(clinic);
-*/
+
             // Add appointment
             /*    List<Appointment> appointments = new List<Appointment>()
                     {

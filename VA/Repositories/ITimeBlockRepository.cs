@@ -15,9 +15,11 @@ namespace VA.Repositories
         void Update(TimeBlock model);
         void Delete(TimeBlock model);
         TimeBlock GetLast();
+        TimeBlock GetByID(int id);
         TimeBlock GetByDate(int day, int month, int year);
         TimeBlock GetByTime(DateTime startTime, DateTime endTime);
         IEnumerable<TimeBlock> GetAll();
+        IEnumerable<TimeBlock> GetAllFromToday(DateTime now);
         IEnumerable<TimeBlock> GetAllNotFull();
         IEnumerable<TimeBlock> GetListByDate(int day, int month, int year);
         IEnumerable<TimeBlock> GetListByMonthAndYear(int month, int year);

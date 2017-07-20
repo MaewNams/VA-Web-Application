@@ -334,8 +334,8 @@ namespace VA.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            if ( condition == "idCode" ) {
-            /*    ViewData["Members"] = MemberService.GetByCodeID(keyword);*/   
+            if ( condition == "email" ) {
+                ViewData["Members"] = MemberService.GetByEmail(keyword); 
                 return View();
             }
 

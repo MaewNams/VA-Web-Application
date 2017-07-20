@@ -10,8 +10,7 @@ namespace VA.DAL
 {
     public class VAContext : DbContext
     {
-        public VAContext() : base
-            ("VA")
+        public VAContext() : base("VAContext")
         {
 
         }

@@ -9,6 +9,7 @@ using VA.Repositories;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace VA.Controllers
 {
@@ -26,26 +27,100 @@ namespace VA.Controllers
         private readonly Random _random = new Random();
 
         //[Route("Member/{Id}")]
-        public ActionResult Index(int id, int? month, int? year)
+        public ActionResult Index(int? id, int? day, int? month, int? year)
         {
+                if (id == null)
+            {
+                return RedirectToAction("Member", "Home");
+            }
+
+            ViewData["warning"] = null;
+            if (TempData["warning"] != null)
+            {
+                var ls = (List<string>)TempData["warning"];
+                foreach (string str in ls)
+                {
+                    ViewData["warning"] = str;
+                }
+            }
+
             if (Session["Authen"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
+
             if (month == null && year == null)
             {
+                day = DateTime.Now.Day;
                 month = DateTime.Now.Month;
                 year = DateTime.Now.Year;
-
             }
 
-            Member member = MemberService.GetByID(id);
-            ViewData["Pets"] = PetService.GetByMemberID(id);
-            ViewData["PetTypes"] = PetSpecieService.GetAll();
-            ViewData["AppointmentsWait"] = AppointmentService.GetByMemberIdAndStatus(id, month.Value, year.Value, "Waiting");
-            ViewData["AppointmentsCom"] = AppointmentService.GetByMemberIdAndStatus(id, month.Value, year.Value, "Complete");
 
-            var dateTime = new DateTime(year.Value, month.Value, 1);
+            TimeSpan start = new TimeSpan(09, 30, 0);
+            TimeSpan end = new TimeSpan(21, 30, 0);
+            DateTime today = new DateTime(year.Value, month.Value, day.Value);
+            // Check if the system already have that day time table -- if not, create one//
+            TimeBlock checkExits = TimeBlockService.GetByDate(day.Value, month.Value, year.Value);
+            var monday = today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
+            if (checkExits == null)
+            {
+                int lastDay = monday.Day + 13;
+                //Loop for this week
+                for (int i = monday.Day; i <= lastDay; i++)
+                {
+                    //Start from monday -> sunday
+                    DateTime dt = new DateTime(monday.Year, monday.Month, i);
+                    //Loop for hour in day
+
+                    DateTime startTime = new DateTime(dt.Year, dt.Month, dt.Day) + start;
+                    DateTime endTime = new DateTime(dt.Year, dt.Month, dt.Day) + end;
+                    var hours = new List<DateTime>();
+                    hours.Add(startTime);
+                    var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
+                                            startTime.Hour, startTime.Minute, 0, startTime.Kind);
+
+                    while ((next = next.AddHours(0.5)) < endTime)
+                    {
+                        hours.Add(next);
+                    }
+                    hours.Add(endTime);
+                    int lastTimeID;
+                    TimeBlock checkLast = TimeBlockService.GetLast();
+                    if (checkLast != null)
+                    {
+                        lastTimeID = checkLast.id;
+                    }
+                    else
+                    {
+                        lastTimeID = 0;
+                    }
+                    foreach (var hour in hours)
+                    {
+                        TimeBlock timeblock = new TimeBlock();
+                        timeblock.id = lastTimeID + 1;
+                        timeblock.startTime = hour;
+                        timeblock.endTime = hour.AddHours(0.5);
+                        timeblock.numberofCase = 0;
+                        timeblock.status = "Free";
+                        TimeBlockService.Add(timeblock);
+                        lastTimeID += 1;
+                    }
+                }
+            }
+
+            ///
+
+            Member member = MemberService.GetByID(id.Value);
+            ViewData["Pets"] = PetService.GetByMemberID(id.Value);
+            ViewData["PetTypes"] = PetSpecieService.GetAll();
+            ViewData["Services"] = VAService.GetAll();
+            ViewData["TimeBlock"] = TimeBlockService.GetListByDate(day.Value, month.Value, year.Value);
+            ViewData["AllApp"] = AppointmentService.GetByDayAndMonthAndYearNoStatus(id.Value, day.Value, month.Value, year.Value);
+            ViewData["AppointmentsWait"] = AppointmentService.GetByMemberIdAndStatus(id.Value, month.Value, year.Value, "Waiting");
+            ViewData["AppointmentsCom"] = AppointmentService.GetByMemberIdAndStatus(id.Value, month.Value, year.Value, "Complete");
+
+            var dateTime = new DateTime(year.Value, month.Value, day.Value);
             ViewBag.DateTime = dateTime;
             ViewBag.Year = year.Value;
             ViewBag.Month = month.Value;
@@ -53,12 +128,119 @@ namespace VA.Controllers
         }
 
         [HttpPost]
+        public ActionResult Index(int? memberID, int? petID, int? serviceID, string suggestion, DateTime date, DateTime startTime, DateTime endTime)
+        {
+
+            VAService service = VAService.GetById(serviceID.Value);
+            // 1 Create app//
+            int lastID;
+            /*List<Appointment> CheckApp = AppointmentService.GetAll().ToList();*/
+            Appointment CheckApp = AppointmentService.GetLast();
+            if (CheckApp != null)
+            {
+                lastID = CheckApp.id;
+            }
+            else
+            {
+                lastID = 0;
+            }
+
+
+            Appointment appointment = new Appointment();
+            appointment.id = lastID + 1;
+            appointment.memberId = Int32.Parse(memberID.ToString());
+            appointment.petId = Int32.Parse(petID.ToString());
+            appointment.serviceId = Int32.Parse(serviceID.ToString());
+            appointment.suggestion = suggestion;
+            appointment.date = date;
+            
+            //Create object clinic to get maximum case
+            Clinic clinic = VCService.Get();
+            appointment.startTime = startTime;
+            appointment.endTime = endTime;
+            appointment.status = "Waiting";
+            AppointmentService.Add(appointment);
+
+            //---------------------- Finish crate appointment ----------//
+
+            //------------> start check exits of timeblock(id, starttime, endtime)
+                    //---> Create hour list of duration of appointment
+                    var hours = new List<DateTime>();
+
+                     var start = new DateTime(date.Year, date.Month, date.Day,
+                                    startTime.Hour, startTime.Minute, 0, startTime.Kind);
+                    var end = new DateTime(date.Year, date.Month, date.Day,
+                                    endTime.Hour, endTime.Minute, 0, startTime.Kind);
+                     hours.Add(start);
+    
+                    while ((start = start.AddHours(0.5)) < end)
+                    {
+                     hours.Add(start);
+                    }
+
+            int lastAppTime; //--> use for create new id of new apppointmentTimeblock
+
+          //  List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
+            DateTime checkStart, checkEnd;
+            var warningmessage = new List<String>();
+            foreach (var hour in hours)
+            {
+                 //---------------> Find timeblock object to add to AppointmentTimeBlock and add case number to timeblock
+                checkStart = new DateTime(date.Year, date.Month, date.Day,
+                                    hour.Hour, hour.Minute, 0, startTime.Kind);
+                checkEnd = checkStart.AddHours(0.5);
+                TimeBlock checkTimeBlock = TimeBlockService.GetByTime(checkStart, checkEnd);
+                
+
+                //Check for last AppointmentTimeblock to get id
+                AppointmentTimeBlock CheckAppTime = AppTimeService.GetLast();
+                if (CheckAppTime != null)
+                { lastAppTime = CheckAppTime.id; }
+                else
+                { lastAppTime = 0; }
+
+                //Create AppointmentTimeblock
+                AppointmentTimeBlock appTime = new AppointmentTimeBlock();
+                appTime.id = lastAppTime + 1;
+                appTime.timeId = checkTimeBlock.id;
+                appTime.appointmentID = appointment.id;
+                AppTimeService.Add(appTime);
+                //--->Update timeblock object
+                checkTimeBlock.numberofCase += 1;
+                TimeBlockService.Update(checkTimeBlock);
+
+                // If case is not surgery
+                if (service.description != "Surgery")
+                {
+                    // Still not fix the number of case that can take at a time
+                    if (checkTimeBlock.numberofCase >= clinic.maximumCase)
+                    {
+                        checkTimeBlock.status = "Busy";
+                        TimeBlockService.Update(checkTimeBlock);
+                    }
+                }
+                else
+                {
+                    checkTimeBlock.status = "Full";
+                    TimeBlockService.Update(checkTimeBlock);
+
+                }
+            }
+
+
+            return Json(new { Result = "Success" });
+        }
+
+        [HttpPost]
         public ActionResult CreateMember(string name, string surname, string address, string email, string phoneNumber)
         {
             Member checkName = MemberService.GetByNameAndSurname(name, surname);
+            Member checkEMail = MemberService.GetByEmail(email).FirstOrDefault();
+            var foo = new EmailAddressAttribute();
+            bool bar = foo.IsValid(email);
             if (checkName != null)
             {
-                return Json(new { Result = "Fail, member with name" + name + "and surname " + surname + " already exits in the system" });
+                return Json(new { Result = "Fail, member with name " + name + "and surname " + surname + " already exits in the system" });
             }
             Boolean isNumber = Regex.IsMatch(phoneNumber, @"^\d+$");
             if (String.IsNullOrEmpty(name))
@@ -68,6 +250,10 @@ namespace VA.Controllers
             if (String.IsNullOrEmpty(surname))
             {
                 return Json(new { Result = "Fail, surname is required" });
+            }
+            if (String.IsNullOrEmpty(email))
+            {
+                return Json(new { Result = "Fail, email address is required" });
             }
             if (String.IsNullOrEmpty(address))
             {
@@ -85,7 +271,14 @@ namespace VA.Controllers
             {
                 return Json(new { Result = "Fail, phone number have to contain 10 numeric character" });
             }
-
+            if (bar == false)
+            {
+                return Json(new { Result = "Fail, email address is in invalid format" });
+            }
+            if (checkEMail != null)
+            {
+                return Json(new { Result = "Fail, the email " + email + " already exits in the system" });
+            }
             string password = name[0].ToString().ToUpper() + phoneNumber;
 
 
@@ -165,9 +358,12 @@ namespace VA.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(int id, string name, string surname, string address, string phonenumber, string password)
+        public ActionResult Edit(int id, string name, string surname,string email, string address, string phonenumber)
         {
             Member checkName = MemberService.GetByNameAndSurname(name, surname);
+            Member checkEMail = MemberService.GetByEmail(email).FirstOrDefault();
+            var foo = new EmailAddressAttribute();
+            bool bar = foo.IsValid(email);
             if (checkName != null && checkName.id != id)
             {
                 return Json(new { Result = "Fail, member with name" + name + "and surname " + surname + " already exits in the system" });
@@ -181,6 +377,10 @@ namespace VA.Controllers
             if (String.IsNullOrEmpty(surname))
             {
                 return Json(new { Result = "Fail, surname is required" });
+            }
+            if (String.IsNullOrEmpty(email))
+            {
+                return Json(new { Result = "Fail, email address is required" });
             }
             if (String.IsNullOrEmpty(address))
             {
@@ -198,13 +398,20 @@ namespace VA.Controllers
             {
                 return Json(new { Result = "Fail, phone number have to contain 10 numeric character" });
             }
+            if (bar == false)
+            {
+                return Json(new { Result = "Fail, email address is in invalid format" });
+            }
+            if (checkEMail != null && checkEMail.id != id )
+            {
+                return Json(new { Result = "Fail, the email " + email + " already exits in the system" });
+            }
 
             Member member = MemberService.GetByID(id);
             member.name = name;
             member.surname = surname;
             member.address = address;
             member.phonenumber = phonenumber;
-            member.password = password;
             MemberService.Update(member);
             return Json(new { Result = "Success" });
         }
@@ -238,19 +445,46 @@ namespace VA.Controllers
         [HttpPost]
         public ActionResult Delete(int memberid)
         {
+            // Clinic object
+            Clinic clinic = VCService.Get();
+
             /*delte appointment first*/
             ViewData["DeleteAppointment"] = _db.Appointment.Where(a => a.memberId == memberid).ToList<Appointment>();
             List<Appointment> memApp = (List<Appointment>)ViewData["DeleteAppointment"];
             if (memApp != null && memApp.Count > 0)
             {
                 foreach (var app in memApp)
-                {
+                {   /*But first, remove appointment from time slot*/
+                    // Check for time slot of each appointment
+                    List<AppointmentTimeBlock> appTimeblock = AppTimeService.GetByAppointmentID(app.id).ToList();
+                    if (appTimeblock != null && appTimeblock.Count > 0)
+                    {
+                        foreach (var apptime in appTimeblock)
+                        {
+                            //Update Timeblock (2)
+                            TimeBlock updateTimeBlock = TimeBlockService.GetByID(apptime.timeId);
+                            // 2.1 reduce number of case
+                            updateTimeBlock.numberofCase -= 1;
+                           
+                            // 2.2 update status
+                            if( updateTimeBlock.numberofCase == 0 || updateTimeBlock.numberofCase <= clinic.maximumCase)
+                            {
+                                updateTimeBlock.status = "Free";
+                            }
+                            
+                            TimeBlockService.Update(updateTimeBlock);
+
+                            //Delete AppointmentTimeblock (1) ^
+                            AppTimeService.Delete(apptime);
+                        }
+                     }
+                    // Then remove appointment (3)
                     _db.Appointment.Remove(app);
                     _db.SaveChanges();
                 }
             }
 
-            //Remove pet
+            //Then Remove pet (4)
             ViewData["DeletePet"] = _db.Pet.Where(a => a.memberId == memberid).ToList<Pet>();
             List<Pet> memPet = (List<Pet>)ViewData["DeletePet"];
             if (memPet != null && memPet.Count > 0)
@@ -264,7 +498,10 @@ namespace VA.Controllers
 
             Member member = MemberService.GetByID(memberid);
             MemberService.Delete(member);
-            return Json(new { Result = "Success" });
+
+
+
+                return Json(new { Result = "Success" });
         }
 
 
@@ -288,10 +525,10 @@ namespace VA.Controllers
                 }
             }
 
-            /* if (Session["Authen"] == null)
+          if (Session["Authen"] == null)
              {
                  return RedirectToAction("Login", "Home");
-             }*/
+             }
 
             if (month == null && year == null)
             {
@@ -301,43 +538,56 @@ namespace VA.Controllers
 
             }
 
+
+            TimeSpan start = new TimeSpan(09, 30, 0);
+            TimeSpan end = new TimeSpan(21, 30, 0);
+            DateTime today = new DateTime(year.Value, month.Value, day.Value);
             // Check if the system already have that day time table -- if not, create one//
             TimeBlock checkExits = TimeBlockService.GetByDate(day.Value, month.Value, year.Value);
+            var monday = today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
             if (checkExits == null)
             {
-                TimeSpan start = new TimeSpan(09, 30, 0);
-                TimeSpan end = new TimeSpan(21, 30, 0);
-                DateTime startTime = new DateTime(year.Value, month.Value, day.Value) + start;
-                DateTime endTime = new DateTime(year.Value, month.Value, day.Value) + end;
-                var hours = new List<DateTime>();
-                hours.Add(startTime);
-                var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
-                                        startTime.Hour, startTime.Minute, 0, startTime.Kind);
+                int lastDay = monday.Day + 13;
+                //Loop for this week
+                for (int i = monday.Day; i <= lastDay; i++)
+                {
+                    //Start from monday -> sunday
+                    DateTime dt = new DateTime(monday.Year, monday.Month, i);
+                    //Loop for hour in day
 
-                while ((next = next.AddHours(0.5)) < endTime)
-                {
-                    hours.Add(next);
-                }
-                hours.Add(endTime);
-                int lastTimeID;
-                List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
-                if (CheckTime.Count() > 0)
-                {
-                    lastTimeID = CheckTime.LastOrDefault().id;
-                }
-                else
-                {
-                    lastTimeID = 0;
-                }
-                foreach (var hour in hours)
-                {
-                    TimeBlock timeblock = new TimeBlock();
-                    timeblock.id = lastTimeID + 1;
-                    timeblock.startTime = hour;
-                    timeblock.endTime = hour.AddHours(0.5);
-                    timeblock.numberofCase = 0;
-                    timeblock.status = "Free";
-                    TimeBlockService.Add(timeblock);
+                    DateTime startTime = new DateTime(dt.Year, dt.Month, dt.Day) + start;
+                    DateTime endTime = new DateTime(dt.Year, dt.Month, dt.Day) + end;
+                    var hours = new List<DateTime>();
+                    hours.Add(startTime);
+                    var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
+                                            startTime.Hour, startTime.Minute, 0, startTime.Kind);
+
+                    while ((next = next.AddHours(0.5)) < endTime)
+                    {
+                        hours.Add(next);
+                    }
+                    hours.Add(endTime);
+                    int lastTimeID;
+                    TimeBlock checkLast = TimeBlockService.GetLast();
+                    if (checkLast != null)
+                    {
+                        lastTimeID = checkLast.id;
+                    }
+                    else
+                    {
+                        lastTimeID = 0;
+                    }
+                    foreach (var hour in hours)
+                    {
+                        TimeBlock timeblock = new TimeBlock();
+                        timeblock.id = lastTimeID + 1;
+                        timeblock.startTime = hour;
+                        timeblock.endTime = hour.AddHours(0.5);
+                        timeblock.numberofCase = 0;
+                        timeblock.status = "Free";
+                        TimeBlockService.Add(timeblock);
+                        lastTimeID += 1;
+                    }
                 }
             }
 
@@ -362,9 +612,16 @@ namespace VA.Controllers
         [HttpPost]
         public ActionResult CheckTimeSlot(int? serviceID, DateTime date, DateTime? startTime, DateTime? endTime)
         {
+            if (startTime ==null || endTime == null)
+            {
+                return Json(new { Result = "Please select start time and end time for the appointment" });
+            }
+
+
+
             // Create slot of time //
             var hours = new List<DateTime>();
-
+        
             var start = new DateTime(date.Year, date.Month, date.Day,
                                     startTime.Value.Hour, startTime.Value.Minute, 0, startTime.Value.Kind);
             var end = new DateTime(date.Year, date.Month, date.Day,
@@ -438,106 +695,7 @@ namespace VA.Controllers
             return Json("OK");
         }
 
-        [HttpPost]
-        public ActionResult TestCreateApp(int? memberID, int? petID, int? serviceID, string suggestion, DateTime date, DateTime startTime, DateTime endTime)
-        {
-
-            VAService service = VAService.GetById(serviceID.Value);
-            //Create app//
-            int lastID;
-            List<Appointment> CheckApp = AppointmentService.GetAll().ToList();
-            if (CheckApp.Count() > 0)
-            {
-                lastID = CheckApp.LastOrDefault().id;
-            }
-            else
-            {
-                lastID = 0;
-            }
-
-       
-            Appointment appointment = new Appointment();
-            appointment.id = lastID + 1;
-            appointment.memberId = Int32.Parse(memberID.ToString());
-            appointment.petId = Int32.Parse(petID.ToString());
-            appointment.serviceId = Int32.Parse(serviceID.ToString());
-            appointment.suggestion = suggestion;
-            appointment.date = date;
-            /*     if (type == "allDay")
-                 {
-                     startTime = new DateTime(1900,01,01);
-                     endTime = new DateTime(1900, 01, 01);
-                 }*/
-
-            //Create object clinic to get maximum case
-            Clinic clinic = VCService.Get();
-           appointment.startTime = startTime;
-            appointment.endTime = endTime;
-            appointment.status = "Waiting";
-            AppointmentService.Add(appointment);
-
-                var hours = new List<DateTime>();
-
-                var start = new DateTime(date.Year, date.Month, date.Day,
-                                        startTime.Hour, startTime.Minute, 0, startTime.Kind);
-                var end = new DateTime(date.Year, date.Month, date.Day,
-                                        endTime.Hour, endTime.Minute, 0, startTime.Kind);
-                hours.Add(start);
-
-                while ((start = start.AddHours(0.5)) < end)
-                {
-                    hours.Add(start);
-                }
-                int lastAppTime;
-                List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
-                DateTime checkStart, checkEnd;
-                var warningmessage = new List<String>();
-                foreach (var hour in hours)
-                {
-                    checkStart = new DateTime(date.Year, date.Month, date.Day,
-                                        hour.Hour, hour.Minute, 0, startTime.Kind);
-                    checkEnd = checkStart.AddHours(0.5);
-
-                    TimeBlock checkTimeBlock = TimeBlockService.GetByTime(checkStart, checkEnd);
-
-                    List<AppointmentTimeBlock> CheckAppTime = AppTimeService.GetAll().ToList();
-                    if (CheckAppTime.Count() > 0)
-                    {
-                        lastAppTime = CheckAppTime.LastOrDefault().id;
-                    }
-                    else
-                    {
-                        lastAppTime = 0;
-                    }
-
-                    //Create appointment
-                    AppointmentTimeBlock appTime = new AppointmentTimeBlock();
-                    appTime.id = lastAppTime + 1;
-                    appTime.timeId = checkTimeBlock.id;
-                    appTime.appointmentID = appointment.id;
-                    checkTimeBlock.numberofCase += 1;
-                    TimeBlockService.Update(checkTimeBlock);
-
-                    // If case is not surgery
-                    if (service.description != "Surgery")
-                    {
-                        // Still not fix the number of case that can take at a time
-                        if (checkTimeBlock.numberofCase > clinic.maximumCase)
-                        {
-                            checkTimeBlock.status = "Busy";
-                            TimeBlockService.Update(checkTimeBlock);
-                        }
-                    }
-                    else
-                    {
-                        checkTimeBlock.status = "Full";
-
-                    }
-                }
-            
-
-            return Json(new { Result = "Success" });
-        }
+     
 
     }
 

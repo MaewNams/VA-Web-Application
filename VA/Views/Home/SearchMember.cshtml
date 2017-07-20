@@ -28,7 +28,7 @@
             Member
         </a>
         <a class="item" href="/VA/Home/PetSpecie" style="font-size:16px;">
-            <i class="setting icon" style="float:left;padding-right:25px"></i>
+            <i class="paw icon" style="float:left;padding-right:25px"></i>
             Pet specie
         </a>
         <a class="item" href="/VA/Home/VASetting" style="font-size:16px;">
@@ -74,6 +74,10 @@
                             <input type="text" placeholder="Surname" name="surname" id="create_surname">
                         </div>
                     </div>
+                    <div class="inline field">
+                        <label>Email</label>
+                        <input type="text" placeholder="Email" name="email" id="create_email">
+                    </div>
                     <div class="inline fields">
                         <div class="six wide field">
                             <label>Address</label>
@@ -106,9 +110,9 @@
                     <div class="inline fields">
 
                         <select name="condition" class="ui dropdown" id="select_condition">
-                            <option value="idCode">Member ID Code</option>
-                            <option value="name">Member name</option>
                             <option value="address">Addresse</option>
+                            <option value="email">Email</option>
+                            <option value="name">Name</option>
                             <option value="phone">Phone number</option>
                         </select>
 
@@ -127,14 +131,13 @@
             @{
                 if (members != null && members.ToList().Count > 0)
                 {
-                    int index = 0;
                     <table class="ui single line selectable  table" style="border:none!important">
                         <thead>
                             <tr>
                                 <th class="one wide">No</th>
-                                <th class="two wide">Id code</th>
                                 <th class="three wide">Name</th>
                                 <th class="three wide">Surname</th>
+                                <th class="two wide">Email</th>
                                 <th class="three wide">Address</th>
                                 <th class="two wide">Phon number</th>
 
@@ -142,28 +145,36 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @{
 
-                              
-                            @foreach (var member in members)
-                            {
-                                index += 1;
 
-                                <tr class="clickable-row" data-id="@member.id" style="cursor:pointer">
-                                    <td>@index</td>
-                                    <td>@member.codeId</td>
-                                    <td>@member.name</td>
-                                    <td>@member.surname</td>
-                                    <td>@member.address</td>
-                                    <td>@member.phonenumber</td>
-                
-                                </tr>
+                                if (members != null && members.ToList().Count > 0)
+                                {
+                                    int index = 0;
+                                    foreach (var member in members)
+                                    {
+                                        index += 1;
+
+                                        <tr class="clickable-row" data-id="@member.id" style="cursor:pointer">
+                                            <td>@index</td>
+                                            <td>@member.name</td>
+                                            <td>@member.surname</td>
+                                            <td>@member.email</td>
+                                            <td>@member.address</td>
+                                            <td>@member.phonenumber</td>
+                                        </tr>
+                                    }
+                                }
+
+
+
+
                             }
-
                         </tbody>
                     </table>
-                }
-                else
-                {
+                                }
+                                else
+                                {
                             <div style="text-align:center"> No Result found</div>
 
 

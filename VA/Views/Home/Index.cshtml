@@ -8,6 +8,7 @@
     IEnumerable<Appointment> dAppCom = (IEnumerable<Appointment>)ViewData["DialyAppointmentCom"];
     IEnumerable<Appointment> mAppWait = (IEnumerable<Appointment>)ViewData["MonthAppointmentWait"];
     IEnumerable<Appointment> mAppCom = (IEnumerable<Appointment>)ViewData["MonthAppointmentCom"];
+    DateTime today = DateTime.Now;
 }
 <div class="ui vertical left visible sidebar menu" style="font-size:18px">
     <div class="item" style="font-family: 'Raleway', sans-serif; font-size:48px;text-align:center;font-weight:bold;margin-bottom:55px;color:white;background-color:teal">
@@ -29,7 +30,7 @@
             Member
         </a>
         <a class="item" href="/VA/Home/PetSpecie" style="font-size:16px;">
-            <i class="setting icon" style="float:left;padding-right:25px"></i>
+            <i class="paw icon" style="float:left;padding-right:25px"></i>
             Pet specie
         </a>
         <a class="item" href="/VA/Home/VASetting" style="font-size:16px;">
@@ -60,7 +61,7 @@
     <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
         <h2 class="ui header" style="margin-bottom: 25px;">
             <div class="content">
-                <i class="time icon"></i>   April, 6 2017
+                <i class="time icon"></i>   @today.ToString("MMM"), @today.Day  @today.Year
                 <div class="sub header">Today we have : @{int numApp = dAppWait.Count() + dAppCom.Count(); } @numApp appointments | This month we have : @{int numMApp = mAppWait.Count() + mAppCom.Count(); } @numMApp appointments</div>
             </div>
             <button class="ui right floated teal button call_create_member_modal">
@@ -81,6 +82,10 @@
                             <label>Surname</label>
                             <input type="text" placeholder="Surname" name="surname" id="create_surname">
                         </div>
+                    </div>
+                    <div class="inline field">
+                        <label>Email</label>
+                        <input type="text" placeholder="Email" name="email" id="create_email">
                     </div>
                     <div class="inline fields">
                         <div class="six wide field">
@@ -112,14 +117,14 @@
                     <div class="inline fields">
 
                         <select name="condition" class="ui dropdown" id="select_condition">
-                            <option value="idCode">Member ID Code</option>
-                            <option value="name">Member name</option>
                             <option value="address">Addresse</option>
+                            <option value="email">Email</option>
+                            <option value="name">Name</option>
                             <option value="phone">Phone number</option>
                         </select>
 
                         <div class="ui icon input" style="margin-left:15px;">
-                            <input type="text" placeholder="Search..." id="search_keyword">
+                            <input type="text" placeholder="Search for member..." id="search_keyword">
                             <i class="inverted circular search link icon search_button"></i>
                         </div>
                     </div>

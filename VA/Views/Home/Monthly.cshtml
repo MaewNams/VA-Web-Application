@@ -29,7 +29,7 @@
             Member
         </a>
         <a class="item" href="/VA/Home/PetSpecie" style="font-size:16px;">
-            <i class="setting icon" style="float:left;padding-right:25px"></i>
+            <i class="paw icon" style="float:left;padding-right:25px"></i>
             Pet specie
         </a>
         <a class="item" href="/VA/Home/VASetting" style="font-size:16px;">
@@ -102,9 +102,9 @@
                     <div class="inline fields">
 
                         <select name="condition" class="ui dropdown" id="select_condition">
-                            <option value="idCode">Member ID Code</option>
-                            <option value="name">Member name</option>
                             <option value="address">Addresse</option>
+                            <option value="email">Email</option>
+                            <option value="name">Name</option>
                             <option value="phone">Phone number</option>
                         </select>
 
@@ -141,10 +141,10 @@
                         <thead>
                             <tr>
                                 <th class="one wide">Date</th>
+                                <th class="two wide">Time</th>
                                 <th class="two wide">Member name</th>
                                 <th class="two wide">Pet name</th>
                                 <th class="four wide">Detail</th>
-                                <th class="one wide">Status</th>
                                 <th class="two wide" style="text-align:center">View</th>
                                 <th class="two wide" style="text-align:center">Edit</th>
                                 <th class="two wide">Delete</th>
@@ -158,10 +158,10 @@
                                 {
                                     <tr>
                                         <td>@app.date.ToString("d")</td>
+                                        <td>@app.startTime.ToShortTimeString() - @app.endTime.ToShortTimeString()</td>
                                         <td>@app.Member.name  @app.Member.surname</td>
                                         <td> @app.Pet.name</td>
                                         <td>@app.detail</td>
-                                        <td style="color:teal">@app.status</td>
                                         <td style="text-align:right">
                                             <button class="ui teal basic button call_app_detail_modal" data-id="@app.id">View</button>
 
@@ -286,10 +286,10 @@
                             <thead>
                                 <tr>
                                     <th class="one wide">Date</th>
+                                    <th class="two wide">Time</th>
                                     <th class="two wide">Member name</th>
                                     <th class="two wide">Pet name</th>
                                     <th class="four wide">Detail</th>
-                                    <th class="one wide">Status</th>
                                     <th class="two wide" style="text-align:center">View</th>
                                     <th class="two wide" style="text-align:center">Delete</th>
                                     <th class="two wide"></th>
@@ -304,10 +304,10 @@
                                     {
                                         <tr>
                                             <td>@app.date.ToString("d")</td>
+                                            <td>@app.startTime.ToShortTimeString() - @app.endTime.ToShortTimeString()</td>
                                             <td>@app.Member.name  @app.Member.surname</td>
                                             <td> @app.Pet.name</td>
                                             <td>@app.detail</td>
-                                            <td style="color:red">@app.status</td>
                                             <td style="text-align:right">
                                                 <button class="ui teal basic button  call_app_detail_modal" data-id="@app.id">View</button>
                                             </td>

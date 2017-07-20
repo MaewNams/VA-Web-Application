@@ -72,6 +72,11 @@ namespace VA.Repositories
             return appList;
         }
 
+        public Appointment GetLast()
+        {
+            return _db.Appointment.OrderByDescending(m => m.id).FirstOrDefault();
+        }
+
         public void Update(Appointment model)
         {
             _db.Entry(model).State = EntityState.Modified;

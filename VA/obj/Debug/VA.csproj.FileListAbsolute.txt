@@ -116,6 +116,8 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\VA.dll.config
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\VA.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\VA.pdb
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Antlr3.Runtime.dll
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.Core.dll
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\EntityFramework.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\EntityFramework.SqlServer.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Hangfire.Core.dll
@@ -143,6 +145,7 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Owin
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Newtonsoft.Json.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Owin.dll
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Quartz.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\RestSharp.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\System.Net.Http.Formatting.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\System.Web.Cors.dll
@@ -157,6 +160,10 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\System.Web.Web
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\System.Web.WebPages.Razor.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Twilio.Api.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\WebGrease.dll
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.pdb
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.xml
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.Core.pdb
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.Core.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Hangfire.Core.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Hangfire.SqlServer.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.AI.DependencyCollector.xml
@@ -166,6 +173,8 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.AI.W
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.ApplicationInsights.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Newtonsoft.Json.xml
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Quartz.pdb
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Quartz.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\RestSharp.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\System.Net.Http.Formatting.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\System.Web.Http.xml
@@ -196,17 +205,8 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Owin
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\es\Hangfire.Core.resources.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\zh\Hangfire.Core.resources.dll
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.dll
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.pdb
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.Core.dll
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.dll
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Quartz.dll
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.pdb
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.xml
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.Core.pdb
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Common.Logging.Core.xml
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Quartz.pdb
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Quartz.xml
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.csprojResolveAssemblyReference.cache
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.InitialCreate.resources
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.csproj.GenerateResource.Cache
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.dll
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.pdb
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.csprojResolveAssemblyReference.cache
