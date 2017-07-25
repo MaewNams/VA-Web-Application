@@ -505,7 +505,7 @@ namespace VA.Controllers
 
 
 
-
+        ///** Create App----------------------------------------------------------------------------------//
         /*Test*/
         //[Route("Member/{Id}")]
         public ActionResult TestCreateApp(int id, int? day, int? month, int? year)
@@ -613,9 +613,7 @@ namespace VA.Controllers
                 return Json(new { Result = "Please select start time and end time for the appointment" });
             }
 
-
-
-            // Create slot of time //
+            // Create slot of time of the appointment //
             var hours = new List<DateTime>();
 
             var start = new DateTime(date.Year, date.Month, date.Day,
@@ -629,12 +627,10 @@ namespace VA.Controllers
                 hours.Add(start);
             }
 
-            List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
             DateTime checkStart, checkEnd;
             VAService service = VAService.GetById(serviceID.Value);
             var warningmessage = new List<String>();
-            TempData.Remove("warning");
-            ViewData["RequireConfirmation"] = false;
+            Boolean requireConfirm = false;
             foreach (var hour in hours)
             {
                 checkStart = new DateTime(date.Year, date.Month, date.Day,
@@ -650,7 +646,7 @@ namespace VA.Controllers
                         if (checkTimeBlock.status == "Busy")
                         {
                             warningmessage.Add("You already have" + checkTimeBlock.numberofCase + " case between" + checkStart + "to" + checkEnd + '\n');
-                            ViewData["RequireConfirmation"] = true;
+                            requireConfirm = true;
                         }
                         if (checkTimeBlock.status == "Full")
                         {
@@ -668,16 +664,30 @@ namespace VA.Controllers
                     }
                 }
                 TempData["warning"] = warningmessage;
-                /*    Console.WriteLine(warningmessage);*/
             }
 
-            if ((bool)ViewData["RequireConfirmation"])
+            if ((bool)requireConfirm)
             {
+              /*  GetWarningMessage();*/
                 return Json(new { Result = "Confirm" });
             }
             else { return Json(new { Result = "Success" }); }
 
         }
+
+        public JsonResult GetWarningMessage()
+        {
+            if (TempData["warning"] != null)
+            {
+                var ls = (List<string>)TempData["warning"];
+                string[][] newKeys = ls.Select(x => new string[] { x }).ToArray();
+                string json = JsonConvert.SerializeObject(newKeys);
+                return Json(json, JsonRequestBehavior.AllowGet);
+            }
+            return Json("Confirm");
+        }
+
+        ///**----------------------------------------------------------------------------------//
 
         // GET: Default
         public ActionResult TestIndex(int id, int? month, int? year)
@@ -710,7 +720,7 @@ namespace VA.Controllers
             }
             MemberPetViewModel memberPet = new MemberPetViewModel
             {
-                memberId = id.Value,
+                member = MemberService.GetByID(id.Value),
                 pets = PetService.GetByMemberID(id.Value),
                 pettypes = PetSpecieService.GetAll()
             };
@@ -742,17 +752,7 @@ namespace VA.Controllers
             return View(result);
         }
 
-        public JsonResult GetWarningMessage()
-        {
-            if (TempData["warning"] != null)
-            {
-                var ls = (List<string>)TempData["warning"];
-                string[][] newKeys = ls.Select(x => new string[] { x }).ToArray();
-                string json = JsonConvert.SerializeObject(newKeys);
-                return Json(json, JsonRequestBehavior.AllowGet);
-            }
-            return Json("OK");
-        }
+
 
         public void CheckExitsTimeSlot(int? day, int? month, int? year)
         {

@@ -17,14 +17,26 @@ namespace VA.Controllers
     public class HomeController : Controller
     {
         private VAContext _db = new VAContext();
-        private AdministratorRepository AdminService = new AdministratorRepository();
-        private MemberRepository MemberService = new MemberRepository();
-        private AppointmentRepository AppointmentService = new AppointmentRepository();
-        private SMSService smsService = new SMSService();
-        private PetRepository PetService = new PetRepository();
-        private PetSpecieRepository SpecieService = new PetSpecieRepository();
-        private VCRepository VCService = new VCRepository();
 
+        private readonly IVCRepository _VCRepo;
+        private readonly IPetSpecieRepository _SpecieRepo;
+        private readonly IPetRepository _PetRepo;
+        private readonly IMemberRepository _MemberRepo;
+        private readonly IAppointmentRepository _AppRepo;
+        private readonly IAdministratorRepository _AdminRepo;
+
+        public HomeController(IAppointmentRepository appRepository, 
+            IAdministratorRepository adminRepository, IMemberRepository memberRepository,
+            IPetRepository petRepository, IPetSpecieRepository specieRepository,
+            IVCRepository VCRepository)
+        {
+            _AppRepo = appRepository;
+            _AdminRepo = adminRepository;
+            _MemberRepo = memberRepository;
+            _PetRepo = petRepository;
+            _SpecieRepo = specieRepository;
+            _VCRepo = VCRepository;
+        }
 
         public ActionResult Index(int? day, int? month, int? year)
         {
@@ -42,10 +54,9 @@ namespace VA.Controllers
             AllAppointmentViewModel result = new AllAppointmentViewModel
             {
                 date = new DateTime(year.Value, month.Value, day.Value),
-                AppWait = AppointmentService.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Waiting"),
-                AppCom = AppointmentService.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Complete"),
+                AppWait = _AppRepo.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Waiting"),
+                AppCom = _AppRepo.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Complete"),
             };
-
 
             return View(result);
         }
@@ -68,8 +79,8 @@ namespace VA.Controllers
             AllAppointmentViewModel result = new AllAppointmentViewModel
             {
                 date = new DateTime(year.Value, month.Value, DateTime.Now.Day),
-                AppWait = AppointmentService.GetByMonthAndYear( month.Value, year.Value, "Waiting"),
-                AppCom = AppointmentService.GetByMonthAndYear( month.Value, year.Value, "Complete"),
+                AppWait = _AppRepo.GetByMonthAndYear( month.Value, year.Value, "Waiting"),
+                AppCom = _AppRepo.GetByMonthAndYear( month.Value, year.Value, "Complete"),
             };
 
 
@@ -83,7 +94,7 @@ namespace VA.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            Clinic clinic = VCService.Get();
+            Clinic clinic = _VCRepo.Get();
 
             return View(clinic);
         }
@@ -97,9 +108,9 @@ namespace VA.Controllers
             {
                 return Json(new { Result = "Fail, maximum case can only numeric character" });
             }
-            Clinic clinic = VCService.Get();
+            Clinic clinic = _VCRepo.Get();
             clinic.maximumCase = Int32.Parse(caseNumber.ToString());
-            VCService.Update(clinic);
+            _VCRepo.Update(clinic);
             return Json(new { Result = "Success" });
         }
 
@@ -109,7 +120,7 @@ namespace VA.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            IEnumerable<PetType> species= SpecieService.GetAll();
+            IEnumerable<PetType> species= _SpecieRepo.GetAll();
             return View(species);
         }
 
@@ -121,19 +132,19 @@ namespace VA.Controllers
             {
                 return Json(new { Result = "Fail, specie name is required" });
             }
-            PetType type = SpecieService.GetByName(name);
+            PetType type = _SpecieRepo.GetByName(name);
             if (type != null)
             {
                 return Json(new { Result = "Fail, this specie is already exits in the system" });
             }
 
-            List<PetType> CheckType = SpecieService.GetAll().ToList();
+            List<PetType> CheckType = _SpecieRepo.GetAll().ToList();
             int lastID = CheckType.LastOrDefault().id;
 
             PetType newtype = new PetType();
             newtype.id = lastID + 1;
             newtype.name = name;
-            SpecieService.Add(newtype);
+            _SpecieRepo.Add(newtype);
             return Json(new { Result = "Success" });
         }
 
@@ -147,14 +158,14 @@ namespace VA.Controllers
             {
                 return Json(new { Result = "Fail, specie name is required" });
             }
-            PetType type = SpecieService.GetByName(name);
+            PetType type = _SpecieRepo.GetByName(name);
             if (type != null && type.id != id)
             {
                 return Json(new { Result = "Fail, this specie is already exits in the system" });
             }
-            PetType editType = SpecieService.GetById(id);
+            PetType editType = _SpecieRepo.GetById(id);
             editType.name = name;
-            SpecieService.Update(editType);
+            _SpecieRepo.Update(editType);
             return Json(new { Result = "Success" });
         }
 
@@ -163,7 +174,7 @@ namespace VA.Controllers
         public ActionResult DeleteSpecie(string typeID)
         {
             int id = Int32.Parse(typeID.ToString());
-            Pet deletePetType = PetService.GetByType(id);
+            Pet deletePetType = _PetRepo.GetByType(id);
 
 
             if (deletePetType != null)
@@ -171,8 +182,8 @@ namespace VA.Controllers
                 return Json(new { Result = "Fail, cannot delete the pet specie. Please delete all pet which belong to the specie '" + deletePetType.PetType.name + "' before try again" });
             }
             /////////
-            PetType deleteType = SpecieService.GetById(id);
-            SpecieService.Delete(deleteType);
+            PetType deleteType = _SpecieRepo.GetById(id);
+            _SpecieRepo.Delete(deleteType);
             return Json(new { Result = "Success" });
         }
 
@@ -187,25 +198,25 @@ namespace VA.Controllers
 
             if (condition == null)
             {
-                member = MemberService.GetAll().OrderBy(m => m.id);
+                member = _MemberRepo.GetAll().OrderBy(m => m.id);
             }
             if (condition == "email")
             {
-                member = MemberService.GetByEmail(keyword);
+                member = _MemberRepo.GetByEmail(keyword);
             }
 
             if (condition == "name")
             {
-                member = MemberService.GetByName(keyword);
+                member = _MemberRepo.GetByName(keyword);
             }
 
             if (condition == "address")
             {
-                member = MemberService.GetByAddress(keyword);
+                member = _MemberRepo.GetByAddress(keyword);
             }
             if (condition == "phone")
             {
-                member = MemberService.GetByPhoneNumber(keyword);
+                member = _MemberRepo.GetByPhoneNumber(keyword);
             }
 
             return View(member);
@@ -231,10 +242,10 @@ namespace VA.Controllers
                 year = DateTime.Now.Year;
             }
 
-            ViewData["MonthAppointmentWait"] = AppointmentService.GetByMonthAndYear(month.Value, year.Value, "Waiting");
-            ViewData["MonthAppointmentCom"] = AppointmentService.GetByMonthAndYear(month.Value, year.Value, "Complete");
-            ViewData["DialyAppointmentWait"] = AppointmentService.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Waiting");
-            ViewData["DialyAppointmentCom"] = AppointmentService.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Complete");
+            ViewData["MonthAppointmentWait"] = _AppRepo.GetByMonthAndYear(month.Value, year.Value, "Waiting");
+            ViewData["MonthAppointmentCom"] = _AppRepo.GetByMonthAndYear(month.Value, year.Value, "Complete");
+            ViewData["DialyAppointmentWait"] = _AppRepo.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Waiting");
+            ViewData["DialyAppointmentCom"] = _AppRepo.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Complete");
             var dateTime = new DateTime(year.Value, month.Value, day.Value);
             ViewBag.DateTime = dateTime;
             ViewBag.Day = day.Value;
@@ -260,14 +271,14 @@ namespace VA.Controllers
         public ActionResult Login([Bind(Include = "username,password")] Administrator administrator)
         {
 
-            var Authentication = AdminService.GetByUsernamrAndPassword(administrator.username, administrator.password);
+            var Authentication = _AdminRepo.GetByUsernamrAndPassword(administrator.username, administrator.password);
 
 
             if (Authentication != null)
             {
                 Session["Authen"] = true;
                 Session["username"] = Authentication.username.ToString();
-                Session["accountid"] = Authentication.id;
+          //      Session["accountid"] = Authentication.id;
 
 
 
@@ -304,21 +315,21 @@ namespace VA.Controllers
             IEnumerable<Member> member = Enumerable.Empty<Member>();
             if (condition == "email")
             {
-                member = MemberService.GetByEmail(keyword);
+                member = _MemberRepo.GetByEmail(keyword);
             }
 
             if (condition == "name")
             {
-                member = MemberService.GetByName(keyword);
+                member = _MemberRepo.GetByName(keyword);
             }
 
             if (condition == "address")
             {
-                member = MemberService.GetByAddress(keyword);
+                member = _MemberRepo.GetByAddress(keyword);
             }
             if (condition == "phone")
             {
-                member = MemberService.GetByPhoneNumber(keyword);
+                member = _MemberRepo.GetByPhoneNumber(keyword);
             }
 
             return View(member);

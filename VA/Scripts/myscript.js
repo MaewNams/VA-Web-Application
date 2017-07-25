@@ -339,18 +339,7 @@ $(document).ready(function () {
 
 
 
-  /*  $('#create_app_modal')
-        .modal({
-            detachable: true,
-            closable: false,
-            onApprove: function () {
-                $('#create_app_form').submit(); //Return false as to not close modal dialog
-                return false;
-            }
 
-        })
-        ;
-    */
     $('#create_pet_modal').modal({
         detachable: true,
         closable: false,
@@ -407,29 +396,7 @@ $(document).ready(function () {
             }
         }
 
- /*   var formSettingsApp =
-        {
-            onSuccess: function (e) {
-                e.preventDefault();
-                $.post(BaseURL + '/VA/Member/CreateApp', {
-                    memberID: $('#member').val(),
-                    petId: $('#select_pet').val(),
-                    detail: $('#detail').val(),
-                    suggestion: $('#suggestion').val(),
-                    date: $('#date').val(),
-                }, function (data) {
-                    if (data.Result == "Success") {
-                        alert("Create success");
-                        window.location.reload();
-                    } else {
-                        alert(data.Result);
-                        $('.modal').modal('hide');
-                    }
-                })
 
-            }
-        }
-    */
     var formSettingsPet =
         {
             onSuccess: function (e) {
@@ -452,7 +419,6 @@ $(document).ready(function () {
         }
 
 
-  /*  $('#create_app_form').form(formValidationRulesApp, formSettingsApp);*/
     $('#create_pet_form').form(formValidationRulesPet, formSettingsPet);
 
     $('#call_create_app_modal').click(function () {
@@ -898,7 +864,6 @@ $(document).ready(function () {
                 }
                 )
             } if (data.Result == "Confirm") {
-
                 $.ajax({
                     url: BaseURL + '/VA/Member/GetWarningMessage',
                     type: "POST",

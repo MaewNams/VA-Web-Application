@@ -62,3 +62,11 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Com
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\obj\Debug\VATests.csprojResolveAssemblyReference.cache
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\obj\Debug\VATests.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\obj\Debug\VATests.pdb
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Microsoft.Practices.Unity.dll
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Unity.Mvc4.dll
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Microsoft.Practices.Unity.xml
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Microsoft.Practices.ServiceLocation.xml

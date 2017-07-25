@@ -7,7 +7,7 @@
     IEnumerable<Pet> pets = Model.pets;
     IEnumerable<PetType> pettypes = Model.pettypes;
 
-    Html.RenderPartial("~/Views/PatialViews/_MemberSideBar.cshtml", Model.memberId);
+    Html.RenderPartial("~/Views/PatialViews/_MemberSideBar.cshtml", Model.member);
 }
 
 <div class="pusher">
@@ -64,9 +64,49 @@
                                 {
 
                                     Html.RenderPartial("~/Views/PatialViews/_MemberPet.cshtml", pet);
-                                  
-                                        }
 
+                               <!--  <div class="ui modal" id="edit_pet_modal_@pet.id" style="left: 60%;width: 40%;margin-top: -114.5px;">
+        <div class="header">
+            Edit pet
+        </div>
+        <div class="content">
+            <div class="ui form" id="edit_pet_form">
+                <input type="hidden" id="edit_pet_@pet.id" value="@pet.id">
+                <input type="hidden" id="edit_pet_type" value="@pet.PetType.id">
+                <div class="field">
+                    <label>Pet name</label>
+                    <input name="petName" type="text" id="edit_petName_@pet.id" value="@pet.name">
+                </div>
+
+                <select name="specie" class="ui dropdown" id="select_edit_specie_@pet.id">
+                    @{
+                        if (pettypes != null && pettypes.ToList().Count > 0)
+                        {
+                            foreach (var type in pettypes)
+                            {
+                                <option value="@type.id">@type.name</option>
+                            }
+                        }
+                    }
+
+                </select>
+                <script type="text/javascript">
+                        $("#select_edit_specie_@pet.id").val('@pet.typeId');
+                </script>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Cancel
+            </div>
+            <div class="ui green basic button confirm_edit_pet_button" value="@pet.id">
+                <i class="checkmark icon"></i>
+                Confirm
+            </div>
+        </div>
+    </div>
+                              --> 
+                                }
                             }
                         </tbody>
                     </table>

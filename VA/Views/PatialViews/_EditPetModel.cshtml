@@ -16,8 +16,9 @@
                 <input name="petName" type="text" id="edit_petName_@Model.id" value="@Model.name">
             </div>
 
-            @*<select name="specie" class="ui dropdown" id="select_edit_specie_@Model.id">
-    @{
+            <select name="specie" class="ui dropdown" id="select_edit_specie_@Model.id">
+    @* ส่วนที่เป็นปัญหา เพราะ model ในหน้านี้มีแค่ pet *-* หน้านี้เป็น patialview ฮับ
+        {
         if (pettypes != null && pettypes.ToList().Count > 0)
         {
             foreach (var type in pettypes)
@@ -26,8 +27,9 @@
             }
         }
     }
+        *@
 
-            </select>*@
+            </select>
             <script type="text/javascript">
                $("#select_edit_specie_@Model.id").val('@Model.typeId');
             </script>

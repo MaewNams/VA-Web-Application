@@ -8,7 +8,7 @@ namespace VA.ViewModel
 {
     public class MemberPetViewModel
     {
-        public int memberId { get; set; }
+        public Member member { get; set; }
         public IEnumerable<Pet> pets { get; set; }
         public IEnumerable<PetType> pettypes { get; set; }
     }
