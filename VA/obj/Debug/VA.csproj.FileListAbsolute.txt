@@ -206,6 +206,7 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Owin
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\es\Hangfire.Core.resources.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\zh\Hangfire.Core.resources.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.InitialCreate.resources
+C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migrations.deleteDateonModelApp2.resources
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.csproj.GenerateResource.Cache
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.pdb

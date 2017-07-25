@@ -1,0 +1,221 @@
+﻿@using VA.Models
+@model VA.ViewModel.MemberAppointmentViewModel
+
+@{  ViewBag.Title = "Member Profile";
+    Layout = "~/Views/Shared/_test.cshtml";
+
+    Html.RenderPartial("~/Views/PatialViews/_MemberSideBar.cshtml", Model.member);
+
+    IEnumerable<Appointment> appWait = Model.waitAppointments;
+    IEnumerable<Appointment> appCom = Model.comAppointments;
+}
+
+
+<div class="pusher">
+
+    <div class="ui secondary pointing massive menu" style="background-color:white;padding-right:270px;border:none!important;font-size:16px">
+
+        <div class="right menu">
+            <a href="/VA/Home/Logout" class="ui item">
+                Logout
+            </a>
+        </div>
+    </div>
+    <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
+
+        <div class="ui top attached tabular menu">
+
+            <a class="item active" data-tab="first">Month appointment</a>
+            <a class="item " href="/VA/Member/TestPet"  >Pet</a>
+            <a class="item " href="/VA/Member/TestCreateApp">Create appointment</a>
+        </div>
+
+
+
+        @* -------------------------Member's Appointment---------------------------------------- *@
+        <div class="ui bottom attached tab segment active" data-tab="first">
+            <div class="ui grid" style="padding-bottom: 15px">
+                <div class="eight wide column">
+                    <div class="ui calendar example7">
+                        <div class="ui input left icon">
+                            <i class="time icon"></i>
+                            <input type="text" placeholder="Time" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui grid">
+
+
+                <div class="sixteen wide column">
+
+
+                    @* ---------------------------------- Waiting monthly appointment---------------------------- *@
+                    <div class="ui segment">
+                        <div class="ui teal large label">
+                            Waiting appointment
+                        </div>
+                        @if (appWait != null && appWait.ToList().Count > 0)
+                        {
+                            <table class="ui selectable  table" style="border:none!important">
+                                <thead>
+                                    <tr>
+                                        <th class="two wide">Date</th>
+                                        <th class="two wide">Pet name</th>
+                                        <th class="two wide">Service</th>
+                                        <th class="three wide">Detail</th>
+                                        <th class="three wide">Suggestion</th>
+                                        <th class="one wide">Status</th>
+                                        <th class="one wide" style="text-align:center">Edit</th>
+                                        <th class="one wide" style="text-align:center">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var app in appWait)
+                {
+                                        <tr>
+
+                                            <td style="vertical-align:top"> @app.startTime.ToString("d")</td>
+                                            <td style="vertical-align:top">@app.Pet.name</td>
+                                            <td style="vertical-align:top">@app.VAService.description</td>
+                                            <td style="vertical-align:top">@app.detail</td>
+                                            <td style="vertical-align:top">@app.suggestion werwerewrwerwerw</td>
+                                            <td style="color:teal;vertical-align:top">@app.status</td>
+                                            <td style="text-align:right;vertical-align:top">
+                                                <button class="fluid ui teal basic button call_edit_app_modal" data-id="@app.id">edit</button>
+
+                                            </td>
+                                            <td style="text-align:right;vertical-align:top">
+                                                <button class="fluid ui red basic button delete_app_button" data-id="@app.id">delete</button>
+                                            </td>
+                                        </tr>
+                                        <div id="edit_app_modal_@app.id" class="ui modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
+                                            <div class="header">
+                                                Edit Appointment
+                                            </div>
+
+                                            <div class="content">
+
+                                                <div class="ui form" id="edit_app_form">
+                                                    <div class="field">
+                                                        <label>Appointment date<text style="color:darkred"> ( Can't change )</text></label>
+                                                        <div class="ui calendar calendar_date">
+                                                            <div class="ui disabled input left icon">
+                                                                <i class="time icon"></i>
+                                                                <input type="text" name="date" value="@app.startTime.ToString("d")">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="inline fields">
+                                                        <div class="field">
+                                                            <label>Pet name <text style="color:darkred"> ( Can't change )</text></label>
+                                                            <div class="ui disabled input left icon">
+                                                                <i class="paw icon"></i>
+                                                                <input type="text" name="petName" value="@app.Pet.name">
+                                                            </div>
+                                                        </div>
+                                                        <div class="field">
+                                                            <label>Service <text style="color:darkred"> ( Can't change )</text></label>
+                                                            <div class="ui disabled input left icon">
+                                                                <i class="paw icon"></i>
+                                                                <input type="text" name="service" value="@app.VAService.description">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <label>Service detail</label>
+                                                        <input name="detail" type="text" id="edit_detail_@app.id" value="@app.detail">
+                                                    </div>
+                                                    <input type="hidden" id="edit_app_@app.id" value="@app.id">
+                                                    <div class="field">
+                                                        <label>Suggestion before come to clinic</label>
+                                                        <input name="suggestion" type="text" id="edit_suggestion_@app.id" value="@app.suggestion">
+                                                    </div>
+                                                    <div class="ui error message"></div>
+
+                                                </div>
+                                            </div>
+                                            <div class="actions">
+                                                <div class="ui black deny button">
+                                                    Cancel
+                                                </div>
+                                                <div class="ui tiny green basic button confirm_edit_app_button" value="@app.id">
+                                                    <i class="checkmark icon"></i>
+                                                    Confirm
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </tbody>
+                            </table>
+
+                        }
+                        else
+                        {  <div style="text-align:center">No Appointment</div>}
+                    </div>
+
+
+                    @* ----------------------------------Complete monthly appointment---------------------------- *@
+                    <div class="ui segment">
+
+                        <div class="ui grey large label">
+                            Complete appointment
+                        </div>
+
+                        @if (appCom != null && appCom.ToList().Count > 0)
+                        {
+                            <table class="ui single line selectable  table" style="border:none!important">
+                                <thead>
+                                    <tr>
+                   
+                                        <th class="two wide">Date</th>
+                                        <th class="two wide">Pet name</th>
+                                        <th class="two wide">Service</th>
+                                        <th class="three wide">Detail</th>
+                                        <th class="three wide">Suggestion</th>
+                                        <th class="one wide">Status</th>
+                                        <th class="one wide"></th>
+                                        <th class="one wide" style="text-align:center">Delete</th>
+                                 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var app in appCom)
+                                    {
+                                        <tr>
+
+                                            <td style="vertical-align:top">@app.Member.name</td>
+                                            <td style="vertical-align:top"> @app.Pet.name</td>
+                                            <td style="vertical-align:top">@app.VAService.description</td>
+                                            <td style="vertical-align:top">@app.detail</td>
+                                            <td style="color:red;vertical-align:top">@app.status</td>
+                                            <td style="text-align:center;vertical-align:top">
+                                                <button class="fluid ui red basic button">delete</button>
+                                            </td>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {  <div style="text-align:center"> No Appointment</div>}
+
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

@@ -8,7 +8,7 @@ using VA.Models;
 
 namespace VA.Repositories
 {
-    interface IAdministratorRepository
+    public interface IAdministratorRepository
     {
         Administrator GetByUsernamrAndPassword(string username, string password);
     }

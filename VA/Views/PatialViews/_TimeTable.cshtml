@@ -1,0 +1,20 @@
+﻿@model VA.Models.TimeBlock
+
+<tr class="top aligned">
+    <td>@Model.startTime.ToShortTimeString() - @Model.endTime.ToShortTimeString()</td>
+    <td class="top aligned">
+        @Model.status
+    </td>
+    @if (Model.status == "Free")
+    {
+        <td class="top aligned" style="color:green">@Model.numberofCase</td>
+    }
+    @if (Model.status == "Busy")
+    {
+        <td class="top aligned" style="color:orange">@Model.numberofCase</td>
+    }
+    @if (Model.status == "Full")
+    {
+        <td class="top aligned" style="color:red">@Model.numberofCase</td>
+    }
+</tr>

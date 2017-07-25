@@ -8,7 +8,7 @@ using VA.Models;
 
 namespace VA.Repositories
 {
-    interface IPetRepository 
+    public interface IPetRepository 
     {
         void Add(Pet model);
         void Update(Pet model);

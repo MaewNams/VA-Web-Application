@@ -8,7 +8,7 @@ using VA.Models;
 
 namespace VA.Repositories
 {
-    interface IAppointmentRepository
+    public interface IAppointmentRepository
     {
         void Add(Appointment model);
         void Update(Appointment model);

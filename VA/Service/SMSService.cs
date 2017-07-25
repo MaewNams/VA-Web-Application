@@ -56,7 +56,7 @@ namespace VA.Service
                                         ". Suggestion before go to clinic : " + appointment.suggestion;
                     //  phone = appointment.Member.phonenumber.Substring(1);
                     client.SendMessage("412-413-9257", "+66" + phone, string.Format("Hello " + appointment.Member.name + 
-                        ", tomorrow ("+appointment.date.ToString("D")+ ") you have appointment with us! Please bring " + appointment.Pet.name + 
+                        ", tomorrow ("+appointment.startTime.Date.ToString("D")+ ") you have appointment with us! Please bring " + appointment.Pet.name + 
                         " to clinic to get" + appointment.VAService.description + 
                         " at " +appointment.startTime + "-" + appointment.endTime)+
                         "\r\n" + "Suggestion before go to the veterinary clinic: " +appointment.suggestion);

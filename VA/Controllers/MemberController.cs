@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using VA.DAL;
 using VA.Models;
+using VA.ViewModel;
 using VA.Repositories;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -24,12 +25,11 @@ namespace VA.Controllers
         private AppTimeRepository AppTimeService = new AppTimeRepository();
         private VAServiceRepository VAService = new VAServiceRepository();
         private VCRepository VCService = new VCRepository();
-        private readonly Random _random = new Random();
 
         //[Route("Member/{Id}")]
         public ActionResult Index(int? id, int? day, int? month, int? year)
         {
-                if (id == null)
+            if (id == null)
             {
                 return RedirectToAction("Member", "Home");
             }
@@ -152,8 +152,7 @@ namespace VA.Controllers
             appointment.petId = Int32.Parse(petID.ToString());
             appointment.serviceId = Int32.Parse(serviceID.ToString());
             appointment.suggestion = suggestion;
-            appointment.date = date;
-            
+
             //Create object clinic to get maximum case
             Clinic clinic = VCService.Get();
             appointment.startTime = startTime;
@@ -163,34 +162,34 @@ namespace VA.Controllers
 
             //---------------------- Finish crate appointment ----------//
 
-            //------------> start check exits of timeblock(id, starttime, endtime)
-                    //---> Create hour list of duration of appointment
-                    var hours = new List<DateTime>();
 
-                     var start = new DateTime(date.Year, date.Month, date.Day,
-                                    startTime.Hour, startTime.Minute, 0, startTime.Kind);
-                    var end = new DateTime(date.Year, date.Month, date.Day,
-                                    endTime.Hour, endTime.Minute, 0, startTime.Kind);
-                     hours.Add(start);
-    
-                    while ((start = start.AddHours(0.5)) < end)
-                    {
-                     hours.Add(start);
-                    }
+            //---> Create hour list of duration of appointment
+            var hours = new List<DateTime>();
+
+            var start = new DateTime(date.Year, date.Month, date.Day,
+                           startTime.Hour, startTime.Minute, 0, startTime.Kind);
+            var end = new DateTime(date.Year, date.Month, date.Day,
+                            endTime.Hour, endTime.Minute, 0, startTime.Kind);
+            hours.Add(start);
+
+            while ((start = start.AddHours(0.5)) < end)
+            {
+                hours.Add(start);
+            }
 
             int lastAppTime; //--> use for create new id of new apppointmentTimeblock
 
-          //  List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
+            //  List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
             DateTime checkStart, checkEnd;
             var warningmessage = new List<String>();
             foreach (var hour in hours)
             {
-                 //---------------> Find timeblock object to add to AppointmentTimeBlock and add case number to timeblock
+                //---------------> Find timeblock object to add to AppointmentTimeBlock and add case number to timeblock
                 checkStart = new DateTime(date.Year, date.Month, date.Day,
                                     hour.Hour, hour.Minute, 0, startTime.Kind);
                 checkEnd = checkStart.AddHours(0.5);
                 TimeBlock checkTimeBlock = TimeBlockService.GetByTime(checkStart, checkEnd);
-                
+
 
                 //Check for last AppointmentTimeblock to get id
                 AppointmentTimeBlock CheckAppTime = AppTimeService.GetLast();
@@ -298,7 +297,7 @@ namespace VA.Controllers
             return Json(new { Result = "Success", newMemberId = member.id });
         }
         [HttpPost]
-        public ActionResult CreateApp(int? memberID, int? petID, int? serviceID, string suggestion, DateTime date, DateTime startTime, DateTime endTime)
+        public ActionResult CreateApp(int? memberID, int? petID, int? serviceID, string suggestion, DateTime startTime, DateTime endTime)
         {
             List<Appointment> CheckApp = AppointmentService.GetAll().ToList();
             int lastID = CheckApp.LastOrDefault().id;
@@ -309,7 +308,6 @@ namespace VA.Controllers
             appointment.petId = Int32.Parse(petID.ToString());
             appointment.serviceId = Int32.Parse(serviceID.ToString());
             appointment.suggestion = suggestion;
-            appointment.date = date;
             appointment.startTime = startTime;
             appointment.endTime = endTime;
             appointment.status = "Waiting";
@@ -358,7 +356,7 @@ namespace VA.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(int id, string name, string surname,string email, string address, string phonenumber)
+        public ActionResult Edit(int id, string name, string surname, string email, string address, string phonenumber)
         {
             Member checkName = MemberService.GetByNameAndSurname(name, surname);
             Member checkEMail = MemberService.GetByEmail(email).FirstOrDefault();
@@ -402,7 +400,7 @@ namespace VA.Controllers
             {
                 return Json(new { Result = "Fail, email address is in invalid format" });
             }
-            if (checkEMail != null && checkEMail.id != id )
+            if (checkEMail != null && checkEMail.id != id)
             {
                 return Json(new { Result = "Fail, the email " + email + " already exits in the system" });
             }
@@ -465,19 +463,19 @@ namespace VA.Controllers
                             TimeBlock updateTimeBlock = TimeBlockService.GetByID(apptime.timeId);
                             // 2.1 reduce number of case
                             updateTimeBlock.numberofCase -= 1;
-                           
+
                             // 2.2 update status
-                            if( updateTimeBlock.numberofCase == 0 || updateTimeBlock.numberofCase <= clinic.maximumCase)
+                            if (updateTimeBlock.numberofCase == 0 || updateTimeBlock.numberofCase <= clinic.maximumCase)
                             {
                                 updateTimeBlock.status = "Free";
                             }
-                            
+
                             TimeBlockService.Update(updateTimeBlock);
 
                             //Delete AppointmentTimeblock (1) ^
                             AppTimeService.Delete(apptime);
                         }
-                     }
+                    }
                     // Then remove appointment (3)
                     _db.Appointment.Remove(app);
                     _db.SaveChanges();
@@ -501,7 +499,7 @@ namespace VA.Controllers
 
 
 
-                return Json(new { Result = "Success" });
+            return Json(new { Result = "Success" });
         }
 
 
@@ -512,23 +510,10 @@ namespace VA.Controllers
         //[Route("Member/{Id}")]
         public ActionResult TestCreateApp(int id, int? day, int? month, int? year)
         {
-            ViewData["warning"] = null;
-            if (TempData["warning"] != null)
+            if (Session["Authen"] == null)
             {
-                var ls = (List<string>)TempData["warning"];
-                foreach (string str in ls)
-                {
-
-                    ViewData["warning"] = str;
-
-
-                }
+                return RedirectToAction("Login", "Home");
             }
-
-          if (Session["Authen"] == null)
-             {
-                 return RedirectToAction("Login", "Home");
-             }
 
             if (month == null && year == null)
             {
@@ -537,6 +522,17 @@ namespace VA.Controllers
                 year = DateTime.Now.Year;
 
             }
+
+            ViewData["warning"] = null;
+            if (TempData["warning"] != null)
+            {
+                var ls = (List<string>)TempData["warning"];
+                foreach (string str in ls)
+                {
+                    ViewData["warning"] = str;
+                }
+            }
+
 
 
             TimeSpan start = new TimeSpan(09, 30, 0);
@@ -612,7 +608,7 @@ namespace VA.Controllers
         [HttpPost]
         public ActionResult CheckTimeSlot(int? serviceID, DateTime date, DateTime? startTime, DateTime? endTime)
         {
-            if (startTime ==null || endTime == null)
+            if (startTime == null || endTime == null)
             {
                 return Json(new { Result = "Please select start time and end time for the appointment" });
             }
@@ -621,7 +617,7 @@ namespace VA.Controllers
 
             // Create slot of time //
             var hours = new List<DateTime>();
-        
+
             var start = new DateTime(date.Year, date.Month, date.Day,
                                     startTime.Value.Hour, startTime.Value.Minute, 0, startTime.Value.Kind);
             var end = new DateTime(date.Year, date.Month, date.Day,
@@ -683,6 +679,69 @@ namespace VA.Controllers
 
         }
 
+        // GET: Default
+        public ActionResult TestIndex(int id, int? month, int? year)
+        {
+            if (month == null && year == null)
+            {
+                month = DateTime.Now.Month;
+                year = DateTime.Now.Year;
+            }
+            MemberAppointmentViewModel memberApp = new MemberAppointmentViewModel
+            {
+                date = new DateTime(year.Value, month.Value, DateTime.Now.Day),
+                member = MemberService.GetByID(id),
+                waitAppointments = AppointmentService.GetByMemberIdAndStatus(id, month.Value, year.Value, "Waiting").ToList(),
+                comAppointments = AppointmentService.GetByMemberIdAndStatus(id, month.Value, year.Value, "Complete").ToList()
+
+            };
+            return View(memberApp);
+        }
+        // GET: Default
+        public ActionResult TestPet(int? id)
+        {
+            if (Session["Authen"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if (id == null)
+            {
+                return RedirectToAction("Member", "Home");
+            }
+            MemberPetViewModel memberPet = new MemberPetViewModel
+            {
+                memberId = id.Value,
+                pets = PetService.GetByMemberID(id.Value),
+                pettypes = PetSpecieService.GetAll()
+            };
+
+            return View(memberPet);
+        }
+
+        public ActionResult CreateAppointment(int id, int? day, int? month, int? year)
+        {
+
+            if (month == null && year == null)
+            {
+                day = DateTime.Now.Day;
+                month = DateTime.Now.Month;
+                year = DateTime.Now.Year;
+            }
+
+            CheckExitsTimeSlot(day, month, year);
+
+            CreateAppointmentViewModel result = new CreateAppointmentViewModel
+            {
+                date = new DateTime(year.Value, month.Value, day.Value),
+                member = MemberService.GetByID(id),
+                pets = PetService.GetByMemberID(id),
+                services = VAService.GetAll(),
+                timeblocks = TimeBlockService.GetListByDate(day.Value, month.Value, year.Value)
+            };
+
+            return View(result);
+        }
+
         public JsonResult GetWarningMessage()
         {
             if (TempData["warning"] != null)
@@ -695,8 +754,65 @@ namespace VA.Controllers
             return Json("OK");
         }
 
-     
+        public void CheckExitsTimeSlot(int? day, int? month, int? year)
+        {
+            TimeSpan start = new TimeSpan(09, 30, 0);
+            TimeSpan end = new TimeSpan(21, 30, 0);
+            DateTime today = new DateTime(year.Value, month.Value, day.Value);
+            // Check if the system already have that day time table -- if not, create one --of the week//
+
+            TimeBlock checkExits = TimeBlockService.GetByDate(day.Value, month.Value, year.Value);
+            var monday = today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
+            if (checkExits == null)
+            {
+                int lastDay = monday.Day + 7;
+                //Loop for this week
+                for (int i = monday.Day - 1; i <= lastDay; i++)
+                {
+                    //Start from monday -> sunday
+                    DateTime dt = new DateTime(monday.Year, monday.Month, i);
+                    //Loop for hour in day
+
+                    DateTime startTime = new DateTime(dt.Year, dt.Month, dt.Day) + start;
+                    DateTime endTime = new DateTime(dt.Year, dt.Month, dt.Day) + end;
+                    var hours = new List<DateTime>();
+                    hours.Add(startTime);
+                    var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
+                                            startTime.Hour, startTime.Minute, 0, startTime.Kind);
+
+                    while ((next = next.AddHours(0.5)) < endTime)
+                    {
+                        hours.Add(next);
+                    }
+                    hours.Add(endTime);
+                    int lastTimeID;
+                    TimeBlock checkLast = TimeBlockService.GetLast();
+                    if (checkLast != null)
+                    {
+                        lastTimeID = checkLast.id;
+                    }
+                    else
+                    {
+                        lastTimeID = 0;
+                    }
+                    foreach (var hour in hours)
+                    {
+                        TimeBlock timeblock = new TimeBlock();
+                        timeblock.id = lastTimeID + 1;
+                        timeblock.startTime = hour;
+                        timeblock.endTime = hour.AddHours(0.5);
+                        timeblock.numberofCase = 0;
+                        timeblock.status = "Free";
+                        TimeBlockService.Add(timeblock);
+                        lastTimeID += 1;
+                    }
+                }
+            }
+        }
+
 
     }
+
+
 
 }

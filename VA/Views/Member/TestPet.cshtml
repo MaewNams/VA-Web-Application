@@ -1,0 +1,93 @@
+﻿@using VA.Models
+@model VA.ViewModel.MemberPetViewModel
+
+@{  ViewBag.Title = "Member Profile";
+    Layout = "~/Views/Shared/_test.cshtml";
+
+    IEnumerable<Pet> pets = Model.pets;
+    IEnumerable<PetType> pettypes = Model.pettypes;
+
+    Html.RenderPartial("~/Views/PatialViews/_MemberSideBar.cshtml", Model.memberId);
+}
+
+<div class="pusher">
+
+    <div class="ui secondary pointing massive menu" style="background-color:white;padding-right:270px;border:none!important;font-size:16px">
+        <div class="item">
+            <i class="paw icon"></i> Hello, administrator  <text style="color:teal;padding-left:5px">  @Session["username"].ToString() </text>
+        </div>
+        <div class="right menu">
+            <a href="/VA/Home/Logout" class="ui item">
+                Logout
+            </a>
+        </div>
+    </div>
+    <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
+
+        <div class="ui top attached tabular menu">
+
+            <a class="item href="/VA/Member/TestIndex"" data-tab="first">Month appointment</a>
+            <a class="item active">Pet</a>
+            <a class="item " href="/VA/Member/TestCreaApp">Create appointment</a>
+        </div>
+
+
+
+        @* -------------------------Member's Pet---------------------------------------- *@
+        <div class="ui bottom attached tab segment active" data-tab="second">
+
+            <div class="ui grid" style="padding-bottom: 15px">
+                <div class="eight wide column">
+                </div>
+                <div class="eight wide column">
+                    <button class="ui right floated teal button" id="call_create_pet_modal">Create new pet account</button>
+                </div>
+            </div>
+
+            @{
+
+                if (pets != null && pets.ToList().Count > 0)
+                {
+                    <table class="ui celled table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{    foreach (var pet in pets)
+                                {
+
+                                    Html.RenderPartial("~/Views/PatialViews/_MemberPet.cshtml", pet);
+                                  
+                                        }
+
+                            }
+                        </tbody>
+                    </table>
+                                }
+                                else
+                                {  <div class="ui segment" style="text-align:center"> No pet profile yet</div>}
+            }
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+

@@ -12,10 +12,12 @@ namespace VA.Repositories
     public class AdministratorRepository : IAdministratorRepository
     {
         private readonly VAContext _db = new VAContext();
+
         public Administrator GetByUsernamrAndPassword(string username, string password)
         {
 
             return _db.Administrator.FirstOrDefault(s => s.username == username && s.password == password);
         }
+
     }
 }

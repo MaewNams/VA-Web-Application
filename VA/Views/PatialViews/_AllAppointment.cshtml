@@ -1,0 +1,55 @@
+﻿@model VA.Models.Appointment
+
+<tr>
+    <td>@Model.startTime.ToString("d")</td>
+    <td>@Model.Member.name  @Model.Member.surname</td>
+    <td> @Model.Pet.name</td>
+    <td>@Model.detail</td>
+    <td style="color:red">@Model.status</td>
+    <td style="text-align:right">
+        <button class="ui teal basic button  call_app_detail_modal" data-id="@Model.id">View</button>
+    </td>
+    <td style="text-align:center">
+        <button class="ui red basic button delete_app_button" data-id="@Model.id">Delete</button>
+    </td>
+    <td style="text-align:left"></td>
+    <div class="ui modal" id="appWait_detail_modal_@Model.id" style="left:60%;width:40%">
+        <i class="close icon" style="color:black;top:0rem;right:0rem"></i>
+        <div class="content">
+            <div class="ui items">
+
+                <div class="item">
+                    <div class="image" style="border-right: 8px teal solid;font-size:22px;text-align: center;padding-top:25px">
+                        <div class="ui statistic">
+                            <div class="value">
+                                @Model.startTime.ToString("dd")
+                            </div>
+                            <div class="label" style="font-weight:lighter">
+                                @Model.startTime.ToString("MMM") , @Model.startTime.ToString("yyyy")
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="content" style="font-size:16px">
+                        <p><text style="font-weight:bolder"><i class="paw icon"></i>Pet name :</text> @Model.Pet.name    [ @Model.Pet.PetType.name ]</p>
+                        <p><text style="font-weight:bolder"><i class="user icon"></i>Owner:</text> @Model.Member.name @Model.Member.surname</p>
+                        <p><text style="font-weight:bolder"><i class="call icon"></i>Contact number :</text> @Model.Member.phonenumber</p>
+                        <div class="ui divider"></div>
+
+                        <p>
+                            <text style="font-weight:bolder">Detail : </text> @Model.detail
+                        </p>
+                        <div class="ui divider"></div>
+                        <p>
+                            <text style="font-weight:bolder"> Preparation :</text>  @Model.suggestion
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</tr>

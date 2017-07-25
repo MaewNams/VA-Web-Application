@@ -251,6 +251,10 @@
     <Compile Include="Migrations\201707142103427_InitialCreate.Designer.cs">
       <DependentUpon>201707142103427_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707210814202_deleteDateonModelApp2.cs" />
+    <Compile Include="Migrations\201707210814202_deleteDateonModelApp2.Designer.cs">
+      <DependentUpon>201707210814202_deleteDateonModelApp2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -283,8 +287,12 @@
     <Compile Include="Service\CalendarSchedule.cs" />
     <Compile Include="Service\SMSSchedule.cs" />
     <Compile Include="Service\SMSService.cs" />
+    <Compile Include="ViewModel\AllAppointmentViewModel.cs" />
     <Compile Include="ViewModel\AppointmentViewModel.cs" />
+    <Compile Include="ViewModel\CreateAppointmentViewModel.cs" />
     <Compile Include="ViewModel\LoginResultViewModel.cs" />
+    <Compile Include="ViewModel\MemberAppointmentViewModel.cs" />
+    <Compile Include="ViewModel\MemberPetViewModel.cs" />
     <Compile Include="ViewModel\TimetableViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -358,12 +366,25 @@
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Home\Monthly.cshtml" />
     <Content Include="Views\Home\EditPetModal.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Shared\_test.cshtml" />
     <Content Include="Views\Home\Member.cshtml" />
     <Content Include="Views\Home\VASetting.cshtml" />
     <Content Include="Views\Member\TestCreateApp.cshtml" />
     <Content Include="Views\Home\PetSpecie.cshtml" />
+    <Content Include="Views\Member\TestIndex.cshtml" />
+    <Content Include="Views\Member\CreateAppointment.cshtml" />
+    <Content Include="Views\PatialViews\_MemberSideBar.cshtml" />
+    <Content Include="Views\PatialViews\_NavbarPatialView.cshtml" />
+    <Content Include="Views\Shared\_LayoutTest.cshtml" />
+    <Content Include="Views\PatialViews\_CreateMemberModal.cshtml" />
+    <Content Include="Views\PatialViews\_AllAppointment.cshtml" />
+    <Content Include="Views\PatialViews\_CreateSpecieModl.cshtml" />
+    <Content Include="Views\PatialViews\_MemberResult.cshtml" />
+    <Content Include="Views\Member\TestPet.cshtml" />
+    <Content Include="Views\PatialViews\_CreatePetModel.cshtml" />
+    <Content Include="Views\PatialViews\_EditPetModel.cshtml" />
+    <Content Include="Views\PatialViews\_MemberPet.cshtml" />
+    <Content Include="Views\PatialViews\_TimeTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -384,6 +405,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201707142103427_InitialCreate.resx">
       <DependentUpon>201707142103427_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707210814202_deleteDateonModelApp2.resx">
+      <DependentUpon>201707210814202_deleteDateonModelApp2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

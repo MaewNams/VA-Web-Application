@@ -7,7 +7,7 @@ using VA.Models;
 
 namespace VA.Repositories
 {
-    interface IServiceRepository
+    public interface IServiceRepository
     {
         void Add(VAService model);
         void Update(VAService model);

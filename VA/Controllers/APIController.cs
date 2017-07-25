@@ -65,7 +65,6 @@ namespace VA.Controllers
             var a = appointmentList.Select(s => new AppointmentViewModel
             {
                 appointmentId = s.id,
-                date = s.date,
                 start = s.startTime,
                 end = s.endTime,
                 petName = s.Pet.name,

@@ -1,105 +1,64 @@
 ﻿@using VA.Models;
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_test.cshtml";
+    Layout = "~/Views/Shared/_LayoutTest.cshtml";
 }
 @{
-    IEnumerable<PetType> species = (IEnumerable<PetType>)ViewData["PetSpecies"];
+    IEnumerable<PetType> species = Model;
 
 }
+@{
+    Html.RenderPartial("~/Views/PatialViews/_CreateSpecieModl.cshtml");
+}
 
-
-<div class="ui vertical left visible sidebar menu" style="font-size:18px">
-    <div class="item" style="font-family: 'Raleway', sans-serif; font-size:48px;text-align:center;font-weight:bold;margin-bottom:55px;color:white;background-color:teal">
-
-        VA
-
-    </div>
-
-    <div class="ui secondary vertical pointing massive menu" style="color:darkgray">
-        <a class="item" style="font-size:16px" href="/VA/Home/">
-            <i class="home icon" style="float:left;padding-right:25px"></i>Home
-        </a>
-        <a class="item" href="/VA/Home/Appointment" style="font-size:16px">
-            <i class="calendar icon" style="float:left;padding-right:25px"></i>
-            Appointment
-        </a>
-        <a class="item" style="font-size:16px" href="/VA/Home/Member">
-            <i class="user icon" style="float:left;padding-right:25px"></i>
-            Member
-        </a>
-        <a class="active item" style="font-size:16px;color:#00B5AD;border-left: 5px #00B5AD solid;">
-            <i class="paw icon" style="float:left;padding-right:25px"></i>
-            Pet specie 
-        </a>
-        <a class="item" style="font-size:16px;" href="/VA/Home/VASetting">
-            <i class="setting icon" style="float:left;padding-right:25px"></i>
-            Clinic Setting
-        </a>
-    </div>
-</div>
-<div class="pusher">
-
-    <div class="ui secondary pointing massive menu" style="background-color:white;padding-right:270px;border:none!important;font-size:16px">
-        <div class="item">
-            <i class="paw icon"></i> Hello, administrator  <text style="color:teal;padding-left:5px">  @Session["username"].ToString() </text>
-        </div>
+<div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
+    <h2 class="ui header" style="margin-bottom: 25px;"></h2>
+    <div class="ui secondary pointing menu">
         <div class="right menu">
-            <a style="font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;" href="/VA/Home/Logout" class="ui item">
-                Logout
-            </a>
-        </div>
-    </div>
-    <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
-        <h2 class="ui header" style="margin-bottom: 25px;">
- 
-        </h2>
-        <div class="ui secondary pointing menu">
-            <div class="right menu">
-                <div class="ui form">
-                    <div class="inline fields">
-                        <button class="ui right floated teal button call_create_specie_modal">
-                            <i class="plus icon"></i>
-                            Create new pet specie
-                        </button>
-                    </div>
-
+            <div class="ui form">
+                <div class="inline fields">
+                    <button class="ui right floated teal button call_create_specie_modal">
+                        <i class="plus icon"></i>
+                        Create new pet specie
+                    </button>
                 </div>
+
             </div>
         </div>
+    </div>
 
-        <div class="ui active tab segment" data-tab="first">
+    <div class="ui active tab segment" data-tab="first">
 
-            <table class="ui single line selectable  table" style="border:none!important">
-                <thead>
-                    <tr>
-                        <th class="one wide">No</th>
-                        <th class="two wide">Name</th>
-                        <th class="two wide">Edit</th>
-                        <th class="two wide">Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
+        <table class="ui single line selectable  table" style="border:none!important">
+            <thead>
+                <tr>
+                    <th class="one wide">No</th>
+                    <th class="two wide">Name</th>
+                    <th class="two wide">Edit</th>
+                    <th class="two wide">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
 
 
-                        if (species != null && species.ToList().Count > 0)
+                    if (species != null && species.ToList().Count > 0)
+                    {
+                        int index = 0;
+                        foreach (var specie in species)
                         {
-                            int index = 0;
-                            foreach (var specie in species)
-                            {
-                                index += 1;
+                            index += 1;
 
-                                <tr >
-                                    <td>@index</td>
-                                    <td>@specie.name</td>
-                                    <td>
-                                        <button class="ui blue basic button call_edit_type_modal" data-id="@specie.id">Edit</button>
-                                    </td>
-                                    <td >
-                                        <button class="ui red basic button delete_type_button" data-id="@specie.id" style="width:65%">Delete Type</button>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>@index</td>
+                                <td>@specie.name</td>
+                                <td>
+                                    <button class="ui blue basic button call_edit_type_modal" data-id="@specie.id">Edit</button>
+                                </td>
+                                <td>
+                                    <button class="ui red basic button delete_type_button" data-id="@specie.id" style="width:65%">Delete Type</button>
+                                </td>
+                            </tr>
                                 <div id="edit_type_modal_@specie.id" class="ui modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
                                     <div class="header">
                                         Edit Specie
@@ -130,47 +89,20 @@
                                         </div>
                                     </div>
                                 </div>
-                            }
                         }
-
-
-
-
                     }
-                </tbody>
-            </table>
 
 
 
-        </div>
 
+                }
+            </tbody>
+        </table>
 
 
 
     </div>
-</div>
 
-<div class="ui modal" id="create_specie_modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
-    <i class="close icon"></i>
-    <div class="header">
-        Create new pet specie
     </div>
-    <div class="image content">
-        <form class="ui form" id="create_pet_form">
-            <div class="field">
-                <label>Pet specie</label>
-                <input name="petName" type="text" id="petSpecie">
-            </div>
-            <div class="ui error message"></div>
-        </form>
-    </div>
-    <div class="actions">
-        <div class="ui black deny button">
-            Cancel
-        </div>
-        <div class="ui green basic button confirm_create_specie_button">
-            <i class="checkmark icon"></i>
-            Confirm
-        </div>
-    </div>
-</div>
+
+

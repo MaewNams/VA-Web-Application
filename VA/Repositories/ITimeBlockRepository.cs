@@ -9,7 +9,7 @@ using VA.Models;
 
 namespace VA.Repositories
 {
-    interface ITimeBlockRepository
+    public interface ITimeBlockRepository
     {
         void Add(TimeBlock model);
         void Update(TimeBlock model);

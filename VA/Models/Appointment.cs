@@ -17,7 +17,6 @@ namespace VA.Models
         public int serviceId { get; set; }
         public string detail { get; set; }
         public string suggestion { get; set; }
-        public DateTime date { get; set; }
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
         public string status { get; set; }

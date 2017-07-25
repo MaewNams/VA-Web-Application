@@ -1,0 +1,18 @@
+﻿@model VA.Models.Pet
+
+<tr>
+    <td>@Model.name</td>
+    <td>@Model.PetType.name</td>
+    <td class="collapsing">
+        <button class="ui teal button call_edit_pet_modal" data-id="@Model.id">
+            <i class="write square icon"></i>
+            Edit
+        </button>
+    </td>
+    <td class="collapsing">
+        <button class="ui button delete_pet_button" data-id="@Model.id">
+            <i class="remove icon"></i>
+            Delete
+        </button>
+    </td>
+</tr>

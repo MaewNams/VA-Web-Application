@@ -1,0 +1,146 @@
+﻿@using VA.Models
+@model VA.ViewModel.CreateAppointmentViewModel
+
+@{  ViewBag.Title = "Member Profile";
+    Layout = "~/Views/Shared/_test.cshtml";
+}
+
+@{
+    IEnumerable<Pet> pets = Model.pets;
+    IEnumerable<VAService> services = Model.services;
+    IEnumerable<TimeBlock> timeblocks = Model.timeblocks;
+
+    Html.RenderPartial("~/Views/PatialViews/_MemberSideBar.cshtml", Model.member);
+}
+
+<div class="pusher">
+
+    <div class="ui secondary pointing massive menu" style="background-color:white;padding-right:270px;border:none!important;font-size:16px">
+        <div class="item">
+            <i class="paw icon"></i> Hello, administrator  <text style="color:teal;padding-left:5px">  </text>
+        </div>
+        <div class="right menu">
+            <a href="/VA/Home/Logout" class="ui item">
+                Logout
+            </a>
+        </div>
+    </div>
+    <div class="ui padded segment" style="margin-right: 18.5em;background-color:#FAFAFA;border:0px;box-shadow:none">
+
+        <div class="ui top attached tabular menu">
+
+            <a class="item " data-tab="first">Month appointment</a>
+            <a class="item " data-tab="second">Pet</a>
+            <a class="item active" data-tab="third">Create appointment</a>
+        </div>
+
+        @* -------------------------Create appointment section---------------------------------------- *@
+        <div class="ui bottom attached tab active segment" data-tab="third">
+            <div class="ui basic segment">
+                <div class="header">
+                    Create appointment for @Model.member.name @Model.member.surname
+                </div>
+
+                <div class="ui grid">
+                    <div class="nine wide column">
+
+
+                        <form class="ui form" id="create_app_form">
+                            <div class="field">
+                                <label>Select date</label>
+                                <div class="ui calendar test_app_calendar3">
+                                    <div class="ui input left icon">
+                                        <i class="time icon"></i>
+                                        <input type="text" placeholder="Date" name="date" id="date" value="'@Model.date.ToString("D")'">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="inline field">
+                                <div class="ui input" id="timeOnlyExample">
+                                    <input type="text" class="time start" id="start" /> to
+                                    <input type="text" class="time end" id="end" />
+
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label>Select pet</label>
+                                <select name="pet" class="ui dropdown" id="select_pet">
+                                    @if (pets != null && pets.ToList().Count > 0)
+                                    {
+                                        foreach (var pet in pets)
+                                        {
+                                            <option value="@pet.id">[@pet.PetType.name] @pet.name </option>
+                                        }
+                                    }
+                                    }
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Select service</label>
+                                <select name="service" class="ui dropdown" id="select_service">
+
+                                    @if (services != null && services.ToList().Count > 0)
+                                    {
+                                        foreach (var service in services)
+                                        {
+                                            <option value="@service.id"> @service.description </option>
+                                        }
+                                    }
+                                    }
+                                </select>
+                            </div>
+                            <input name="appType" type="hidden" id="type" value="setTime">
+                            <input name="member" type="hidden" id="member" value="@Model.member.id">
+                            <div class="field">
+                                <label>Short detail</label>
+                                <input name="detail" type="text" id="detail">
+                            </div>
+
+                            <div class="field">
+                                <label>Suggestion before come to clinic</label>
+                                <input name="suggestion" type="text" id="suggestion">
+                            </div>
+                            <div class="ui error message"></div>
+                            <div class="actions">
+                                <div class="ui green basic right floated  button test_create_button2" data-id="@Model.member.id">
+                                    <i class="checkmark icon"></i>
+                                    Confirm
+                                </div>
+                                <div class="ui black deny right floated button">
+                                    Cancel
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="seven wide column">
+
+                        <table class="ui striped table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>status</th>
+                                    <th>cases</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (TimeBlock timeblock in timeblocks)
+                                {
+                                    Html.RenderPartial("~/Views/PatialViews/_TimeTable.cshtml", timeblock);
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>

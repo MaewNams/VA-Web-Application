@@ -339,7 +339,7 @@ $(document).ready(function () {
 
 
 
-    $('#create_app_modal')
+  /*  $('#create_app_modal')
         .modal({
             detachable: true,
             closable: false,
@@ -350,7 +350,7 @@ $(document).ready(function () {
 
         })
         ;
-
+    */
     $('#create_pet_modal').modal({
         detachable: true,
         closable: false,
@@ -407,7 +407,7 @@ $(document).ready(function () {
             }
         }
 
-    var formSettingsApp =
+ /*   var formSettingsApp =
         {
             onSuccess: function (e) {
                 e.preventDefault();
@@ -429,7 +429,7 @@ $(document).ready(function () {
 
             }
         }
-
+    */
     var formSettingsPet =
         {
             onSuccess: function (e) {
@@ -452,7 +452,7 @@ $(document).ready(function () {
         }
 
 
-    $('#create_app_form').form(formValidationRulesApp, formSettingsApp);
+  /*  $('#create_app_form').form(formValidationRulesApp, formSettingsApp);*/
     $('#create_pet_form').form(formValidationRulesPet, formSettingsPet);
 
     $('#call_create_app_modal').click(function () {
@@ -490,10 +490,9 @@ $(document).ready(function () {
     $('.search_button').on('click', function () {
 
         condition = $('#select_condition').val(),
-
             keyword = $('#search_keyword').val(),
             console.log("data is" + condition + " keyword is" + keyword);
-        window.location.href = BaseURL + "/VA/home/member/" + condition + "/" + keyword;
+        window.location.href = BaseURL + "/VA/home/member?condition=" + condition + "&keyword=" + keyword;
         /*   window.location.href = window.location.origin + "/Forums/Create/" + type;*/
     });
 
@@ -557,7 +556,28 @@ $(document).ready(function () {
             day = new Date(date).getDate(),
                 month = new Date(date).getMonth() + 1,
                 year = new Date(date).getFullYear(),
-                window.location.href = BaseURL + "/VA/Home/Appointment" + "?day=" + day + "&month=" + month + "&year=" + year;
+                window.location.href = BaseURL + "/VA/Home/Index" + "?day=" + day + "&month=" + month + "&year=" + year;
+        },
+    });
+
+
+    $('.test_app_calendar4').calendar({
+        type: 'month',
+        onChange: function (date) {
+            month = new Date(date).getMonth() + 1,
+                year = new Date(date).getFullYear(),
+                window.location.href = BaseURL + "/VA/Home/Monthly/" + "?month=" + month + "&year=" + year;
+        },
+    });
+
+    $('.test_app_calendar3').calendar({
+        type: 'date',
+        onChange: function (date) {
+            day = new Date(date).getDate(),
+                month = new Date(date).getMonth() + 1,
+                year = new Date(date).getFullYear(),
+                memberID = $('#member').val(),
+                window.location.href = BaseURL + "/VA/Member/CreateAppointment" + "?id=" + memberID + "&day=" + day + "&month=" + month + "&year=" + year;
         },
     });
 
@@ -847,5 +867,82 @@ $(document).ready(function () {
         }
         )
     });
+
+    //* Test create app2
+
+    /*test*/
+    $('.test_create_button2').click(function (e) {
+        e.preventDefault();
+        $.post(BaseURL + '/VA/Member/CheckTimeSlot', {
+            serviceID: $('#select_service').val(),
+            date: $('#date').val(),
+            startTime: $('#start').val(),
+            endTime: $('#end').val(),
+            type: $("#type").val()
+        }, function (data) {
+            if (data.Result == "Success") {
+                e.preventDefault();
+                $.post(BaseURL + '/VA/Member/Index', {
+                    memberID: $('#member').val(),
+                    petID: $('#select_pet').val(),
+                    serviceID: $('#select_service').val(),
+                    suggestion: $('#suggestion').val(),
+                    date: $('#date').val(),
+                    startTime: $('#start').val(),
+                    endTime: $('#end').val(),
+                }, function (data) {
+                    if (data.Result == "Success") {
+                        alert("Create success");
+                        window.location.reload();
+                    }
+                }
+                )
+            } if (data.Result == "Confirm") {
+
+                $.ajax({
+                    url: BaseURL + '/VA/Member/GetWarningMessage',
+                    type: "POST",
+                    error: function (response) {
+                        if (!response.Success)
+                            alert("Server error.");
+                    },
+                    success: function (response) {
+                        $(".result").html(response);
+                        $('#test_modal')
+                            .modal('show')
+                            ;
+                    }
+                });
+
+            }
+            else {
+                alert(data.Result);
+            }
+        })
+
+    });
+
+    $('.confirm_create_button').click(function (e) {
+        e.preventDefault();
+        $.post(BaseURL + '/VA/Member/index', {
+            memberID: $('#member').val(),
+            petID: $('#select_pet').val(),
+            serviceID: $('#select_service').val(),
+            suggestion: $('#suggestion').val(),
+            date: $('#date').val(),
+            startTime: $('#start').val(),
+            endTime: $('#end').val(),
+            type: $("#type").val()
+        }, function (data) {
+            if (data.Result == "Success") {
+                alert("Create success");
+                window.location.reload();
+            }
+            else { alert(data.Result) }
+        }
+        )
+    });
+
+
 
 });

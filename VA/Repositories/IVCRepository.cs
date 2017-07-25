@@ -9,7 +9,7 @@ using VA.Models;
 
 namespace VA.Repositories
 {
-    interface IVCRepository
+    public interface IVCRepository
     {
         void Add(Clinic model);
         void Update(Clinic model);

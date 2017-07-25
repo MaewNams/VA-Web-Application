@@ -7,7 +7,7 @@ using VA.DAL;
 using VA.Models;
 namespace VA.Repositories
 {
-    interface IPetSpecieRepository
+    public interface IPetSpecieRepository
     {
         void Add(PetType model);
         void Update(PetType model);
