@@ -38,6 +38,12 @@ namespace VA.Controllers
             _VCRepo = VCRepository;
         }
 
+        public HomeController()
+        {
+
+        }
+      
+
         public ActionResult Index(int? day, int? month, int? year)
         {
             if (Session["Authen"] == null)
@@ -223,44 +229,14 @@ namespace VA.Controllers
         }
 
 
-       /* public ActionResult Appointment(int? day, int? month, int? year)
-        {
-            if (Session["Authen"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            if (day == null)
-            {
-                day = DateTime.Now.Day;
-            }
-            if (month == null)
-            {
-                month = DateTime.Now.Month;
-            }
-            if (year == null)
-            {
-                year = DateTime.Now.Year;
-            }
-
-            ViewData["MonthAppointmentWait"] = _AppRepo.GetByMonthAndYear(month.Value, year.Value, "Waiting");
-            ViewData["MonthAppointmentCom"] = _AppRepo.GetByMonthAndYear(month.Value, year.Value, "Complete");
-            ViewData["DialyAppointmentWait"] = _AppRepo.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Waiting");
-            ViewData["DialyAppointmentCom"] = _AppRepo.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Complete");
-            var dateTime = new DateTime(year.Value, month.Value, day.Value);
-            ViewBag.DateTime = dateTime;
-            ViewBag.Day = day.Value;
-            ViewBag.Year = year.Value;
-            ViewBag.Month = month.Value;
-            ViewBag.MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month.Value);
-
-            return View();
-        }
-
-        */
-
 
         public ActionResult Login()
         {
+            if (Session["Authen"] != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ViewBag.Message = "Your Login page.";
 
             return View();
@@ -273,23 +249,14 @@ namespace VA.Controllers
 
             var Authentication = _AdminRepo.GetByUsernamrAndPassword(administrator.username, administrator.password);
 
-
             if (Authentication != null)
             {
                 Session["Authen"] = true;
                 Session["username"] = Authentication.username.ToString();
-          //      Session["accountid"] = Authentication.id;
-
-
-
-                /* ViewBag.LoginSuccess = "Login success!";
-                return View();*/
                 return RedirectToAction("Index");
             }
             else
             {
-                /*   Session["username"] = null;
-                    Session["accountid"] = null;*/
                 ViewBag.LoginError = "Username or password is in correct";
                 return View();
             }
@@ -304,37 +271,6 @@ namespace VA.Controllers
             return RedirectToAction("Login");
 
         }
-       /* [Route("Home/Member/{condition}")]
-        [Route("Home/Member/{condition}/{keyword}")]
-        public ActionResult SearchMember(string condition, string keyword)
-        {
-            if (Session["Authen"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            IEnumerable<Member> member = Enumerable.Empty<Member>();
-            if (condition == "email")
-            {
-                member = _MemberRepo.GetByEmail(keyword);
-            }
-
-            if (condition == "name")
-            {
-                member = _MemberRepo.GetByName(keyword);
-            }
-
-            if (condition == "address")
-            {
-                member = _MemberRepo.GetByAddress(keyword);
-            }
-            if (condition == "phone")
-            {
-                member = _MemberRepo.GetByPhoneNumber(keyword);
-            }
-
-            return View(member);
-        }
-        */
 
 
 

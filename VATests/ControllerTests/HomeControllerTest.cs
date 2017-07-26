@@ -17,69 +17,116 @@ namespace VATests
     [TestClass]
     public class HomeControllerTest
     {
-        // HomeController controllerUnderTest = new HomeController();
+        public HomeControllerTest()
+        {
+            // create some mock products to play with
+            IEnumerable<Administrator> admins = new List<Administrator> { };
+            IEnumerable<Appointment> appointments = new List<Appointment> { };
+            IEnumerable<Member> members = new List<Member> { };
+            IEnumerable<Pet> pets = new List<Pet> { };
+            IEnumerable<PetType> types = new List<PetType> { };
+            Clinic clinic = new Clinic();
+
+            // Mock the Products Repository using Moq
+            Mock<IAdministratorRepository> mockAdminRepo = new Mock<IAdministratorRepository>();
+            Mock<IAppointmentRepository> mockAppRepo = new Mock<IAppointmentRepository>();
+            Mock<IMemberRepository> mockMemRepo = new Mock<IMemberRepository>();
+            Mock<IPetRepository> mockPetRepo = new Mock<IPetRepository>();
+            Mock<IPetSpecieRepository> mockSpecieRepo = new Mock<IPetSpecieRepository>();
+            Mock<IVCRepository> mockVCRepo = new Mock<IVCRepository>();
+
+            // Return the admin
+            mockAdminRepo
+                .Setup(mr => mr.GetByUsernamrAndPassword(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns((string u, string p) => admins.Where(x => x.username == u && x.password == p)
+                .FirstOrDefault());
+
+            mockAppRepo.Setup(e => e.GetAll()).Returns(appointments.ToList());
+
+            mockMemRepo.Setup(e => e.GetAll()).Returns(members.ToList());
+
+            mockPetRepo.Setup(e => e.GetAll()).Returns(pets.ToList());
+
+            mockSpecieRepo.Setup(e => e.GetAll()).Returns(types.ToList());
+
+            mockVCRepo.Setup(e => e.Get()).Returns(clinic);
+
+            // Complete the setup of our Mock Product Repository
+            this.mockAdminRepo = mockAdminRepo;
+            this.mockAppRepo = mockAppRepo;
+            this.mockMemRepo = mockMemRepo;
+            this.mockPetRepo = mockPetRepo;
+            this.mockSpecieRepo = mockSpecieRepo;
+            this.mockVCRepo = mockVCRepo;
+        }
+        public readonly Mock<IAdministratorRepository> mockAdminRepo;
+        public readonly Mock<IAppointmentRepository> mockAppRepo;
+        public readonly Mock<IMemberRepository> mockMemRepo;
+        public readonly Mock<IPetRepository> mockPetRepo;
+        public readonly Mock<IPetSpecieRepository> mockSpecieRepo;
+        public readonly Mock<IVCRepository> mockVCRepo;
 
 
         [TestMethod]
-        public void TestIndexOfCurrentDate()
-        {  ///--------------------- Current date is 12/05/2017
+        public void TestLoginPass()
+        {
+            ///เทสมีปัญหา session retun false ทั้งที่ควรจะเป็ร true
+            // Arrange
+            var admin = new Administrator() { id =1, username = "testusername", password = "testpassword" };
+            mockAdminRepo.Setup(e => e.GetByUsernamrAndPassword("testusername", "testpassword")).Returns(admin);
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
 
+            var context = new Mock<HttpContextBase>();
+            var session = new Mock<HttpSessionStateBase>();
+            context.Setup(x => x.Session).Returns(session.Object);
+            context.SetupGet(x => x.Session["Authen"]);
+           var requestContext = new RequestContext(context.Object, new RouteData());
+           controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
 
-            //appointment 1
-            TimeSpan start1 = new TimeSpan(09, 30, 0);
-            TimeSpan end1 = new TimeSpan(11, 30, 0);
-            DateTime startTime1 = new DateTime(2017, 5, 12) + start1;
-            DateTime endTime1 = new DateTime(2017, 5, 12) + end1;
+            // Act 
+            var testAdmin = new Administrator() { username = "testusername", password = "testpassword" };
+            var result = controllerUnderTest.Login(testAdmin) as RedirectToRouteResult;
 
-            //appointment 2 the same day as appointment 1
-            TimeSpan start2 = new TimeSpan(10, 30, 0);
-            TimeSpan end2 = new TimeSpan(11, 30, 0);
-            DateTime startTime2 = new DateTime(2017, 5, 12) + start2;
-            DateTime endTime2 = new DateTime(2017, 5, 12) + end2;
+            // Assert
+            Assert.AreEqual(true, Convert.ToBoolean(controllerUnderTest.Session["Authen"]));
+            Assert.AreEqual("testusername", (String)controllerUnderTest.Session["username"]);
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+        }
 
-            //appointment 3 the same month
-            TimeSpan start3 = new TimeSpan(10, 30, 0);
-            TimeSpan end3 = new TimeSpan(11, 30, 0);
-            DateTime startTime3 = new DateTime(2017, 10, 5) + start3;
-            DateTime endTime3 = new DateTime(2017, 10, 5) + end3;
+        [TestMethod]
+        public void TestIndexWithAppointments()
+        {
+            //Arrange
+            DateTime startTime = new DateTime(2017, 5, 12);
 
-            // Abobe data did not use in test because
 
             var waitingAppointments = new List<Appointment>
             {
                 new Appointment {id = 1, memberId = 1, petId = 1, serviceId =1, detail= "test detail01",
-                    startTime = startTime1, endTime = endTime1, status = "Waiting"},
+                    startTime = startTime,  status = "Waiting"},
                 new Appointment {id = 3, memberId = 2, petId = 2, serviceId =1, detail= "test detail03",
-                    startTime = startTime3, endTime = endTime3, status = "Waiting"},
+                    startTime = startTime, status = "Waiting"},
             };
 
             var completeAppointments = new List<Appointment>
             {
                new Appointment {id = 2, memberId = 1, petId = 1, serviceId =2, detail= "test detail02",
-                    startTime = startTime2, endTime = endTime2, status = "Complete"}
+                    startTime = startTime, status = "Complete"}
             };
-
-            //          var controllerUnderTest2 = new HomeController(mockAppointmentRepository);
-
-            //Arrange
-
-            // Arrange
-            ///--------------------- Current date is 12/05/2017
-            ///
 
             DateTime today = new DateTime(2017, 5, 12);
 
-            var mockAppointmentRepository = new Mock<IAppointmentRepository>();
-            mockAppointmentRepository
+
+            mockAppRepo
                 .Setup(e => e.GetByDayAndMonthAndYear(today.Day, today.Month, today.Year, "Waiting"))
                 .Returns(waitingAppointments
                 .ToList());
-            mockAppointmentRepository
+            mockAppRepo
                 .Setup(e => e.GetByDayAndMonthAndYear(today.Day, today.Month, today.Year, "Complete"))
                 .Returns(completeAppointments
                 .ToList());
 
-            var controllerUnderTest = new HomeController(mockAppointmentRepository.Object);
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
 
             var context = new Mock<HttpContextBase>();
             var session = new Mock<HttpSessionStateBase>();
@@ -92,14 +139,6 @@ namespace VATests
 
             var result = controllerUnderTest.Index(today.Day, today.Month, today.Year) as ViewResult;
 
-
-            var vafalse = controllerUnderTest.VASetting("#@!$!@#!@#") as JsonResult;
-           // var vatrue = controllerUnderTest.VASetting("1234");
-
-            var b = "";
-
-           
-
             var model = result.Model as AllAppointmentViewModel;
 
             // Assert
@@ -107,21 +146,278 @@ namespace VATests
             Assert.AreEqual(today, model.date);
             Assert.AreEqual(1, model.AppCom.Count());
             Assert.AreEqual(2, model.AppWait.Count());
+        }
+
+        [TestMethod]
+        public void TestIndexWithNoAppointments()
+        {
+            //Arrange
+
+            var waitingAppointments = new List<Appointment> { };
+
+            var completeAppointments = new List<Appointment> { };
+
+            DateTime today = new DateTime(2017, 5, 12);
+
+            mockAppRepo
+                .Setup(e => e.GetByDayAndMonthAndYear(today.Day, today.Month, today.Year, "Waiting"))
+                .Returns(waitingAppointments
+                .ToList());
+            mockAppRepo
+                .Setup(e => e.GetByDayAndMonthAndYear(today.Day, today.Month, today.Year, "Complete"))
+                .Returns(completeAppointments
+                .ToList());
+
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+
+            var context = new Mock<HttpContextBase>();
+            var session = new Mock<HttpSessionStateBase>();
+            context.Setup(x => x.Session).Returns(session.Object);
+            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            var requestContext = new RequestContext(context.Object, new RouteData());
+            controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
+
+            // Act 
+
+            var result = controllerUnderTest.Index(today.Day, today.Month, today.Year) as ViewResult;
+
+            var model = result.Model as AllAppointmentViewModel;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(today, model.date);
+            Assert.AreEqual(0, model.AppCom.Count());
+            Assert.AreEqual(0, model.AppWait.Count());
+        }
+
+        [TestMethod]
+        public void TestVaSettingPass()
+        {// Arrange
+            Clinic MC = new Clinic { maximumCase = 1 };
+            //  var mockVCRepository = new Mock<IVCRepository>();
+            mockVCRepo
+                .Setup(e => e.Get())
+                .Returns(MC);
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+            var context = new Mock<HttpContextBase>();
+            var session = new Mock<HttpSessionStateBase>();
+            context.Setup(x => x.Session).Returns(session.Object);
+            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            var requestContext = new RequestContext(context.Object, new RouteData());
+            controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
+
+            //Act
+            var result = controllerUnderTest.VASetting() as ViewResult;
+            var model = result.Model as Clinic;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestVaSettingFail()
+        {
+            //Arrange
+            //   var mockAppointmentRepository = new Mock<IAppointmentRepository>();
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+            var context = new Mock<HttpContextBase>();
+            var session = new Mock<HttpSessionStateBase>();
+            context.Setup(x => x.Session).Returns(session.Object);
+            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            var requestContext = new RequestContext(context.Object, new RouteData());
+            controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
+
+            //Act
+            var vafalse = controllerUnderTest.VASetting("#@!$!@#!@#") as JsonResult;
+            var result = vafalse.Data.ToString();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("{ Result = Fail, maximum case can only numeric character }", result);
 
         }
 
         [TestMethod]
-        public void TestSomething()
-        {
-            // Arrange
-            /*  var repoMock = new Mock<IAppointmentRepository>();
-              repoMock.Setup(r => r.GetSomething()).Returns(TestData.SomeThings);
-              var controller = new SomethingController(repoMock.Object);
-  */
-            // Act
-            /* controller.DoStuff();*/
+        public void TestGetAllmember()
+        {// Arrange
+            var members = new List<Member> {
+                 new Member {id = 1 , name = "one"},
+                  new Member {id = 2 , name = "two"},
+                   new Member {id = 3 , name = "three"}
+            };
+
+            mockMemRepo.Setup(e => e.GetAll()).Returns(members.ToList());
+
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+
+            var context = new Mock<HttpContextBase>();
+            var session = new Mock<HttpSessionStateBase>();
+            context.Setup(x => x.Session).Returns(session.Object);
+            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            var requestContext = new RequestContext(context.Object, new RouteData());
+            controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
+
+
+            // Act 
+
+            var result = controllerUnderTest.Member(null, "a") as ViewResult;
+
+            var model = result.Model as IEnumerable<Member>;
 
             // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3, model.Count());
         }
+
+
+        [TestMethod]
+        public void TestSearchMemberByEmail()
+        {// Arrange
+            var membersEmail = new List<Member>
+            {
+                new Member {id = 1 , name = "one",email ="mail1"},
+                  new Member {id = 2 , name = "two", email ="mail2"}
+            };
+
+
+            mockMemRepo.Setup(e => e.GetByEmail("mail")).Returns(membersEmail.ToList());
+
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+
+            var context = new Mock<HttpContextBase>();
+            var session = new Mock<HttpSessionStateBase>();
+            context.Setup(x => x.Session).Returns(session.Object);
+            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            var requestContext = new RequestContext(context.Object, new RouteData());
+            controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
+
+            // Act 
+            var result = controllerUnderTest.Member("email", "mail") as ViewResult;
+            var model = result.Model as IEnumerable<Member>;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, model.Count());
+        }
+
+        [TestMethod]
+        public void TestSearchMemberByName()
+        {// Arrange
+            var membersName = new List<Member>
+            {
+                new Member {id = 1 , name = "one",email ="mail1"},
+                  new Member {id = 2 , name = "two", email ="mail2"}
+            };
+
+            mockMemRepo.Setup(e => e.GetByName("testname")).Returns(membersName.ToList());
+
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+
+            var context = new Mock<HttpContextBase>();
+            var session = new Mock<HttpSessionStateBase>();
+            context.Setup(x => x.Session).Returns(session.Object);
+            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            var requestContext = new RequestContext(context.Object, new RouteData());
+            controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
+
+            // Act 
+            var result = controllerUnderTest.Member("name", "testname") as ViewResult;
+            var model = result.Model as IEnumerable<Member>;
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, model.Count());
+        }
+
+
+        [TestMethod]
+
+        public void TestEditPetSpecieNameEmpty()
+        {
+            //Arrange
+            //   var mockPetRepository = new Mock<IPetSpecieRepository>();
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+            var context = new Mock<HttpContextBase>();
+            var session = new Mock<HttpSessionStateBase>();
+            context.Setup(x => x.Session).Returns(session.Object);
+            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            var requestContext = new RequestContext(context.Object, new RouteData());
+            controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
+
+            //Act
+            var vafalse = controllerUnderTest.EditSpecie("1", null) as JsonResult;
+            var result = vafalse.Data.ToString();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("{ Result = Fail, specie name is required }", result);
+
+        }
+
+        [TestMethod]
+        public void AddSpecie_Without_Name()
+        {
+            // Arrange
+            HomeController controlerUndertest = new HomeController();
+
+            //Act
+            var vafail = controlerUndertest.AddSpecie(null) as JsonResult;
+            var result = vafail.Data.ToString();
+
+            //Assert
+            Assert.AreEqual("{ Result = Fail, specie name is required }", result);
+        }
+
+        [TestMethod]
+        public void AddSpecie_With_Name_Arealdy_Exits()
+        {
+            var species = new PetType { id = 1, name = "dog" };
+       
+            // Arrange
+            mockSpecieRepo
+               .Setup(e => e.GetByName("dog"))
+               .Returns(species);
+
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+
+            //Act
+            var vafail = controllerUnderTest.AddSpecie("dog") as JsonResult;
+            var result = vafail.Data.ToString();
+
+            //Assert
+            Assert.AreEqual("{ Result = Fail, this specie is already exits in the system }", result);
+        }
+
+
+
+        /*       [TestMethod]
+               public void LoginWithExitsUsernameAndPassword()
+               {
+                   // Arrange
+                   var mockAdministratorRepository = new Mock<IAdministratorRepository>();
+                   var admin = new Administrator { username = "a", password = "b" };
+                   mockAdministratorRepository
+                    .Setup(e => e.GetByUsernamrAndPassword("a", "b"))
+                    .Returns(admin);
+
+                   var controllerUnderTest = new HomeController(mockAdministratorRepository.Object);
+
+                   // Act
+                   var result = controllerUnderTest.Login("a","b") as ViewResult;
+
+                   var model = result.Model as AllAppointmentViewModel;
+
+                   // Assert
+
+               }
+               */
+        [TestMethod]
+        public void name()
+        {// Arrange
+            // Act
+            // Assert
+        }
+
+
     }
 }

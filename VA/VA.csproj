@@ -379,11 +379,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Home\Appointment.cshtml" />
-    <Content Include="Views\Home\SearchMember.cshtml" />
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Home\Monthly.cshtml" />
-    <Content Include="Views\Home\EditPetModal.cshtml" />
     <Content Include="Views\Shared\_test.cshtml" />
     <Content Include="Views\Home\Member.cshtml" />
     <Content Include="Views\Home\VASetting.cshtml" />
