@@ -26,9 +26,9 @@
 
         <div class="ui top attached tabular menu">
 
-            <a class="item href="/VA/Member/TestIndex"" data-tab="first">Month appointment</a>
-            <a class="item active">Pet</a>
-            <a class="item " href="/VA/Member/TestCreaApp">Create appointment</a>
+            <a class="item " href="@Url.Action("Index", "Member", new { id = @Model.member.id })">Month appointment</a>
+            <a class="item active" href="@Url.Action("MemberPet", "Member", new { id = @Model.member.id })">Pet</a>
+            <a class="item " href="@Url.Action("CreateAppointment", "Member", new { id = @Model.member.id })">Create appointment</a>
         </div>
 
 

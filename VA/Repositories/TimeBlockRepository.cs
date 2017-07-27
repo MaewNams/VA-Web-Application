@@ -29,11 +29,11 @@ namespace VA.Repositories
             return timeList;
         }
 
-        public IEnumerable<TimeBlock> GetAllFromToday(DateTime now)
+      /*  public IEnumerable<TimeBlock> GetAllFromToday(DateTime now)
         {
             IEnumerable<TimeBlock> timeList = _db.TimeBlock.Where(m => m.startTime.Date >= now.Date);
             return timeList;
-        }
+        }*/
 
         public IEnumerable<TimeBlock> GetAllNotFull()
         {

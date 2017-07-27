@@ -839,19 +839,22 @@ $(document).ready(function () {
     /*test*/
     $('.test_create_button2').click(function (e) {
         e.preventDefault();
-        $.post(BaseURL + '/VA/Member/CheckTimeSlot', {
-            serviceID: $('#select_service').val(),
+        $.post(BaseURL + '/VA/Appointment/CheckTimeSlotStatus', {
+            serviceID: $('#select_pet').val(),
+            petID: $('#select_service').val(),
             date: $('#date').val(),
             startTime: $('#start').val(),
             endTime: $('#end').val(),
             type: $("#type").val()
         }, function (data) {
+
             if (data.Result == "Success") {
                 e.preventDefault();
-                $.post(BaseURL + '/VA/Member/Index', {
+                $.post(BaseURL + '/VA/Appointment/CreateApp', {
                     memberID: $('#member').val(),
                     petID: $('#select_pet').val(),
                     serviceID: $('#select_service').val(),
+                    detail: $('#detail').val(),
                     suggestion: $('#suggestion').val(),
                     date: $('#date').val(),
                     startTime: $('#start').val(),
@@ -863,7 +866,9 @@ $(document).ready(function () {
                     }
                 }
                 )
-            } if (data.Result == "Confirm") {
+            }
+
+            if (data.Result == "Confirm") {
                 $.ajax({
                     url: BaseURL + '/VA/Member/GetWarningMessage',
                     type: "POST",
@@ -889,7 +894,7 @@ $(document).ready(function () {
 
     $('.confirm_create_button').click(function (e) {
         e.preventDefault();
-        $.post(BaseURL + '/VA/Member/index', {
+        $.post(BaseURL + '/VA/Appointment/CreateApp', {
             memberID: $('#member').val(),
             petID: $('#select_pet').val(),
             serviceID: $('#select_service').val(),

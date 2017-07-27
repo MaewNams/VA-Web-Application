@@ -70,25 +70,21 @@ namespace VA.Repositories
             return _db.Member.FirstOrDefault(m => m.name == name && m.surname == surname);
         }
 
-        public Member GetByIDAndEmail(int id, string email)
-        {
-            return _db.Member.FirstOrDefault(m => m.id == id && m.email == email);
-        }
-
         public IEnumerable<Member> GetByEmail(string email)
         {
             IEnumerable<Member> memberList = _db.Member.Where(s => s.email.Contains(email)).OrderBy(s => s.email).ToList();
             return memberList;
         }
 
+        public IEnumerable<Member> GetByExactlyEmail(string email)
+        {
+            IEnumerable<Member> memberList = _db.Member.Where(s => s.email == email).OrderBy(s => s.email).ToList();
+            return memberList;
+        }
 
-
-
-        /*     IEnumerable<Appointment> XXXX(int month, int year)
-             {
-                 IEnumerable<Appointment> nameList = _db.Appointment.Where(s=>s.date.Month == month && s.date.Year == year);
-                 return nameList;
-             }
-             */
+        public Member GetLast()
+        {
+                return _db.Member.OrderByDescending(m => m.id).FirstOrDefault();   
+        }
     }
 }

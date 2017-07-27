@@ -11,7 +11,7 @@ namespace VA.Repositories
 {
     public interface IVCRepository
     {
-        void Add(Clinic model);
+    //    void Add(Clinic model);
         void Update(Clinic model);
         Clinic Get();
     }

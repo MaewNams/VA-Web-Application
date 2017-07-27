@@ -16,7 +16,8 @@ namespace VA.Repositories
         Pet GetById(int id);
         Pet GetByType(int typeId);
         Pet GetByMemberIDAndNameAndSpecie(int memberId, string name, int specieId);
+        Pet GetLast();
         IEnumerable<Pet> GetByMemberID(int memberId);
-        IEnumerable<Pet> GetAll();
+        //IEnumerable<Pet> GetAll();
     }
 }

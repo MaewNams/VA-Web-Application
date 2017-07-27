@@ -255,7 +255,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\APIController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
-    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
@@ -326,6 +325,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Properties\PublishProfiles\ruttikar - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ruttikar - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -384,9 +384,7 @@
     <Content Include="Views\Shared\_test.cshtml" />
     <Content Include="Views\Home\Member.cshtml" />
     <Content Include="Views\Home\VASetting.cshtml" />
-    <Content Include="Views\Member\TestCreateApp.cshtml" />
     <Content Include="Views\Home\PetSpecie.cshtml" />
-    <Content Include="Views\Member\TestIndex.cshtml" />
     <Content Include="Views\Member\CreateAppointment.cshtml" />
     <Content Include="Views\PatialViews\_MemberSideBar.cshtml" />
     <Content Include="Views\PatialViews\_NavbarPatialView.cshtml" />
@@ -395,11 +393,13 @@
     <Content Include="Views\PatialViews\_AllAppointment.cshtml" />
     <Content Include="Views\PatialViews\_CreateSpecieModl.cshtml" />
     <Content Include="Views\PatialViews\_MemberResult.cshtml" />
-    <Content Include="Views\Member\TestPet.cshtml" />
+    <Content Include="Views\Member\MemberPet.cshtml" />
     <Content Include="Views\PatialViews\_CreatePetModel.cshtml" />
     <Content Include="Views\PatialViews\_EditPetModel.cshtml" />
     <Content Include="Views\PatialViews\_MemberPet.cshtml" />
     <Content Include="Views\PatialViews\_TimeTable.cshtml" />
+    <Content Include="Views\PatialViews\_EditAppointmentModal.cshtml" />
+    <Content Include="Views\PatialViews\_MemberAppointment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

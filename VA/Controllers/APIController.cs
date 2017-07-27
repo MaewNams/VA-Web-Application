@@ -59,8 +59,8 @@ namespace VA.Controllers
             {
                 year = DateTime.Now.Year;
             }
-
-            var appointmentList = AppointmentService.GetByMemberId(memberId.Value, month.Value, year.Value);
+            //แก้ทีหลังนะ *-*
+            var appointmentList = AppointmentService.GetByMemberIdWithMothAndYearAndStatus(memberId.Value, month.Value, year.Value, "Waiting");
 
             var a = appointmentList.Select(s => new AppointmentViewModel
             {
@@ -168,7 +168,7 @@ namespace VA.Controllers
         public ActionResult ChangMemberInfo(int id,string email, string name, string surname, string address, string phonenumber)
         {
             Boolean isNumber = Regex.IsMatch(phonenumber, @"^\d+$");
-            Member checkmail = MemberService.GetByIDAndEmail(id, email);
+            IEnumerable<Member> checkmail = MemberService.GetByExactlyEmail(email);
             Member checkname = MemberService.GetByNameAndSurname(name, surname);
          
             if (String.IsNullOrEmpty(email))
@@ -199,7 +199,7 @@ namespace VA.Controllers
             {
                 return Json(new { message = "Fail, phone number have to contain 10 numeric character" }, JsonRequestBehavior.AllowGet);
             }
-            if (checkmail.id != id)
+            if ((checkmail.Count() > 1) || (checkmail.First().id != id))
             {
                 return Json(new { message = "Fail, the email is already exits in the system" }, JsonRequestBehavior.AllowGet);
             }

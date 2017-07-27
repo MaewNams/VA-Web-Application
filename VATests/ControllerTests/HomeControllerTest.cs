@@ -27,7 +27,7 @@ namespace VATests
             IEnumerable<PetType> types = new List<PetType> { };
             Clinic clinic = new Clinic();
 
-            // Mock the Products Repository using Moq
+            // Mock the Repository using Moq
             Mock<IAdministratorRepository> mockAdminRepo = new Mock<IAdministratorRepository>();
             Mock<IAppointmentRepository> mockAppRepo = new Mock<IAppointmentRepository>();
             Mock<IMemberRepository> mockMemRepo = new Mock<IMemberRepository>();
@@ -41,17 +41,17 @@ namespace VATests
                 .Returns((string u, string p) => admins.Where(x => x.username == u && x.password == p)
                 .FirstOrDefault());
 
-            mockAppRepo.Setup(e => e.GetAll()).Returns(appointments.ToList());
+            mockAppRepo.Setup(e => e.GetByPetID(1)).Returns(appointments.ToList());
 
             mockMemRepo.Setup(e => e.GetAll()).Returns(members.ToList());
 
-            mockPetRepo.Setup(e => e.GetAll()).Returns(pets.ToList());
+            mockPetRepo.Setup(e => e.GetByMemberID(1)).Returns(pets.ToList());
 
             mockSpecieRepo.Setup(e => e.GetAll()).Returns(types.ToList());
 
             mockVCRepo.Setup(e => e.Get()).Returns(clinic);
 
-            // Complete the setup of our Mock Product Repository
+            // Complete the setup of our Mock 
             this.mockAdminRepo = mockAdminRepo;
             this.mockAppRepo = mockAppRepo;
             this.mockMemRepo = mockMemRepo;
@@ -59,39 +59,13 @@ namespace VATests
             this.mockSpecieRepo = mockSpecieRepo;
             this.mockVCRepo = mockVCRepo;
         }
+
         public readonly Mock<IAdministratorRepository> mockAdminRepo;
         public readonly Mock<IAppointmentRepository> mockAppRepo;
         public readonly Mock<IMemberRepository> mockMemRepo;
         public readonly Mock<IPetRepository> mockPetRepo;
         public readonly Mock<IPetSpecieRepository> mockSpecieRepo;
         public readonly Mock<IVCRepository> mockVCRepo;
-
-
-        [TestMethod]
-        public void TestLoginPass()
-        {
-            ///เทสมีปัญหา session retun false ทั้งที่ควรจะเป็ร true
-            // Arrange
-            var admin = new Administrator() { id =1, username = "testusername", password = "testpassword" };
-            mockAdminRepo.Setup(e => e.GetByUsernamrAndPassword("testusername", "testpassword")).Returns(admin);
-            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
-
-            var context = new Mock<HttpContextBase>();
-            var session = new Mock<HttpSessionStateBase>();
-            context.Setup(x => x.Session).Returns(session.Object);
-            context.SetupGet(x => x.Session["Authen"]);
-           var requestContext = new RequestContext(context.Object, new RouteData());
-           controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
-
-            // Act 
-            var testAdmin = new Administrator() { username = "testusername", password = "testpassword" };
-            var result = controllerUnderTest.Login(testAdmin) as RedirectToRouteResult;
-
-            // Assert
-            Assert.AreEqual(true, Convert.ToBoolean(controllerUnderTest.Session["Authen"]));
-            Assert.AreEqual("testusername", (String)controllerUnderTest.Session["username"]);
-            Assert.AreEqual("Index", result.RouteValues["action"]);
-        }
 
         [TestMethod]
         public void TestIndexWithAppointments()
@@ -118,11 +92,11 @@ namespace VATests
 
 
             mockAppRepo
-                .Setup(e => e.GetByDayAndMonthAndYear(today.Day, today.Month, today.Year, "Waiting"))
+                .Setup(e => e.GetByDayAndMonthAndYearAndStatus(today.Day, today.Month, today.Year, "Waiting"))
                 .Returns(waitingAppointments
                 .ToList());
             mockAppRepo
-                .Setup(e => e.GetByDayAndMonthAndYear(today.Day, today.Month, today.Year, "Complete"))
+                .Setup(e => e.GetByDayAndMonthAndYearAndStatus(today.Day, today.Month, today.Year, "Complete"))
                 .Returns(completeAppointments
                 .ToList());
 
@@ -131,7 +105,7 @@ namespace VATests
             var context = new Mock<HttpContextBase>();
             var session = new Mock<HttpSessionStateBase>();
             context.Setup(x => x.Session).Returns(session.Object);
-            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            context.SetupGet(x => x.Session["Authen"]).Returns(true);
             var requestContext = new RequestContext(context.Object, new RouteData());
             controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
 
@@ -144,6 +118,8 @@ namespace VATests
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(today, model.date);
+            Assert.IsInstanceOfType(model.AppCom, typeof(IEnumerable<Appointment>));
+            Assert.IsInstanceOfType(model.AppWait, typeof(IEnumerable<Appointment>));
             Assert.AreEqual(1, model.AppCom.Count());
             Assert.AreEqual(2, model.AppWait.Count());
         }
@@ -160,11 +136,11 @@ namespace VATests
             DateTime today = new DateTime(2017, 5, 12);
 
             mockAppRepo
-                .Setup(e => e.GetByDayAndMonthAndYear(today.Day, today.Month, today.Year, "Waiting"))
+                .Setup(e => e.GetByDayAndMonthAndYearAndStatus(today.Day, today.Month, today.Year, "Waiting"))
                 .Returns(waitingAppointments
                 .ToList());
             mockAppRepo
-                .Setup(e => e.GetByDayAndMonthAndYear(today.Day, today.Month, today.Year, "Complete"))
+                .Setup(e => e.GetByDayAndMonthAndYearAndStatus(today.Day, today.Month, today.Year, "Complete"))
                 .Returns(completeAppointments
                 .ToList());
 
@@ -173,7 +149,7 @@ namespace VATests
             var context = new Mock<HttpContextBase>();
             var session = new Mock<HttpSessionStateBase>();
             context.Setup(x => x.Session).Returns(session.Object);
-            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            context.SetupGet(x => x.Session["Authen"]).Returns(true);
             var requestContext = new RequestContext(context.Object, new RouteData());
             controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
 
@@ -202,7 +178,7 @@ namespace VATests
             var context = new Mock<HttpContextBase>();
             var session = new Mock<HttpSessionStateBase>();
             context.Setup(x => x.Session).Returns(session.Object);
-            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            context.SetupGet(x => x.Session["Authen"]).Returns(true);
             var requestContext = new RequestContext(context.Object, new RouteData());
             controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
 
@@ -223,7 +199,7 @@ namespace VATests
             var context = new Mock<HttpContextBase>();
             var session = new Mock<HttpSessionStateBase>();
             context.Setup(x => x.Session).Returns(session.Object);
-            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            context.SetupGet(x => x.Session["Authen"]).Returns(true);
             var requestContext = new RequestContext(context.Object, new RouteData());
             controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
 
@@ -253,7 +229,7 @@ namespace VATests
             var context = new Mock<HttpContextBase>();
             var session = new Mock<HttpSessionStateBase>();
             context.Setup(x => x.Session).Returns(session.Object);
-            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            context.SetupGet(x => x.Session["Authen"]).Returns(true);
             var requestContext = new RequestContext(context.Object, new RouteData());
             controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
 
@@ -287,7 +263,7 @@ namespace VATests
             var context = new Mock<HttpContextBase>();
             var session = new Mock<HttpSessionStateBase>();
             context.Setup(x => x.Session).Returns(session.Object);
-            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            context.SetupGet(x => x.Session["Authen"]).Returns(true);
             var requestContext = new RequestContext(context.Object, new RouteData());
             controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
 
@@ -316,7 +292,7 @@ namespace VATests
             var context = new Mock<HttpContextBase>();
             var session = new Mock<HttpSessionStateBase>();
             context.Setup(x => x.Session).Returns(session.Object);
-            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            context.SetupGet(x => x.Session["Authen"]).Returns(true);
             var requestContext = new RequestContext(context.Object, new RouteData());
             controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
 
@@ -340,7 +316,7 @@ namespace VATests
             var context = new Mock<HttpContextBase>();
             var session = new Mock<HttpSessionStateBase>();
             context.Setup(x => x.Session).Returns(session.Object);
-            context.SetupGet(x => x.Session["Authen"]).Returns("true");
+            context.SetupGet(x => x.Session["Authen"]).Returns(true);
             var requestContext = new RequestContext(context.Object, new RouteData());
             controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
 
@@ -349,6 +325,7 @@ namespace VATests
             var result = vafalse.Data.ToString();
 
             // Assert
+            Assert.AreEqual(true, (Boolean)(controllerUnderTest.Session["Authen"]));
             Assert.IsNotNull(result);
             Assert.AreEqual("{ Result = Fail, specie name is required }", result);
 
@@ -372,7 +349,7 @@ namespace VATests
         public void AddSpecie_With_Name_Arealdy_Exits()
         {
             var species = new PetType { id = 1, name = "dog" };
-       
+
             // Arrange
             mockSpecieRepo
                .Setup(e => e.GetByName("dog"))
@@ -386,6 +363,65 @@ namespace VATests
 
             //Assert
             Assert.AreEqual("{ Result = Fail, this specie is already exits in the system }", result);
+        }
+
+
+        [TestMethod]
+        public void TestLoginPass()
+        {
+
+            // Arrange
+            var admin = new Administrator() { id = 1, username = "testusername", password = "testpassword" };
+            mockAdminRepo.Setup(e => e.GetByUsernamrAndPassword("testusername", "testpassword")).Returns(admin);
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+
+            var context = new Mock<HttpContextBase>();
+            var session = new Mock<HttpSessionStateBase>();
+
+
+            Boolean sessionValue = false;
+            context.SetupSet(s => s.Session["Authen"] = It.IsAny<Boolean>())
+                .Callback((string name, object val) => sessionValue = (Boolean)val); ;
+            context.SetupGet(s => s.Session["Authen"]).Returns(() => sessionValue);
+            context.Setup(x => x.Session).Returns(session.Object);
+
+            string usernameValue = "somename";
+            context.SetupSet(s => s.Session["username"] = It.IsAny<string>())
+                .Callback((string name, object val) => usernameValue = (string)val); ;
+            context.SetupGet(s => s.Session["username"]).Returns(() => usernameValue);
+
+
+            var requestContext = new RequestContext(context.Object, new RouteData());
+            controllerUnderTest.ControllerContext = new ControllerContext(requestContext, controllerUnderTest);
+
+
+            // Act 
+            var testAdmin = new Administrator() { username = "testusername", password = "testpassword" };
+            var result = controllerUnderTest.Login(testAdmin) as RedirectToRouteResult;
+
+            // Assert
+            //    Assert.AreEqual(true,(controllerUnderTest.Session["Authen"]));
+            Assert.IsNotNull(result);
+            Assert.IsTrue((Boolean)controllerUnderTest.Session["Authen"]);
+            Assert.AreEqual("testusername", controllerUnderTest.Session["username"]);
+            Assert.AreEqual("Index", result.RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void TestLoginFail()
+        {
+
+            // Arrange
+            var admin = new Administrator() { id = 1, username = "testusername", password = "testpassword" };
+            mockAdminRepo.Setup(e => e.GetByUsernamrAndPassword("testusername", "testpassword")).Returns(admin);
+            var controllerUnderTest = new HomeController(mockAppRepo.Object, mockAdminRepo.Object, mockMemRepo.Object, mockPetRepo.Object, mockSpecieRepo.Object, mockVCRepo.Object);
+
+            // Act 
+            var testAdmin = new Administrator() { username = "ds", password = "sd" };
+            var result = controllerUnderTest.Login(testAdmin) as RedirectToRouteResult;
+
+            // Assert
+            Assert.IsNull(result);
         }
 
 

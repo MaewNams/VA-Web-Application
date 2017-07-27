@@ -42,10 +42,42 @@ namespace VA.Controllers
         {
 
         }
-      
+
+        public ActionResult Login()
+        {
+            if (Session["Authen"] != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Message = "Your Login page.";
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login([Bind(Include = "username,password")] Administrator administrator)
+        {
+            var Authentication = _AdminRepo.GetByUsernamrAndPassword(administrator.username, administrator.password);
+
+            if (Authentication != null)
+            {
+                Session["Authen"] = true;
+                Session["username"] = Authentication.username.ToString();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.LoginError = "Username or password is in correct";
+                return View();
+            }
+        }
 
         public ActionResult Index(int? day, int? month, int? year)
         {
+
+
             if (Session["Authen"] == null)
             {
                 return RedirectToAction("Login", "Home");
@@ -60,8 +92,8 @@ namespace VA.Controllers
             AllAppointmentViewModel result = new AllAppointmentViewModel
             {
                 date = new DateTime(year.Value, month.Value, day.Value),
-                AppWait = _AppRepo.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Waiting"),
-                AppCom = _AppRepo.GetByDayAndMonthAndYear(day.Value, month.Value, year.Value, "Complete"),
+                AppWait = _AppRepo.GetByDayAndMonthAndYearAndStatus(day.Value, month.Value, year.Value, "Waiting"),
+                AppCom = _AppRepo.GetByDayAndMonthAndYearAndStatus(day.Value, month.Value, year.Value, "Complete"),
             };
 
             return View(result);
@@ -85,8 +117,8 @@ namespace VA.Controllers
             AllAppointmentViewModel result = new AllAppointmentViewModel
             {
                 date = new DateTime(year.Value, month.Value, DateTime.Now.Day),
-                AppWait = _AppRepo.GetByMonthAndYear( month.Value, year.Value, "Waiting"),
-                AppCom = _AppRepo.GetByMonthAndYear( month.Value, year.Value, "Complete"),
+                AppWait = _AppRepo.GetByMonthAndYearAndStatus( month.Value, year.Value, "Waiting"),
+                AppCom = _AppRepo.GetByMonthAndYearAndStatus( month.Value, year.Value, "Complete"),
             };
 
 
@@ -94,30 +126,39 @@ namespace VA.Controllers
         }
 
 
-        public ActionResult VASetting()
+        public ActionResult Member(string condition, string keyword)
         {
             if (Session["Authen"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
-            Clinic clinic = _VCRepo.Get();
 
-            return View(clinic);
-        }
+            IEnumerable<Member> member = Enumerable.Empty<Member>();
 
-        [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult VASetting(string caseNumber)
-        {
-            Boolean isNumber = Regex.IsMatch(caseNumber, @"^\d+$");
-            if (isNumber == false)
+            if (condition == null)
             {
-                return Json(new { Result = "Fail, maximum case can only numeric character" });
+                member = _MemberRepo.GetAll().OrderBy(m => m.id);
             }
-            Clinic clinic = _VCRepo.Get();
-            clinic.maximumCase = Int32.Parse(caseNumber.ToString());
-            _VCRepo.Update(clinic);
-            return Json(new { Result = "Success" });
+            if (condition == "email")
+            {
+                member = _MemberRepo.GetByEmail(keyword);
+            }
+
+            if (condition == "name")
+            {
+                member = _MemberRepo.GetByName(keyword);
+            }
+
+            if (condition == "address")
+            {
+                member = _MemberRepo.GetByAddress(keyword);
+            }
+            if (condition == "phone")
+            {
+                member = _MemberRepo.GetByPhoneNumber(keyword);
+            }
+
+            return View(member);
         }
 
         public ActionResult PetSpecie()
@@ -143,9 +184,16 @@ namespace VA.Controllers
             {
                 return Json(new { Result = "Fail, this specie is already exits in the system" });
             }
+            PetType CheckType = _SpecieRepo.GetLast();
+            int lastID;
+            if(CheckType == null)
+            {
+                lastID = 0;
+            }else
+            {
+                lastID = CheckType.id;
+            }
 
-            List<PetType> CheckType = _SpecieRepo.GetAll().ToList();
-            int lastID = CheckType.LastOrDefault().id;
 
             PetType newtype = new PetType();
             newtype.id = lastID + 1;
@@ -193,74 +241,33 @@ namespace VA.Controllers
             return Json(new { Result = "Success" });
         }
 
-        public ActionResult Member(string condition, string keyword)
+
+        public ActionResult VASetting()
         {
             if (Session["Authen"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
+            Clinic clinic = _VCRepo.Get();
 
-            IEnumerable<Member> member = Enumerable.Empty<Member>();
-
-            if (condition == null)
-            {
-                member = _MemberRepo.GetAll().OrderBy(m => m.id);
-            }
-            if (condition == "email")
-            {
-                member = _MemberRepo.GetByEmail(keyword);
-            }
-
-            if (condition == "name")
-            {
-                member = _MemberRepo.GetByName(keyword);
-            }
-
-            if (condition == "address")
-            {
-                member = _MemberRepo.GetByAddress(keyword);
-            }
-            if (condition == "phone")
-            {
-                member = _MemberRepo.GetByPhoneNumber(keyword);
-            }
-
-            return View(member);
-        }
-
-
-
-        public ActionResult Login()
-        {
-            if (Session["Authen"] != null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            ViewBag.Message = "Your Login page.";
-
-            return View();
+            return View(clinic);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login([Bind(Include = "username,password")] Administrator administrator)
+        [ValidateInput(false)]
+        public ActionResult VASetting(string caseNumber)
         {
-
-            var Authentication = _AdminRepo.GetByUsernamrAndPassword(administrator.username, administrator.password);
-
-            if (Authentication != null)
+            Boolean isNumber = Regex.IsMatch(caseNumber, @"^\d+$");
+            if (isNumber == false)
             {
-                Session["Authen"] = true;
-                Session["username"] = Authentication.username.ToString();
-                return RedirectToAction("Index");
+                return Json(new { Result = "Fail, maximum case can only numeric character" });
             }
-            else
-            {
-                ViewBag.LoginError = "Username or password is in correct";
-                return View();
-            }
+            Clinic clinic = _VCRepo.Get();
+            clinic.maximumCase = Int32.Parse(caseNumber.ToString());
+            _VCRepo.Update(clinic);
+            return Json(new { Result = "Success" });
         }
+
 
         public ActionResult Logout()
         {

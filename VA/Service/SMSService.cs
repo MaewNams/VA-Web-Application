@@ -36,7 +36,7 @@ namespace VA.Service
             //int day = DateTime.Now.Day + 1;
             //int month = DateTime.Now.Month;
             //int year = DateTime.Now.Year;
-              var appointments = AppointmentService.GetByDayAndMonthAndYear(8, 7, 2017, "Waiting").ToList();
+              var appointments = AppointmentService.GetByDayAndMonthAndYearAndStatus(8, 7, 2017, "Waiting").ToList();
 
             // set our AccountSid and AuthToken
             string AccountSid = "AC25195d70ba44c681b9b24a78ea22a4ff";

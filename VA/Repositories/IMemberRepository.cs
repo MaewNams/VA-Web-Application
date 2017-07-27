@@ -14,9 +14,10 @@ namespace VA.Repositories
         void Update(Member model);
         void Delete(Member model);
         Member GetByID(int Id);
-        Member GetByIDAndEmail(int id,string email);
         Member GetByEmailAndPassword(string email, string password);
         Member GetByNameAndSurname(string name, string surname);
+        Member GetLast();
+        IEnumerable<Member> GetByExactlyEmail(string email);
         IEnumerable<Member> GetByEmail(string email);
         IEnumerable<Member> GetByPhoneNumber(string phoneNumber);
         IEnumerable<Member> GetByName(string name);

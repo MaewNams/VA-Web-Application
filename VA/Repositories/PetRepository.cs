@@ -36,11 +36,11 @@ namespace VA.Repositories
             return petList;
         }
 
-        public IEnumerable<Pet> GetAll()
+  /*      public IEnumerable<Pet> GetAll()
         {
             IEnumerable<Pet> petList = _db.Pet.ToList();
             return petList;
-        }
+        }*/
 
         public void Update(Pet model)
         {
@@ -51,6 +51,11 @@ namespace VA.Repositories
         public Pet GetByType(int typeId)
         {
             return _db.Pet.FirstOrDefault(m => m.typeId == typeId);
+        }
+
+        public Pet GetLast()
+        {
+            return _db.Pet.OrderByDescending(m => m.id).FirstOrDefault();
         }
     }
 }

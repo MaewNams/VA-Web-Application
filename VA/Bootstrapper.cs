@@ -24,11 +24,14 @@ namespace VA
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();   
-            container.RegisterType<IAppointmentRepository, AppointmentRepository>();
             container.RegisterType<IAdministratorRepository, AdministratorRepository>();
+            container.RegisterType<IAppointmentRepository, AppointmentRepository>();
+            container.RegisterType<ITimeBlockRepository, TimeBlockRepository>();
+            container.RegisterType<IAppTimeRepository, AppTimeRepository>();;
             container.RegisterType<IMemberRepository, MemberRepository>();
             container.RegisterType<IPetRepository, PetRepository>();
             container.RegisterType<IPetSpecieRepository, PetSpecieRepository>();
+            container.RegisterType<IServiceRepository, VAServiceRepository>();
             container.RegisterType<IVCRepository, VCRepository>();
 
             RegisterTypes(container);

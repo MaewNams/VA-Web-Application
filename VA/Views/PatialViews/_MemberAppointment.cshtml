@@ -1,0 +1,27 @@
+﻿@model VA.Models.Appointment
+
+<tr>
+
+    <td style="vertical-align:top"> @Model.startTime.ToString("d")</td>
+    <td style="vertical-align:top">@Model.Pet.name</td>
+    <td style="vertical-align:top">@Model.VAService.description</td>
+    <td style="vertical-align:top">@Model.detail</td>
+    <td style="vertical-align:top">@Model.suggestion </td>
+    <td style="color:teal;vertical-align:top">@Model.status</td>
+    <td style="text-align:right;vertical-align:top">
+        @if (Model.status == "Waiting")
+        {
+            <button class="fluid ui teal basic button call_edit_app_modal" data-id="@Model.id">edit</button>
+        }
+        else
+        {
+            <button class="fluid ui teal disabled basic button call_edit_app_modal" data-id="@Model.id">edit</button>
+        }
+    </td>
+    <td style="text-align:right;vertical-align:top">
+        <button class="fluid ui red basic button delete_app_button" data-id="@Model.id">delete</button>
+    </td>
+    @{
+        Html.RenderPartial("~/Views/PatialViews/_EditAppointmentModal.cshtml", Model);
+    }
+</tr>

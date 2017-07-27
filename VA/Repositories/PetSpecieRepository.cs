@@ -39,6 +39,11 @@ namespace VA.Repositories
             return _db.PetType.FirstOrDefault(m => m.name == name);
         }
 
+        public PetType GetLast()
+        {
+            return _db.PetType.OrderByDescending(m => m.id).FirstOrDefault();
+        }
+
         public void Update(PetType model)
         {
             _db.Entry(model).State = EntityState.Modified;

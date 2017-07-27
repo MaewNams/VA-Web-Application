@@ -17,8 +17,9 @@ namespace VA
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-        //    SMSSchedule.Start();
-        //    CalendarSchedule.Start();
+            Bootstrapper.Initialise();
+            //    SMSSchedule.Start();
+            //    CalendarSchedule.Start();
         }
     }
 }

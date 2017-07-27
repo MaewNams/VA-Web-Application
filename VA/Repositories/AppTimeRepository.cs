@@ -24,11 +24,11 @@ namespace VA.Repositories
             _db.SaveChanges();
         }
 
-        public IEnumerable<AppointmentTimeBlock> GetAll()
+    /*    public IEnumerable<AppointmentTimeBlock> GetAll()
         {
             IEnumerable<AppointmentTimeBlock> appTimeList = _db.AppointmentTimeBlock;
             return appTimeList;
-        }
+        }*/
 
         public IEnumerable<AppointmentTimeBlock> GetByAppointmentID(int id)
         {

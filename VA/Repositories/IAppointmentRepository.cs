@@ -17,10 +17,10 @@ namespace VA.Repositories
         Appointment GetLast();
         IEnumerable<Appointment> GetAll();
         IEnumerable<Appointment> GetByPetID(int petID);
-        IEnumerable<Appointment> GetByMemberId(int id, int month, int year);
-        IEnumerable<Appointment> GetByMemberIdAndStatus(int id, int month, int year, string status);
-        IEnumerable<Appointment> GetByMonthAndYear(int month, int year, string status);
-        IEnumerable<Appointment> GetByDayAndMonthAndYear(int day,int month, int year, string status);
-        IEnumerable<Appointment> GetByDayAndMonthAndYearNoStatus(int id, int day, int month, int year);
+      //  IEnumerable<Appointment> GetByMemberIdWithMothAndYear(int id, int month, int year);
+        IEnumerable<Appointment> GetByMemberIdWithMothAndYearAndStatus(int id, int month, int year, string status);
+        IEnumerable<Appointment> GetByMonthAndYearAndStatus(int month, int year, string status);
+        IEnumerable<Appointment> GetByDayAndMonthAndYearAndStatus(int day,int month, int year, string status);
+      //  IEnumerable<Appointment> GetByDayAndMonthAndYearNoStatus(int id, int day, int month, int year);
     }
 }

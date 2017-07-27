@@ -29,9 +29,9 @@
 
         <div class="ui top attached tabular menu">
 
-            <a class="item " data-tab="first">Month appointment</a>
-            <a class="item " data-tab="second">Pet</a>
-            <a class="item active" data-tab="third">Create appointment</a>
+            <a class="item " href="@Url.Action("Index", "Member", new { id = @Model.member.id })">Month appointment</a>
+            <a class="item " href="@Url.Action("MemberPet", "Member", new { id = @Model.member.id })">Pet</a>
+            <a class="item active" href="@Url.Action("CreateAppointment", "Member", new { id = @Model.member.id })">Create appointment</a>
         </div>
 
         @* -------------------------Create appointment section---------------------------------------- *@
@@ -74,6 +74,9 @@
                                             <option value="@pet.id">[@pet.PetType.name] @pet.name </option>
                                         }
                                     }
+                                    else
+                                    {
+                                    <option value="0"></option> }
                                     }
                                 </select>
                             </div>

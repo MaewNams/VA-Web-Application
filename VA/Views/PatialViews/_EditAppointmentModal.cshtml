@@ -1,0 +1,58 @@
+﻿@model VA.Models.Appointment
+
+<div id="edit_app_modal_@Model.id" class="ui modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
+    <div class="header">
+        Edit Appointment
+    </div>
+
+    <div class="content">
+
+        <div class="ui form" id="edit_app_form">
+            <div class="field">
+                <label>Appointment date<text style="color:darkred"> ( Can't change )</text></label>
+                <div class="ui calendar calendar_date">
+                    <div class="ui disabled input left icon">
+                        <i class="time icon"></i>
+                        <input type="text" name="date" value="@Model.startTime.ToString("d")">
+                    </div>
+                </div>
+            </div>
+            <div class="inline fields">
+                <div class="field">
+                    <label>Pet name <text style="color:darkred"> ( Can't change )</text></label>
+                    <div class="ui disabled input left icon">
+                        <i class="paw icon"></i>
+                        <input type="text" name="petName" value="@Model.Pet.name">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Service <text style="color:darkred"> ( Can't change )</text></label>
+                    <div class="ui disabled input left icon">
+                        <i class="paw icon"></i>
+                        <input type="text" name="service" value="@Model.VAService.description">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Service detail</label>
+                <input name="detail" type="text" id="edit_detail_@Model.id" value="@Model.detail">
+            </div>
+            <input type="hidden" id="edit_app_@Model.id" value="@Model.id">
+            <div class="field">
+                <label>Suggestion before come to clinic</label>
+                <input name="suggestion" type="text" id="edit_suggestion_@Model.id" value="@Model.suggestion">
+            </div>
+            <div class="ui error message"></div>
+
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">
+            Cancel
+        </div>
+        <div class="ui tiny green basic button confirm_edit_app_button" value="@Model.id">
+            <i class="checkmark icon"></i>
+            Confirm
+        </div>
+    </div>
+</div>

@@ -14,6 +14,7 @@ namespace VA.Repositories
         void Delete(PetType model);
         PetType GetById(int id);
         PetType GetByName(string name);
+        PetType GetLast();
         IEnumerable<PetType> GetAll();
     }
 }
