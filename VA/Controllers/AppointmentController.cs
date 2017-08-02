@@ -18,8 +18,8 @@ namespace VA.Controllers
     {
         private VAContext _db = new VAContext();
     //    private AdministratorRepository AdminService = new AdministratorRepository();
-        private MemberRepository MemberService = new MemberRepository();
-        private AppointmentRepository AppointmentService = new AppointmentRepository();
+    //    private MemberRepository MemberService = new MemberRepository();
+     //   private AppointmentRepository AppointmentService = new AppointmentRepository();
         // GET: Appointment
 
         private readonly IAppointmentRepository _AppRepo;
@@ -246,17 +246,17 @@ namespace VA.Controllers
         [HttpPost]
         public ActionResult Edit(int? appid,  string suggestion)
         {
-            Appointment appointment = AppointmentService.GetById(appid.Value);
+            Appointment appointment = _AppRepo.GetById(appid.Value);
             appointment.suggestion = suggestion;
-            AppointmentService.Update(appointment);
+            _AppRepo.Update(appointment);
             return Json(new { Result = "Success" });
         }
 
         [HttpPost]
         public ActionResult Delete(int appid)
         {
-            Appointment appointment = AppointmentService.GetById(appid);
-            AppointmentService.Delete(appointment);
+            Appointment appointment = _AppRepo.GetById(appid);
+            _AppRepo.Delete(appointment);
             return Json(new { Result = "Success" });
         }
     }

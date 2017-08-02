@@ -93,22 +93,25 @@ namespace VATests.RepositoryTests
         [TestMethod]
         public void AddAppointment()
         {
-            // Try finding a product by id
+            // Try finding a appointment by new id
+            Appointment testAppointment = MockAppointmentsRepository.GetById(3);
+            Assert.IsNull(testAppointment); // Test if null
+
+            // Add appointment
             Appointment testadd = new Appointment() { id = 3, memberId = 1, petId = 1, serviceId = 1, detail = "This is appointment 3", suggestion = "none", startTime = new DateTime(1900, 1, 1), endTime = new DateTime(1900, 1, 1), status = "Waiting" };
             this.MockAppointmentsRepository.Add(testadd);
 
-            Appointment testAppointment = MockAppointmentsRepository.GetById(3);
+
+            // Try finding a appointment by new id again
+            testAppointment = this.MockAppointmentsRepository.GetById(3);
             Assert.IsNotNull(testAppointment); // Test if null
             Assert.IsInstanceOfType(testAppointment, typeof(Appointment)); // Test type
             Assert.AreEqual("This is appointment 3", testAppointment.detail); // Verify it is the right product
 
-            // Try finding all products
-            IEnumerable<Appointment> testProducts = this.MockAppointmentsRepository.GetAll();
-
-            Assert.IsNotNull(testProducts); // Test if null
-            Assert.AreEqual(3, testProducts.Count()); // Verify the correct Number
 
         }
+
+ 
 
         [TestMethod]
         public void RemoveAppointment()

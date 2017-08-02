@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="VA.Controllers.HomeController">
+    <Position X="8.5" Y="1" Width="1.5" />
+    <Members>
+      <Field Name="_AppRepo" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAgAACIAAAAKQAAAAAAAYAAAQIEAAAAAEQAAAABgE=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_AdminRepo" />
+      <Field Name="_MemberRepo" />
+      <Field Name="_SpecieRepo" />
+      <Field Name="_VCRepo" />
+      <Field Name="_PetRepo" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="VA.Controllers.MemberController">
+    <Position X="9.75" Y="5.25" Width="1.5" />
+    <Members>
+      <Field Name="_AppRepo" Hidden="true" />
+      <Field Name="_AppTimeRepo" Hidden="true" />
+      <Field Name="_ServiceRepo" Hidden="true" />
+      <Field Name="_TimeBlockRepo" Hidden="true" />
+      <Method Name="CheckExitsTimeSlot" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAwAAAABQAAKAAAAgAAAAAAAUAAAACAAmAQCAABAE=</HashCode>
+      <FileName>Controllers\MemberController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_MemberRepo" />
+      <Field Name="_SpecieRepo" />
+      <Field Name="_VCRepo" />
+      <Field Name="_PetRepo" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="VA.Repositories.IAdministratorRepository">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\IAdministratorRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VA.Repositories.IMemberRepository">
+    <Position X="15.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAYAAAIAAAACAAAABACAAAAAEAGAAAAAAgAAgAAAAAg=</HashCode>
+      <FileName>Repositories\IMemberRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VA.Repositories.IPetSpecieRepository">
+    <Position X="14.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAIAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAIg=</HashCode>
+      <FileName>Repositories\IPetSpecieRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VA.Repositories.IVCRepository">
+    <Position X="17.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\IVCRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VA.Repositories.IPetRepository">
+    <Position X="13" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAQAYAAAQAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Repositories\IPetRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

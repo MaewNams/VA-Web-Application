@@ -13,7 +13,7 @@ namespace VA.Repositories
         void Add(Pet model);
         void Update(Pet model);
         void Delete(Pet model);
-        Pet GetById(int id);
+       Pet GetById(int id);
         Pet GetByType(int typeId);
         Pet GetByMemberIDAndNameAndSpecie(int memberId, string name, int specieId);
         Pet GetLast();

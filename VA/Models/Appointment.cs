@@ -31,7 +31,7 @@ namespace VA.Models
         public virtual VAService VAService { get; set; }
 
         [InverseProperty("Appointment")]
-        public virtual ICollection<AppointmentTimeBlock> AppointmentTimeBlock { get; set; }
+        public virtual ICollection<AppointmentTimeBlock> AppointmentTimeSlot { get; set; }
 
     }
 }

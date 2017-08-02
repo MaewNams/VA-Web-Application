@@ -76,7 +76,8 @@ namespace VA.Controllers
 
         public ActionResult Index(int? day, int? month, int? year)
         {
-
+            Session["Authen"] = true;
+            Session["username"] = "admin";
 
             if (Session["Authen"] == null)
             {
