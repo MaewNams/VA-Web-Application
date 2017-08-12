@@ -840,8 +840,8 @@ $(document).ready(function () {
     $('.test_create_button2').click(function (e) {
         e.preventDefault();
         $.post(BaseURL + '/VA/Appointment/CheckTimeSlotStatus', {
-            serviceID: $('#select_pet').val(),
-            petID: $('#select_service').val(),
+            serviceID: $('#select_service').val(),
+            petID: $('#select_pet').val(),
             date: $('#date').val(),
             startTime: $('#start').val(),
             endTime: $('#end').val(),
@@ -867,14 +867,14 @@ $(document).ready(function () {
                 }
                 )
             }
-
-            if (data.Result == "Confirm") {
+            if (data.Result == "require confirm") {
+                alert(data.Result)
                 $.ajax({
-                    url: BaseURL + '/VA/Member/GetWarningMessage',
+                    url: BaseURL + '/VA/Appointment/GetWarningMessage',
                     type: "POST",
                     error: function (response) {
                         if (!response.Success)
-                            alert("Server error.");
+                            console.log(e.response);
                     },
                     success: function (response) {
                         $(".result").html(response);
@@ -883,10 +883,6 @@ $(document).ready(function () {
                             ;
                     }
                 });
-
-            }
-            else {
-                alert(data.Result);
             }
         })
 

@@ -114,16 +114,17 @@ namespace VA.Controllers
                 }
                 TempData["warning"] = warningmessage;
             }
-
+            var message = new JsonResult();
             if ((bool)requireConfirm)  //---> path for decision 1
             {
-                GetWarningMessage();
-                return Json(new { Result = "Confirm" });
+                return Json(new { Result = "Require confirm" });
             }
             else { 
-                return Json(new { Result = "Success" }); }}
+                return Json(new { Result = "Success" }); }
 
-        private JsonResult GetWarningMessage()
+            }
+
+        public JsonResult GetWarningMessage()
         {
             if (TempData["warning"] != null)
             {
@@ -132,7 +133,7 @@ namespace VA.Controllers
                 string json = JsonConvert.SerializeObject(newKeys);
                 return Json(json, JsonRequestBehavior.AllowGet);
             }
-            return Json("Confirm");
+            return Json("NoWarning");
         }
 
         [HttpPost]

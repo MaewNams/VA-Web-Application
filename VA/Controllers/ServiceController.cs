@@ -180,7 +180,7 @@ namespace VA.Controllers
             //Add clinic
             Clinic clinic = new Clinic();
             clinic.maximumCase = 0;
-            VCService.Add(clinic);
+          //  VCService.Add(clinic);
 
             // Add appointment
             /*    List<Appointment> appointments = new List<Appointment>()

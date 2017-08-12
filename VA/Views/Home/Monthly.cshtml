@@ -19,10 +19,7 @@
             <i class="time icon"></i>   @Model.date.ToString("MMM"),  @Model.date.Year
             <div class="sub header"> This month we have : @{int numMApp = AppWait.Count() + AppCom.Count(); } @numMApp appointments</div>
         </div>
-        <button class="ui right floated teal button call_create_member_modal">
-            <i class="plus icon"></i>
-            Create new member
-        </button>
+
     </h2>
 
     <div class="ui secondary pointing menu">
@@ -32,26 +29,7 @@
         <a class="active item">
             Monthly
         </a>
-        <div class="right menu">
-            <div class="ui form">
-                <div class="inline fields">
 
-                    <select name="condition" class="ui dropdown" id="select_condition">
-                        <option value="address">Addresse</option>
-                        <option value="email">Email</option>
-                        <option value="name">Name</option>
-                        <option value="phone">Phone number</option>
-                    </select>
-
-                    <div class="ui icon input" style="margin-left:15px;">
-                        <input type="text" placeholder="Search for member..." id="search_keyword">
-                        <i class="inverted circular search link icon search_button"></i>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
     </div>
 
     @* ------------------------ Second tab       ----------------------------------------------------------------------------------------- *@
