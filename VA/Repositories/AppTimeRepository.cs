@@ -13,35 +13,31 @@ namespace VA.Repositories
     public class AppTimeRepository : IAppTimeRepository
     {
         private readonly VAContext _db = new VAContext();
-        public void Add(AppointmentTimeBlock model)
+        public void Add(AppointmentTimeSlot model)
         {
-            _db.AppointmentTimeBlock.Add(model);
+            _db.AppointmentTimeSlot.Add(model);
             _db.SaveChanges();
         }
-        public void Delete(AppointmentTimeBlock model)
+        public void Delete(AppointmentTimeSlot model)
         {
             _db.Entry(model).State = EntityState.Deleted;
             _db.SaveChanges();
         }
 
-    /*    public IEnumerable<AppointmentTimeBlock> GetAll()
+       public IEnumerable<AppointmentTimeSlot> GetAll()
         {
-            IEnumerable<AppointmentTimeBlock> appTimeList = _db.AppointmentTimeBlock;
+            IEnumerable<AppointmentTimeSlot> appTimeList = _db.AppointmentTimeSlot;
             return appTimeList;
-        }*/
+        }
 
-        public IEnumerable<AppointmentTimeBlock> GetByAppointmentID(int id)
+        public IEnumerable<AppointmentTimeSlot> GetByAppointmentID(int id)
         {
-            IEnumerable<AppointmentTimeBlock> appList = _db.AppointmentTimeBlock.Where(a => a.appointmentID == id);
+            IEnumerable<AppointmentTimeSlot> appList = _db.AppointmentTimeSlot.Where(a => a.appointmentID == id);
             return appList;
         }
 
-        public AppointmentTimeBlock GetLast()
-        {
-            return _db.AppointmentTimeBlock.OrderByDescending(m => m.id).FirstOrDefault();
-        }
 
-        public void Update(AppointmentTimeBlock model)
+        public void Update(AppointmentTimeSlot model)
         {
             _db.Entry(model).State = EntityState.Modified;
             _db.SaveChanges();

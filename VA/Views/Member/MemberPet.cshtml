@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_test.cshtml";
 
     IEnumerable<Pet> pets = Model.pets;
-    IEnumerable<PetType> pettypes = Model.pettypes;
+    IEnumerable<Specie> species = Model.species;
 
     Html.RenderPartial("~/Views/PatialViews/_MemberSideBar.cshtml", Model.member);
 }
@@ -40,7 +40,7 @@
                 <div class="eight wide column">
                 </div>
                 <div class="eight wide column">
-                    <button class="ui right floated teal button" id="call_create_pet_modal">Create new pet account</button>
+                    <button class="ui right floated teal button" id="call_create_pet_modal">Create new pet profile</button>
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Type</th>
+                                <th>Specie</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -62,17 +62,30 @@
 
                             @{    foreach (var pet in pets)
                                 {
-
-                                    Html.RenderPartial("~/Views/PatialViews/_MemberPet.cshtml", pet);
-
-                               <!--  <div class="ui modal" id="edit_pet_modal_@pet.id" style="left: 60%;width: 40%;margin-top: -114.5px;">
+                                    <tr>
+                                        <td>@pet.name</td>
+                                        <td>@pet.Specie.name</td>
+                                        <td class="collapsing">
+                                            <button class="ui teal button call_edit_pet_modal" data-id="@pet.id">
+                                                <i class="write square icon"></i>
+                                                Edit
+                                            </button>
+                                        </td>
+                                        <td class="collapsing">
+                                            <button class="ui button delete_pet_button" data-id="@pet.id">
+                                                <i class="remove icon"></i>
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+  <div class="ui modal" id="edit_pet_modal_@pet.id" style="left: 60%;width: 40%;margin-top: -114.5px;">
         <div class="header">
             Edit pet
         </div>
         <div class="content">
             <div class="ui form" id="edit_pet_form">
                 <input type="hidden" id="edit_pet_@pet.id" value="@pet.id">
-                <input type="hidden" id="edit_pet_type" value="@pet.PetType.id">
+                <input type="hidden" id="edit_pet_type" value="@pet.Specie.id">
                 <div class="field">
                     <label>Pet name</label>
                     <input name="petName" type="text" id="edit_petName_@pet.id" value="@pet.name">
@@ -80,18 +93,18 @@
 
                 <select name="specie" class="ui dropdown" id="select_edit_specie_@pet.id">
                     @{
-                        if (pettypes != null && pettypes.ToList().Count > 0)
+                        if (species != null && species.ToList().Count > 0)
                         {
-                            foreach (var type in pettypes)
+                            foreach (var specie in species)
                             {
-                                <option value="@type.id">@type.name</option>
+                                <option value="@specie.id">@specie.name</option>
                             }
                         }
                     }
 
                 </select>
                 <script type="text/javascript">
-                        $("#select_edit_specie_@pet.id").val('@pet.typeId');
+                        $("#select_edit_specie_@pet.specieId").val('@pet.specieId');
                 </script>
             </div>
         </div>
@@ -105,14 +118,13 @@
             </div>
         </div>
     </div>
-                              --> 
                                 }
                             }
                         </tbody>
                     </table>
                                 }
                                 else
-                                {  <div class="ui segment" style="text-align:center"> No pet profile yet</div>}
+                                {  <div class="ui segment" style="text-align:center"> No pet profile </div>}
             }
 
 
@@ -128,6 +140,39 @@
 
 
 
+<div class="ui modal" id="create_pet_modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
+    <div class="header">
+        Create new pet account
+    </div>
+    <div class="image content">
+        <form class="ui form" id="create_pet_form">
+            <input type="hidden" id="member" value="@Model.member.id">
+            <div class="field">
+                <label>Pet name</label>
+                <input name="petName" type="text" id="petName">
+            </div>
 
-
-
+            <select name="specie" class="ui dropdown" id="select_specie">
+                @{
+                    if (species != null && species.Count() > 0)
+                    {
+                        foreach (var specie in species)
+                        {
+                            <option value="@specie.id">@specie.name</option>
+                        }
+                    }
+                }
+            </select>
+            <div class="ui error message"></div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button">
+            Cancel
+        </div>
+        <div class="ui ok green basic button">
+            <i class="checkmark icon"></i>
+            Confirm
+        </div>
+    </div>
+</div>

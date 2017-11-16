@@ -12,7 +12,7 @@ namespace VA.Repositories
     {
         private readonly VAContext _db = new VAContext();
 
-        public void Add(VAService model)
+     /*   public void Add(VAService model)
         {
             _db.Service.Add(model);
             _db.SaveChanges();
@@ -23,7 +23,7 @@ namespace VA.Repositories
             _db.Entry(model).State = EntityState.Deleted;
             _db.SaveChanges();
         }
-
+        */
         public IEnumerable<VAService> GetAll()
         {
             IEnumerable<VAService> serviceList = _db.Service.ToList();
@@ -35,10 +35,10 @@ namespace VA.Repositories
             return _db.Service.FirstOrDefault(m => m.id == id);
         }
 
-        public void Update(VAService model)
+       /* public void Update(VAService model)
         {
             _db.Entry(model).State = EntityState.Modified;
             _db.SaveChanges();
-        }
+        }*/
     }
 }

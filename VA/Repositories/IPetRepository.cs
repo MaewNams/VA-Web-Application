@@ -14,10 +14,8 @@ namespace VA.Repositories
         void Update(Pet model);
         void Delete(Pet model);
         Pet GetById(int id);
-        Pet GetByType(int typeId);
+        Pet GetBySpecie(int specieId);
         Pet GetByMemberIDAndNameAndSpecie(int memberId, string name, int specieId);
-        Pet GetLast();
         IEnumerable<Pet> GetByMemberID(int memberId);
-        //IEnumerable<Pet> GetAll();
     }
 }

@@ -9,9 +9,9 @@ namespace VA.Repositories
 {
     public interface IServiceRepository
     {
-        void Add(VAService model);
-        void Update(VAService model);
-        void Delete(VAService model);
+       // void Add(VAService model);
+    //    void Update(VAService model);
+       // void Delete(VAService model);
         VAService GetById(int id);
         IEnumerable<VAService> GetAll();
     }

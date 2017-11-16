@@ -10,6 +10,6 @@ namespace VA.ViewModel
     {
         public Member member { get; set; }
         public IEnumerable<Pet> pets { get; set; }
-        public IEnumerable<PetType> pettypes { get; set; }
+        public IEnumerable<Specie> species { get; set; }
     }
 }

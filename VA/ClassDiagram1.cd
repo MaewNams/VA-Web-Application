@@ -1,104 +1,137 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
-  <Class Name="VA.Controllers.AppointmentController">
-    <Position X="12.25" Y="5" Width="2" />
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="NameAndType">
+  <Class Name="VA.ViewModel.AllAppointmentViewModel">
+    <Position X="7.25" Y="4.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAgAAAAAAAAAAAAAAAgAEAAAAAAgAAAAAAAAA=</HashCode>
-      <FileName>Controllers\AppointmentController.cs</FileName>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAgAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>ViewModel\AllAppointmentViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="VA.Controllers.HomeController">
-    <Position X="14.5" Y="0.75" Width="1.5" />
+  <Class Name="VA.ViewModel.AppointmentViewModel">
+    <Position X="13.5" Y="3.25" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAgAAAAAEACAAAAAIAwAAAAAAEAgEQAAAAAAA=</HashCode>
-      <FileName>Controllers\HomeController.cs</FileName>
+      <HashCode>AACAAAQCAAAAAAAgAAAAIABAAAAAAAAAAEAIAAAAAAA=</HashCode>
+      <FileName>ViewModel\AppointmentViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="VA.Controllers.MemberController">
-    <Position X="12" Y="0.75" Width="2" />
+  <Class Name="VA.ViewModel.CreateAppointmentViewModel">
+    <Position X="10.5" Y="3.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAIQIAAgAAAAAgAAAAAACAgEAAAAAAgA=</HashCode>
-      <FileName>Controllers\MemberController.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAIAACAAAAYAAAAA=</HashCode>
+      <FileName>ViewModel\CreateAppointmentViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="VA.Repositories.AppointmentRepository" BaseTypeListCollapsed="true">
-    <Position X="2.25" Y="1.25" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAYAgAAAAAAEAAAAAAAAAAAAAAEAAAAAACAAAAAAAIA=</HashCode>
-      <FileName>Repositories\AppointmentRepository.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="VA.Repositories.MemberRepository" BaseTypeListCollapsed="true">
-    <Position X="6.5" Y="4.25" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AA4AgAAAAAAAAAAAAAAAIAAAEAEAAAAQAAAAgAAAAAA=</HashCode>
-      <FileName>Repositories\MemberRepository.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="VA.Repositories.PetRepository" BaseTypeListCollapsed="true">
-    <Position X="5" Y="1.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAYAgAQAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAIA=</HashCode>
-      <FileName>Repositories\PetRepository.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="VA.Repositories.PetSpecieRepository" BaseTypeListCollapsed="true">
-    <Position X="7" Y="1.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAYAgAAAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAIA=</HashCode>
-      <FileName>Repositories\PetSpecieRepository.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="VA.Service.SMSService">
-    <Position X="6.5" Y="7.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Service\SMSService.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="System.Web.Mvc.Controller" Collapsed="true">
-    <Position X="9.25" Y="1.75" Width="1.5" />
-    <TypeIdentifier />
-    <Lollipop Position="0.2" />
-  </Class>
-  <Interface Name="VA.Repositories.IAdministratorRepository">
-    <Position X="0.5" Y="6.75" Width="2" />
+  <Class Name="VA.ViewModel.LoginResultViewModel">
+    <Position X="7.75" Y="3.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Repositories\IAdministratorRepository.cs</FileName>
+      <FileName>ViewModel\LoginResultViewModel.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="VA.Repositories.IAppointmentRepository">
-    <Position X="3.5" Y="4.5" Width="1.75" />
+  </Class>
+  <Class Name="VA.ViewModel.MemberAppointmentViewModel">
+    <Position X="10.5" Y="1.25" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AAYAAAAAAAAEAAAAAAAAAAAAAAEAAAAAACAAAAAAAIA=</HashCode>
-      <FileName>Repositories\IAppointmentRepository.cs</FileName>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAEAAAACAAAAQAAAAA=</HashCode>
+      <FileName>ViewModel\MemberAppointmentViewModel.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="VA.Repositories.IMemberRepository">
-    <Position X="0.5" Y="8.25" Width="1.75" />
+  </Class>
+  <Class Name="VA.ViewModel.MemberPetViewModel">
+    <Position X="7.75" Y="1.25" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AA4AAAAAAAAAAAAAAAAAIAAAEAEAAAAQAAAAgAAAAAA=</HashCode>
-      <FileName>Repositories\IMemberRepository.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAACAAAAAAABAA=</HashCode>
+      <FileName>ViewModel\MemberPetViewModel.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="VA.Repositories.IPetRepository">
-    <Position X="3.75" Y="7.5" Width="1.5" />
+  </Class>
+  <Class Name="VA.Models.Administrator">
+    <Position X="9" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAYAAAQAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAIA=</HashCode>
-      <FileName>Repositories\IPetRepository.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAgAAAgA=</HashCode>
+      <FileName>Models\Administrator.cs</FileName>
     </TypeIdentifier>
-  </Interface>
-  <Interface Name="VA.Repositories.IPetSpecieRepository">
-    <Position X="0.5" Y="4.25" Width="2.5" />
+  </Class>
+  <Class Name="VA.Models.Appointment">
+    <Position X="5" Y="6.75" Width="3" />
+    <Members>
+      <Property Name="AppointmentTimeBlock" Hidden="true" />
+      <Property Name="Member" Hidden="true" />
+      <Property Name="Pet" Hidden="true" />
+      <Property Name="VAService" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAYAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAIA=</HashCode>
-      <FileName>Repositories\IPetSpecieRepository.cs</FileName>
+      <HashCode>IAWBAAAAAAAACAABAAAgACAAAAAIAAAAAAAIAAAAAhA=</HashCode>
+      <FileName>Models\Appointment.cs</FileName>
     </TypeIdentifier>
-  </Interface>
+  </Class>
+  <Class Name="VA.Models.AppointmentTimeSlot">
+    <Position X="16" Y="6.25" Width="2.25" />
+    <Members>
+      <Property Name="Appointment" Hidden="true" />
+      <Property Name="TimeSlot" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAIAABAQAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Models\AppointmentTimeSlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Models.Clinic">
+    <Position X="11" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgA=</HashCode>
+      <FileName>Models\Clinic.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Models.Member">
+    <Position X="16.5" Y="8.5" Width="2" />
+    <Members>
+      <Property Name="Appointments" Hidden="true" />
+      <Property Name="Pets" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAkAAAEAAAAQEIEAAAAAAAAAgAAAgA=</HashCode>
+      <FileName>Models\Member.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Models.Pet">
+    <Position X="13.75" Y="6" Width="2" />
+    <Members>
+      <Property Name="Appointments" Hidden="true" />
+      <Property Name="Member" Hidden="true" />
+      <Property Name="Specie" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAQAAMABAAAAAAAAIAAgA=</HashCode>
+      <FileName>Models\Pet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Models.Specie">
+    <Position X="11" Y="8.75" Width="1.5" />
+    <Members>
+      <Property Name="Pets" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAEAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Models\Specie.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Models.TimeSlot">
+    <Position X="13.5" Y="8.25" Width="2" />
+    <Members>
+      <Property Name="AppointmentTimeBlock" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>gAQAAAAAAAAAAAAAAAAgACAAAAAAAAAAAAAAAAAAAhA=</HashCode>
+      <FileName>Models\TimeSlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Models.VAService">
+    <Position X="10.75" Y="10.25" Width="2" />
+    <Members>
+      <Property Name="Appointments" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAQAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Models\VAService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

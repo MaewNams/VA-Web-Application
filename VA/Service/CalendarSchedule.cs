@@ -10,20 +10,17 @@ namespace VA.Service
 {
     public class CalendarSchedule
     {
-        private static VAContext _db = new VAContext();
-        private static TimeBlockRepository TimeBlockService = new TimeBlockRepository();
+       // private static VAContext _db = new VAContext();
+        private static ITimeSlotRepository _TimeSlotRepo;
+
+
+        public CalendarSchedule(ITimeSlotRepository timeSlotRepository)
+        {
+            _TimeSlotRepo = timeSlotRepository;
+        }
 
         public static void Start()
         {
-            _db.Appointment.RemoveRange(_db.Appointment);
-            _db.AppointmentTimeBlock.RemoveRange(_db.AppointmentTimeBlock);
-            _db.Pet.RemoveRange(_db.Pet);
-            _db.Clinic.RemoveRange(_db.Clinic);
-            _db.PetType.RemoveRange(_db.PetType);
-            _db.Service.RemoveRange(_db.Service);
-            _db.Member.RemoveRange(_db.Member);
-            _db.TimeBlock.RemoveRange(_db.TimeBlock);
-            _db.SaveChanges();
 
             DateTime current = DateTime.Now;
             int day = DateTime.Now.Day;
@@ -34,7 +31,7 @@ namespace VA.Service
 
 
             // Check if the system already have  today time table  -- if not, create this month + five month = 6 month//
-            TimeBlock checkTodayExits = TimeBlockService.GetByDate(current.Day, current.Month, current.Year);
+            TimeSlot checkTodayExits = _TimeSlotRepo.GetByDate(current.Day, current.Month, current.Year);
 
             //To day is not exits --> Create for six month
             if (checkTodayExits == null) {
@@ -47,7 +44,7 @@ namespace VA.Service
                     {
                         //Start from today
                         DateTime dt = new DateTime(current.Year, current.Month, j);
-                        TimeBlock checkExits = TimeBlockService.GetByDate(dt.Day, dt.Month, dt.Year);
+                        TimeSlot checkExits = _TimeSlotRepo.GetByDate(dt.Day, dt.Month, dt.Year);
 
                         //Loop for hour in day
                         if (checkExits == null)
@@ -65,25 +62,15 @@ namespace VA.Service
                                 hours.Add(next);
                             }
                             hours.Add(endTime);
-                            int lastTimeID;
-                            List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
-                            if (CheckTime.Count() > 0)
-                            {
-                                lastTimeID = CheckTime.LastOrDefault().id;
-                            }
-                            else
-                            {
-                                lastTimeID = 0;
-                            }
+                            
                             foreach (var hour in hours)
                             {
-                                TimeBlock timeblock = new TimeBlock();
-                                timeblock.id = lastTimeID + 1;
+                                TimeSlot timeblock = new TimeSlot();
                                 timeblock.startTime = hour;
                                 timeblock.endTime = hour.AddHours(0.5);
                                 timeblock.numberofCase = 0;
                                 timeblock.status = "Free";
-                                TimeBlockService.Add(timeblock);
+                                _TimeSlotRepo.Add(timeblock);
                                 Console.WriteLine("From " + timeblock.startTime + " To " + timeblock.endTime);
                             }
                         }
@@ -98,7 +85,7 @@ namespace VA.Service
                 for (int i = 1; i <= DateTime.DaysInMonth(NewMonth.Year, NewMonth.Month); i++)
                 {
                     DateTime dt = new DateTime(NewMonth.Year, NewMonth.Month, i);
-                    TimeBlock checkExits = TimeBlockService.GetByDate(dt.Day, dt.Month, dt.Year);
+                    TimeSlot checkExits = _TimeSlotRepo.GetByDate(dt.Day, dt.Month, dt.Year);
 
                     if (checkExits == null)
                     {
@@ -115,69 +102,19 @@ namespace VA.Service
                             hours.Add(next);
                         }
                         hours.Add(endTime);
-                        int lastTimeID;
-                        List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
-                        if (CheckTime.Count() > 0)
-                        {
-                            lastTimeID = CheckTime.LastOrDefault().id;
-                        }
-                        else
-                        {
-                            lastTimeID = 0;
-                        }
                         foreach (var hour in hours)
                         {
-                            TimeBlock timeblock = new TimeBlock();
-                            timeblock.id = lastTimeID + 1;
+                            TimeSlot timeblock = new TimeSlot();
                             timeblock.startTime = hour;
                             timeblock.endTime = hour.AddHours(0.5);
                             timeblock.numberofCase = 0;
                             timeblock.status = "Free";
-                            TimeBlockService.Add(timeblock);
+                            _TimeSlotRepo.Add(timeblock);
                         }
                     }
 
                 }
 
-                // TimeBlock checkExits = TimeBlockService.GetByDate(NewMonth.Day, NewMonth.Month, NewMonth.Year);
-
-                /* if (checkExits == null)
-                 {
-                     TimeSpan start = new TimeSpan(09, 30, 0);
-                     TimeSpan end = new TimeSpan(21, 30, 0);
-                     DateTime startTime = new DateTime(year.Value, month.Value, day.Value) + start;
-                     DateTime endTime = new DateTime(year.Value, month.Value, day.Value) + end;
-                     var hours = new List<DateTime>();
-                     hours.Add(startTime);
-                     var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
-                                             startTime.Hour, startTime.Minute, 0, startTime.Kind);
-
-                     while ((next = next.AddHours(0.5)) < endTime)
-                     {
-                         hours.Add(next);
-                     }
-                     hours.Add(endTime);
-                     int lastTimeID;
-                     List<TimeBlock> CheckTime = TimeBlockService.GetAll().ToList();
-                     if (CheckTime.Count() > 0)
-                     {
-                         lastTimeID = CheckTime.LastOrDefault().id;
-                     }
-                     else
-                     {
-                         lastTimeID = 0;
-                     }
-                     foreach (var hour in hours)
-                     {
-                         TimeBlock timeblock = new TimeBlock();
-                         timeblock.id = lastTimeID + 1;
-                         timeblock.startTime = hour;
-                         timeblock.endTime = hour.AddHours(0.5);
-                         timeblock.numberofCase = 0;
-                         timeblock.status = "Free";
-                         TimeBlockService.Add(timeblock);
-                     }
-                 }*/
             }
             ///
         }

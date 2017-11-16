@@ -27,7 +27,7 @@ namespace VATests.RepositoryTests
         Mock<IAppointmentRepository> mockAppointmentRepository = new Mock<IAppointmentRepository>();
 
             // Return all the appointment
-            mockAppointmentRepository.Setup(mr => mr.GetAll()).Returns(appointments);
+          //  mockAppointmentRepository.Setup(mr => mr.GetAll()).Returns(appointments);
 
             // Return the appointment get by id
             mockAppointmentRepository.Setup(mr => mr.GetById(It.IsAny<int>()))
@@ -58,15 +58,15 @@ namespace VATests.RepositoryTests
             }
     public readonly IAppointmentRepository MockAppointmentsRepository;
 
-        [TestMethod]
-        public void GetAll()
+      //  [TestMethod]
+   /*     public void GetAll()
         {
             // Try finding all products
             IEnumerable<Appointment> testProducts = this.MockAppointmentsRepository.GetAll();
 
             Assert.IsNotNull(testProducts); // Test if null
             Assert.AreEqual(2, testProducts.Count()); // Verify the correct Number
-        }
+        }*/
 
         [TestMethod]
         public void GetByExitsPetID()
@@ -103,10 +103,10 @@ namespace VATests.RepositoryTests
             Assert.AreEqual("This is appointment 3", testAppointment.detail); // Verify it is the right product
 
             // Try finding all products
-            IEnumerable<Appointment> testProducts = this.MockAppointmentsRepository.GetAll();
+        //    IEnumerable<Appointment> testProducts = this.MockAppointmentsRepository.GetAll();
 
-            Assert.IsNotNull(testProducts); // Test if null
-            Assert.AreEqual(3, testProducts.Count()); // Verify the correct Number
+         //   Assert.IsNotNull(testProducts); // Test if null
+         //   Assert.AreEqual(3, testProducts.Count()); // Verify the correct Number
 
         }
 
@@ -120,8 +120,8 @@ namespace VATests.RepositoryTests
             Appointment testAppointment = MockAppointmentsRepository.GetById(1);
             Assert.IsNotNull(testAppointment); // Test if null
                                                // Try finding all products
-            IEnumerable<Appointment> appList = MockAppointmentsRepository.GetAll();
-            Assert.AreEqual(2, appList.Count()); // Verify the correct Number
+         //   IEnumerable<Appointment> appList = MockAppointmentsRepository.GetAll();
+        //    Assert.AreEqual(2, appList.Count()); // Verify the correct Number
 
          this.MockAppointmentsRepository.Delete(testAppointment);
 
@@ -129,8 +129,8 @@ namespace VATests.RepositoryTests
             Assert.IsNull(testAppointment2); // Test if null
   
             // Try finding all products
-            IEnumerable<Appointment> appList2 = this.MockAppointmentsRepository.GetAll();
-            Assert.AreEqual(1, appList2.Count()); // Verify the correct Number
+    //        IEnumerable<Appointment> appList2 = this.MockAppointmentsRepository.GetAll();
+     //       Assert.AreEqual(1, appList2.Count()); // Verify the correct Number
             
         }
     }

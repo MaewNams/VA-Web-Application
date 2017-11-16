@@ -8,7 +8,7 @@
 @{
     IEnumerable<Pet> pets = Model.pets;
     IEnumerable<VAService> services = Model.services;
-    IEnumerable<TimeBlock> timeblocks = Model.timeblocks;
+    IEnumerable<TimeSlot> timeblocks = Model.timeblocks;
 
     Html.RenderPartial("~/Views/PatialViews/_MemberSideBar.cshtml", Model.member);
 }
@@ -67,16 +67,13 @@
                             <div class="field">
                                 <label>Select pet</label>
                                 <select name="pet" class="ui dropdown" id="select_pet">
+                                    <option value="0">Please select pet</option> }
                                     @if (pets != null && pets.ToList().Count > 0)
                                     {
                                         foreach (var pet in pets)
                                         {
-                                            <option value="@pet.id">[@pet.PetType.name] @pet.name </option>
+                                            <option value="@pet.id">[@pet.Specie.name] @pet.name </option>
                                         }
-                                    }
-                                    else
-                                    {
-                                    <option value="0"></option> }
                                     }
                                 </select>
                             </div>
@@ -107,7 +104,7 @@
                             </div>
                             <div class="ui error message"></div>
                             <div class="actions">
-                                <div class="ui green basic right floated  button test_create_button2" data-id="@Model.member.id">
+                                <div class="ui green basic right floated  button test_create_button" data-id="@Model.member.id">
                                     <i class="checkmark icon"></i>
                                     Confirm
                                 </div>
@@ -131,7 +128,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (TimeBlock timeblock in timeblocks)
+                                @foreach (TimeSlot timeblock in timeblocks)
                                 {
                                     Html.RenderPartial("~/Views/PatialViews/_TimeTable.cshtml", timeblock);
                                 }
@@ -148,13 +145,12 @@
     </div>
 </div>
 <div class="ui modal" id="test_modal">
-    <div class="header">Header</div>
+    <div class="header">Warning ! </div>
     <div class="content">
         <div class="result"></div>
-        <p>Adding more case might lead to work overload</p>
     </div>
     <div class="actions">
-        <div class="ui approve button confirm_create_button">Confirm</div>
+        <div class="ui teal button confirm_create_button">Confirm</div>
         <div class="ui cancel button">Cancel</div>
     </div>
 </div>

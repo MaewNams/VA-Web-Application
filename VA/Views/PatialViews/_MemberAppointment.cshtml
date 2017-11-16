@@ -3,11 +3,11 @@
 <tr>
 
     <td style="vertical-align:top"> @Model.startTime.ToString("d")</td>
-    <td style="vertical-align:top">@Model.Pet.name</td>
+    <td style="vertical-align:top">@Model.startTime.ToShortTimeString() - @Model.endTime.ToShortTimeString()</td>
+    <td style="vertical-align:top">[@Model.Pet.Specie.name] @Model.Pet.name</td>
     <td style="vertical-align:top">@Model.VAService.description</td>
     <td style="vertical-align:top">@Model.detail</td>
     <td style="vertical-align:top">@Model.suggestion </td>
-    <td style="color:teal;vertical-align:top">@Model.status</td>
     <td style="text-align:right;vertical-align:top">
         @if (Model.status == "Waiting")
         {

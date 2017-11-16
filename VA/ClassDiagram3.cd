@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="NameAndType">
+  <Class Name="VA.Controllers.HomeController">
+    <Position X="11.25" Y="1.75" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACIAAAAKQAAAAAAAYAAAQIEAAAAAEQAAAABgE=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Controllers.MemberController">
+    <Position X="5.25" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABQAAKAAAAgAAAAAAAUAAAASAAmAQCAABAE=</HashCode>
+      <FileName>Controllers\MemberController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Controllers.AppointmentController">
+    <Position X="1.25" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAKAIAAAABgAAgAEAAAESAgCAACAAAAE=</HashCode>
+      <FileName>Controllers\AppointmentController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Controllers.APIController">
+    <Position X="14.25" Y="8.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAIAAAAEAAAAAQAAgAAAQAAAQAAAAQAE=</HashCode>
+      <FileName>Controllers\APIController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Service.SMSSchedule">
+    <Position X="1.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\SMSSchedule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VA.Service.SMSService">
+    <Position X="4" Y="8.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\SMSService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VA.Service.CalendarSchedule">
+    <Position X="1" Y="10.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAACIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Service\CalendarSchedule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

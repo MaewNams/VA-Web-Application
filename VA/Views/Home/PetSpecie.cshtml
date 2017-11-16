@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutTest.cshtml";
 }
 @{
-    IEnumerable<PetType> species = Model;
+    IEnumerable<Specie> species = Model;
 
 }
 @{
@@ -29,46 +29,44 @@
 
     <div class="ui active tab segment" data-tab="first">
 
-        <table class="ui single line selectable  table" style="border:none!important">
-            <thead>
-                <tr>
-                    <th class="one wide">No</th>
-                    <th class="two wide">Name</th>
-                    <th class="two wide">Edit</th>
-                    <th class="two wide">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
+        @{
 
+            if (species != null && species.ToList().Count > 0)
+            {
+                <table class="ui single line selectable  table" style="border:none!important">
+                    <thead>
+                        <tr>
+                            <th class="one wide">No</th>
+                            <th class="two wide">Name</th>
+                            <th class="two wide">Edit</th>
+                            <th class="two wide">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int index = 0;
+                            foreach (var specie in species)
+                            {
+                                index += 1;
 
-                    if (species != null && species.ToList().Count > 0)
-                    {
-                        int index = 0;
-                        foreach (var specie in species)
-                        {
-                            index += 1;
-
-                            <tr>
-                                <td>@index</td>
-                                <td>@specie.name</td>
-                                <td>
-                                    <button class="ui blue basic button call_edit_type_modal" data-id="@specie.id">Edit</button>
-                                </td>
-                                <td>
-                                    <button class="ui red basic button delete_type_button" data-id="@specie.id" style="width:65%">Delete Type</button>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>@index</td>
+                                    <td>@specie.name</td>
+                                    <td>
+                                        <button class="ui blue basic button call_edit_type_modal" data-id="@specie.id">Edit</button>
+                                    </td>
+                                    <td>
+                                        <button class="ui red basic button delete_type_button" data-id="@specie.id" style="width:65%">Delete</button>
+                                    </td>
+                                </tr>
                                 <div id="edit_type_modal_@specie.id" class="ui modal" style="left: 60%;width: 40%;margin-top: -114.5px;">
                                     <div class="header">
                                         Edit Specie
                                     </div>
-
                                     <div class="content">
 
                                         <div class="ui form">
                                             <div class="field">
-                                                <label>Type name</label>
+                                                <label>Specie name</label>
                                                 <div class="ui input left icon">
                                                     <i class="paw icon"></i>
                                                     <input type="text" name="typeName" value="@specie.name" id="edit_name_@specie.id">
@@ -89,20 +87,28 @@
                                         </div>
                                     </div>
                                 </div>
+                            }
                         }
-                    }
+                    </tbody>
+                </table>
+                            }
+                            else
+                            {
+                                <h4 class="ui center aligned  header">
+                                    "No pet specie"
+                                </h4>
+                            }
 
 
 
 
-                }
-            </tbody>
-        </table>
+        }
+
 
 
 
     </div>
 
-    </div>
 
 
+</div>

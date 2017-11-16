@@ -194,6 +194,7 @@ $(document).ready(function () {
         $.post(BaseURL + '/VA/Appointment/Edit',
             {
                 appid: $('#edit_app_' + appid).val(),
+                detail: $('#edit_detail_' + appid).val(),
                 suggestion: $('#edit_suggestion_' + appid).val()
 
             },
@@ -282,11 +283,11 @@ $(document).ready(function () {
         e.preventDefault();
         var typeID = $(this).attr("value");
         console.log(typeID);
-        console.log("type" + $('#edit_type_' + typeID).val());
+        console.log("specieId" + $('#edit_type_' + typeID).val());
         console.log("name" + $('#edit_name_' + typeID).val());
         $.post(BaseURL + '/VA/Home/EditSpecie',
             {
-                typeID: $('#edit_type_' + typeID).val(),
+                specieId: $('#edit_type_' + typeID).val(),
                 name: $('#edit_name_' + typeID).val(),
             },
             function (data) {
@@ -321,7 +322,7 @@ $(document).ready(function () {
         $.post(BaseURL + '/VA/Member/EditPet',
             {
                 petID: $('#edit_pet_' + petid).val(),
-                petType: $('#select_edit_specie_' + petid).val(),
+                specieID: $('#select_edit_specie_' + petid).val(),
                 petName: $('#edit_petName_' + petid).val(),
 
             },
@@ -403,7 +404,7 @@ $(document).ready(function () {
                 e.preventDefault();
                 $.post(BaseURL + '/VA/Member/CreatePet', {
                     memberID: $('#member').val(),
-                    petType: $('#select_specie').val(),
+                    specieID: $('#select_specie').val(),
                     petName: $('#petName').val()
                 }, function (data) {
                     if (data.Result == "Success") {
@@ -478,7 +479,7 @@ $(document).ready(function () {
             month = new Date(date).getMonth() + 1,
                 year = new Date(date).getFullYear(),
                 memberID = $('#member').val(),
-                window.location.href = BaseURL + "/VA/Member/Index/" + memberID + "?month=" + month + "&year=" + year;
+                window.location.href = BaseURL + "/VA/Member/Index/?id=" + memberID + "&month=" + month + "&year=" + year;
         },
     });
 
@@ -536,8 +537,11 @@ $(document).ready(function () {
         },
     });
 
+
+    ///// This one for select create appointment
     $('.test_app_calendar3').calendar({
         type: 'date',
+        minDate: new Date(), 
         onChange: function (date) {
             day = new Date(date).getDate(),
                 month = new Date(date).getMonth() + 1,
@@ -701,8 +705,6 @@ $(document).ready(function () {
 
     $('.VA_Setting_button').click(function (e) {
 
-        e.preventDefault();
-        if (confirm("Do you want to edit maximum case that clinic can take?")) {
             $.post(BaseURL + '/VA/Home/VASetting',
                 {
                     caseNumber: $('#maximumCase').val(),
@@ -715,7 +717,7 @@ $(document).ready(function () {
                         alert(data.Result);
                     }
                 })
-        }
+        
     });
 
 
@@ -737,9 +739,9 @@ $(document).ready(function () {
 
     $('.delete_type_button').click(function (e) {
         e.preventDefault();
-        if (confirm("Do you want to delete this pet type?")) {
+        if (confirm("Do you want to delete the specie?")) {
             $.post(BaseURL + '/VA/Home/DeleteSpecie', {
-                typeID: $(this).data('id')
+                specieId: $(this).data('id')
             }, function (data) {
                 if (data.Result == "Success") {
                     alert("Delete success");
@@ -764,8 +766,9 @@ $(document).ready(function () {
     /*test*/
     $('.test_create_button').click(function (e) {
         e.preventDefault();
-        $.post(BaseURL + '/VA/Member/CheckTimeSlot', {
+        $.post(BaseURL + '/VA/Appointment/CheckForCreateApp', {
             serviceID: $('#select_service').val(),
+            petID: $('#select_pet').val(),
             date: $('#date').val(),
             startTime: $('#start').val(),
             endTime: $('#end').val(),
@@ -773,10 +776,11 @@ $(document).ready(function () {
         }, function (data) {
             if (data.Result == "Success") {
                 e.preventDefault();
-                $.post(BaseURL + '/VA/Member/Index', {
+                $.post(BaseURL + '/VA/Appointment/CreateApp', {
                     memberID: $('#member').val(),
                     petID: $('#select_pet').val(),
                     serviceID: $('#select_service').val(),
+                    detail: $('#detail').val(),
                     suggestion: $('#suggestion').val(),
                     date: $('#date').val(),
                     startTime: $('#start').val(),
@@ -785,13 +789,14 @@ $(document).ready(function () {
                     if (data.Result == "Success") {
                         alert("Create success");
                         window.location.reload();
-                    }
+                    } 
                 }
                 )
+
             } if (data.Result == "Confirm") {
 
                 $.ajax({
-                    url: BaseURL + '/VA/Member/GetWarningMessage',
+                    url: BaseURL + '/VA/Appointment/GetWarningMessage',
                     type: "POST",
                     error: function (response) {
                         if (!response.Success)
@@ -807,7 +812,9 @@ $(document).ready(function () {
 
             }
             else {
-                alert(data.Result);
+                if (data.Result != "Success") {
+                    alert(data.Result);
+                }
             }
         })
 
@@ -815,7 +822,7 @@ $(document).ready(function () {
 
     $('.confirm_create_button').click(function (e) {
         e.preventDefault();
-        $.post(BaseURL + '/VA/Member/index', {
+        $.post(BaseURL + '/VA/Appointment/CreateApp', {
             memberID: $('#member').val(),
             petID: $('#select_pet').val(),
             serviceID: $('#select_service').val(),
@@ -839,7 +846,7 @@ $(document).ready(function () {
     /*test*/
     $('.test_create_button2').click(function (e) {
         e.preventDefault();
-        $.post(BaseURL + '/VA/Appointment/CheckTimeSlotStatus', {
+        $.post(BaseURL + '/VA/Appointment/CheckForCreateApp', {
             serviceID: $('#select_service').val(),
             petID: $('#select_pet').val(),
             date: $('#date').val(),
@@ -867,9 +874,8 @@ $(document).ready(function () {
                 }
                 )
             }
-            if (data.Result == "require confirm") {
-                alert(data.Result)
-                $.ajax({
+          /*  if (data.Result == "Require confirm") {
+             /   $.ajax({
                     url: BaseURL + '/VA/Appointment/GetWarningMessage',
                     type: "POST",
                     error: function (response) {
@@ -884,11 +890,35 @@ $(document).ready(function () {
                     }
                 });
             }
+            */
+            else {
+                e.preventDefault();
+                if (confirm(data.Result)) {
+                    e.preventDefault();
+                    $.post(BaseURL + '/VA/Appointment/CreateApp', {
+                        memberID: $('#member').val(),
+                        petID: $('#select_pet').val(),
+                        serviceID: $('#select_service').val(),
+                        suggestion: $('#suggestion').val(),
+                        date: $('#date').val(),
+                        startTime: $('#start').val(),
+                        endTime: $('#end').val(),
+                        type: $("#type").val()
+                    }, function (data) {
+                        if (data.Result == "Success") {
+                            alert("Create success");
+                            window.location.reload();
+                        }
+                        else { }
+                    
+                    })
+                }
+            }
         })
 
     });
 
-    $('.confirm_create_button').click(function (e) {
+    $('.confirm_create_button2').click(function (e) {
         e.preventDefault();
         $.post(BaseURL + '/VA/Appointment/CreateApp', {
             memberID: $('#member').val(),

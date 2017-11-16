@@ -10,7 +10,6 @@ namespace VA.Models
     public class VAService
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
         public string description { get; set; }
 

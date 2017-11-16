@@ -16,19 +16,21 @@ namespace VA.Controllers
 {
     public class HomeController : Controller
     {
-        private VAContext _db = new VAContext();
+   //     private VAContext _db = new VAContext();
 
         private readonly IVCRepository _VCRepo;
-        private readonly IPetSpecieRepository _SpecieRepo;
+        private readonly ISpecieRepository _SpecieRepo;
         private readonly IPetRepository _PetRepo;
         private readonly IMemberRepository _MemberRepo;
         private readonly IAppointmentRepository _AppRepo;
         private readonly IAdministratorRepository _AdminRepo;
+        private readonly IAppTimeRepository _AppTimeRepo;
+        private readonly ITimeSlotRepository _TimeSlotRepo;
 
         public HomeController(IAppointmentRepository appRepository, 
             IAdministratorRepository adminRepository, IMemberRepository memberRepository,
-            IPetRepository petRepository, IPetSpecieRepository specieRepository,
-            IVCRepository VCRepository)
+            IPetRepository petRepository, ISpecieRepository specieRepository,
+            IVCRepository VCRepository, IAppTimeRepository appTimeRepository, ITimeSlotRepository TimeSlotRepository)
         {
             _AppRepo = appRepository;
             _AdminRepo = adminRepository;
@@ -36,8 +38,11 @@ namespace VA.Controllers
             _PetRepo = petRepository;
             _SpecieRepo = specieRepository;
             _VCRepo = VCRepository;
+            _AppTimeRepo = appTimeRepository;
+            _TimeSlotRepo = TimeSlotRepository;
         }
 
+        //Use for test
         public HomeController()
         {
 
@@ -50,7 +55,6 @@ namespace VA.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.Message = "Your Login page.";
 
             return View();
         }
@@ -69,7 +73,7 @@ namespace VA.Controllers
             }
             else
             {
-                ViewBag.LoginError = "Username or password is in correct";
+                ViewBag.LoginError = "Username or password is incorrect";
                 return View();
             }
         }
@@ -167,7 +171,7 @@ namespace VA.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            IEnumerable<PetType> species= _SpecieRepo.GetAll();
+            IEnumerable<Specie> species= _SpecieRepo.GetAll();
             return View(species);
         }
 
@@ -179,24 +183,14 @@ namespace VA.Controllers
             {
                 return Json(new { Result = "Fail, specie name is required" });
             }
-            PetType type = _SpecieRepo.GetByName(name);
+            Specie type = _SpecieRepo.GetByName(name);
             if (type != null)
             {
                 return Json(new { Result = "Fail, this specie is already exits in the system" });
             }
-            PetType CheckType = _SpecieRepo.GetLast();
-            int lastID;
-            if(CheckType == null)
-            {
-                lastID = 0;
-            }else
-            {
-                lastID = CheckType.id;
-            }
 
 
-            PetType newtype = new PetType();
-            newtype.id = lastID + 1;
+            Specie newtype = new Specie();
             newtype.name = name;
             _SpecieRepo.Add(newtype);
             return Json(new { Result = "Success" });
@@ -204,20 +198,19 @@ namespace VA.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult EditSpecie(string typeID, string name)
+        public ActionResult EditSpecie(int specieId, string name)
         {
-            int id = Int32.Parse(typeID.ToString());
 
             if (String.IsNullOrEmpty(name))
             {
                 return Json(new { Result = "Fail, specie name is required" });
             }
-            PetType type = _SpecieRepo.GetByName(name);
-            if (type != null && type.id != id)
+            Specie type = _SpecieRepo.GetByName(name);
+            if (type != null && type.id != specieId)
             {
-                return Json(new { Result = "Fail, this specie is already exits in the system" });
+                return Json(new { Result = "Fail, specie "+ name +" is already exits in the system" });
             }
-            PetType editType = _SpecieRepo.GetById(id);
+            Specie editType = _SpecieRepo.GetById(specieId);
             editType.name = name;
             _SpecieRepo.Update(editType);
             return Json(new { Result = "Success" });
@@ -225,18 +218,17 @@ namespace VA.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult DeleteSpecie(string typeID)
+        public ActionResult DeleteSpecie(int specieId)
         {
-            int id = Int32.Parse(typeID.ToString());
-            Pet deletePetType = _PetRepo.GetByType(id);
+            Pet deletePetType = _PetRepo.GetBySpecie(specieId);
 
 
             if (deletePetType != null)
             {
-                return Json(new { Result = "Fail, cannot delete the pet specie. Please delete all pet which belong to the specie '" + deletePetType.PetType.name + "' before try again" });
+                return Json(new { Result = "Fail, cannot delete the pet specie which have a pet. Please delete all pet which belong to the specie before try again" });
             }
             /////////
-            PetType deleteType = _SpecieRepo.GetById(id);
+            Specie deleteType = _SpecieRepo.GetById(specieId);
             _SpecieRepo.Delete(deleteType);
             return Json(new { Result = "Success" });
         }
@@ -260,11 +252,53 @@ namespace VA.Controllers
             Boolean isNumber = Regex.IsMatch(caseNumber, @"^\d+$");
             if (isNumber == false)
             {
-                return Json(new { Result = "Fail, maximum case can only numeric character" });
+                return Json(new { Result = "Fail, maximum case can only contain numeric character" });
             }
             Clinic clinic = _VCRepo.Get();
             clinic.maximumCase = Int32.Parse(caseNumber.ToString());
             _VCRepo.Update(clinic);
+
+            List<AppointmentTimeSlot> appTimeblock = _AppTimeRepo.GetAll().ToList();
+            if (appTimeblock != null && appTimeblock.Count > 0)
+            {
+                foreach (var apptime in appTimeblock)
+                {
+                    //Update Timeblock (2)
+                    TimeSlot updateTimeBlock = _TimeSlotRepo.GetByID(apptime.timeId);
+                    int id = apptime.appointmentID;
+      
+                    // 2.2 update status
+                    if (updateTimeBlock.numberofCase < clinic.maximumCase)
+                    {
+                   
+                      
+                        if (updateTimeBlock.numberofCase == 1 && updateTimeBlock.status == "Full")
+                        {
+                            // not up date --> still Full
+                        }
+                        else
+                        {
+                            updateTimeBlock.status = "Free";
+                            _TimeSlotRepo.Update(updateTimeBlock);
+                        }
+                    }
+                    else {
+
+                        if (updateTimeBlock.numberofCase == 1 && updateTimeBlock.status == "Full")
+                        {
+                            // not up date --> still Full
+                        }
+                        else
+                        {
+                            updateTimeBlock.status = "Busy";
+                            _TimeSlotRepo.Update(updateTimeBlock);
+                        }
+                    }
+
+                }
+            }
+
+
             return Json(new { Result = "Success" });
         }
 
@@ -272,7 +306,7 @@ namespace VA.Controllers
         public ActionResult Logout()
         {
             Session["Authen"] = null;
-            Session["Username"] = null;
+            Session["username"] = null;
             Session["AccountID"] = null;
 
             return RedirectToAction("Login");

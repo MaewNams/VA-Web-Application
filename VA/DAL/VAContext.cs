@@ -12,17 +12,17 @@ namespace VA.DAL
     {
         public VAContext() : base("VAContext")
         {
-
+            Database.SetInitializer<VAContext>(null);
         }
         public DbSet<Administrator> Administrator { get; set; }
         public DbSet<Appointment> Appointment { get; set; }
-        public DbSet<AppointmentTimeBlock> AppointmentTimeBlock { get; set; }
+        public DbSet<AppointmentTimeSlot> AppointmentTimeSlot { get; set; }
         public DbSet<Clinic> Clinic { get; set; }
         public DbSet<Member> Member { get; set; }
         public DbSet<VAService> Service { get; set; }
         public DbSet<Pet> Pet { get; set; }
-        public DbSet<PetType> PetType { get; set; }
-        public DbSet<TimeBlock> TimeBlock { get; set; }
+        public DbSet<Specie> Specie { get; set; }
+        public DbSet<TimeSlot> TimeSlot { get; set; }
 
         public static void Clear<T>(DbSet<T> dbSet) where T : class
         {

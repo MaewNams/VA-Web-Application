@@ -17,7 +17,7 @@
     <h2 class="ui header" style="margin-bottom: 25px;">
         <div class="content">
             <i class="time icon"></i>   @Model.date.ToString("MMM"),  @Model.date.Year
-            <div class="sub header"> This month we have : @{int numMApp = AppWait.Count() + AppCom.Count(); } @numMApp appointments</div>
+           
         </div>
 
     </h2>
@@ -48,17 +48,16 @@
             </div>
             @if (AppWait != null && AppWait.ToList().Count > 0)
             {
-                <table class="ui single line selectable  table" style="border:none!important">
+                <table class="ui selectable  table" style="border:none!important">
                     <thead>
                         <tr>
-                            <th class="one wide">Date</th>
+                            <th class="two wide">Date</th>
+                            <th class="three wide">Time</th>
                             <th class="two wide">Member name</th>
                             <th class="two wide">Pet name</th>
-                            <th class="four wide">Detail</th>
-                            <th class="one wide">Status</th>
-                            <th class="two wide" style="text-align:center">View</th>
-                            <th class="two wide" style="text-align:center">Edit</th>
-                            <th class="two wide">Delete</th>
+                            <th class="two wide">Service</th>
+                            <th class="two wide">Detail</th>
+                            <th class="three wide">Suggestion</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,17 +85,16 @@
 
             @{if (AppCom != null && AppCom.ToList().Count > 0)
             {
-                    <table class="ui single line selectable  table" style="border:none!important">
+                    <table class="ui selectable  table" style="border:none!important">
                         <thead>
                             <tr>
-                                <th class="one wide">Date</th>
+                                <th class="two wide">Date</th>
+                                <th class="three wide">Time</th>
                                 <th class="two wide">Member name</th>
                                 <th class="two wide">Pet name</th>
-                                <th class="four wide">Detail</th>
-                                <th class="one wide">Status</th>
-                                <th class="two wide" style="text-align:center">View</th>
-                                <th class="two wide" style="text-align:center">Delete</th>
-                                <th class="two wide"></th>
+                                <th class="two wide">Service</th>
+                                <th class="two wide">Detail</th>
+                                <th class="three wide">Suggestion</th>
                             </tr>
                         </thead>
                         <tbody>

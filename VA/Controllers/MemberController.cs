@@ -16,21 +16,21 @@ namespace VA.Controllers
 {
     public class MemberController : Controller
     {
-        private VAContext _db = new VAContext();
+       // private VAContext _db = new VAContext();
 
 
         private readonly IAppointmentRepository _AppRepo;
         private readonly IMemberRepository _MemberRepo;
         private readonly IPetRepository _PetRepo;
-        private readonly IPetSpecieRepository _SpecieRepo;
-        private readonly ITimeBlockRepository _TimeBlockRepo;
+        private readonly ISpecieRepository _SpecieRepo;
+        private readonly ITimeSlotRepository _TimeSlotRepo;
         private readonly IAppTimeRepository _AppTimeRepo;
         private readonly IServiceRepository _ServiceRepo;
         private readonly IVCRepository _VCRepo;
 
         public MemberController(IAppointmentRepository appRepository, IMemberRepository memberRepository,
-    IPetRepository petRepository, IPetSpecieRepository specieRepository,
-    IVCRepository VCRepository, ITimeBlockRepository timeBlockRepository,
+    IPetRepository petRepository, ISpecieRepository specieRepository,
+    IVCRepository VCRepository, ITimeSlotRepository timeBlockRepository,
             IAppTimeRepository appTimeRepository, IServiceRepository serviceRepository)
         {
             _AppRepo = appRepository;
@@ -38,7 +38,7 @@ namespace VA.Controllers
             _PetRepo = petRepository;
             _SpecieRepo = specieRepository;
             _VCRepo = VCRepository;
-            _TimeBlockRepo = timeBlockRepository;
+            _TimeSlotRepo = timeBlockRepository;
             _AppTimeRepo = appTimeRepository;
             _ServiceRepo = serviceRepository;
         }
@@ -65,41 +65,32 @@ namespace VA.Controllers
             };
             return View(memberApp);
         }
-
-        public ActionResult MemberPet(int? id)
+         
+        public ActionResult MemberPet(int id)
         {
             if (Session["Authen"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
-            if (id == null)
-            {
-                return RedirectToAction("Member", "Home");
-            }
+
             MemberPetViewModel memberPet = new MemberPetViewModel
             {
-                member = _MemberRepo.GetByID(id.Value),
-                pets = _PetRepo.GetByMemberID(id.Value),
-                pettypes = _SpecieRepo.GetAll()
+                member = _MemberRepo.GetByID(id),
+                pets = _PetRepo.GetByMemberID(id),
+                species = _SpecieRepo.GetAll()
             };
 
             return View(memberPet);
-        }
+        }   
 
 
-        public ActionResult CreateAppointment(int? id, int? day, int? month, int? year)
+        public ActionResult CreateAppointment(int id, int? day, int? month, int? year)
         {
             if (Session["Authen"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
 
-
-            Member member = _MemberRepo.GetByID(id.Value);
-            if (member == null)
-            {
-                return RedirectToAction("Member", "Home");
-            }
 
             if (month == null && year == null)
             {
@@ -113,10 +104,10 @@ namespace VA.Controllers
             CreateAppointmentViewModel result = new CreateAppointmentViewModel
             {
                 date = new DateTime(year.Value, month.Value, day.Value),
-                member = _MemberRepo.GetByID(id.Value),
-                pets = _PetRepo.GetByMemberID(id.Value),
+                member = _MemberRepo.GetByID(id),
+                pets = _PetRepo.GetByMemberID(id),
                 services = _ServiceRepo.GetAll(),
-                timeblocks = _TimeBlockRepo.GetListByDate(day.Value, month.Value, year.Value)
+                timeblocks = _TimeSlotRepo.GetListByDate(day.Value, month.Value, year.Value)
             };
 
             return View(result);
@@ -127,7 +118,7 @@ namespace VA.Controllers
         public ActionResult CreateMember(string name, string surname, string address, string email, string phoneNumber)
         {
             Member checkName = _MemberRepo.GetByNameAndSurname(name, surname);
-            Member checkEMail = _MemberRepo.GetByEmail(email).FirstOrDefault();
+            Member checkEMail = _MemberRepo.GetByExactlyEmail(email);
             var foo = new EmailAddressAttribute();
             bool bar = foo.IsValid(email);
             if (checkName != null)
@@ -165,28 +156,16 @@ namespace VA.Controllers
             }
             if (bar == false)
             {
-                return Json(new { Result = "Fail, email address is in invalid format" });
+                return Json(new { Result = "Fail, email address is in invalid format, the valid format of email is xxx@xxx.xx" });
             }
             if (checkEMail != null)
             {
-                return Json(new { Result = "Fail, the email " + email + " already exits in the system" });
+                return Json(new { Result = "Fail, the email already exits in the system" });
             }
             string password = name[0].ToString().ToUpper() + phoneNumber;
 
 
-            Member CheckMem = _MemberRepo.GetLast();
-            int lastID;
-            if (CheckMem == null)
-            {
-                lastID = 0;
-            }
-            else
-            {
-                lastID = CheckMem.id;
-            }
-
             Member member = new Member();
-            member.id = lastID + 1;
             member.name = name;
             member.surname = surname;
             member.address = address;
@@ -203,7 +182,7 @@ namespace VA.Controllers
         public ActionResult Edit(int id, string name, string surname, string email, string address, string phonenumber)
         {
             Member checkName = _MemberRepo.GetByNameAndSurname(name, surname);
-            Member checkEMail = _MemberRepo.GetByEmail(email).FirstOrDefault();
+            Member checkEMail = _MemberRepo.GetByExactlyEmail(email);
             var foo = new EmailAddressAttribute();
             bool bar = foo.IsValid(email);
             if (checkName != null && checkName.id != id)
@@ -242,17 +221,18 @@ namespace VA.Controllers
             }
             if (bar == false)
             {
-                return Json(new { Result = "Fail, email address is in invalid format" });
+                return Json(new { Result = "Fail, email address is in invalid format, the valid format of email is xxx@xxx.xx" });
             }
             if (checkEMail != null && checkEMail.id != id)
             {
-                return Json(new { Result = "Fail, the email " + email + " already exits in the system" });
+                return Json(new { Result = "Fail, the email already exits in the system" });
             }
 
             Member member = _MemberRepo.GetByID(id);
             member.name = name;
             member.surname = surname;
             member.address = address;
+            member.email = email;
             member.phonenumber = phonenumber;
             _MemberRepo.Update(member);
             return Json(new { Result = "Success" });
@@ -275,20 +255,19 @@ namespace VA.Controllers
             Clinic clinic = _VCRepo.Get();
 
             /*delte appointment first*/
-            ViewData["DeleteAppointment"] = _db.Appointment.Where(a => a.memberId == memberid).ToList<Appointment>();
-            List<Appointment> memApp = (List<Appointment>)ViewData["DeleteAppointment"];
-            if (memApp != null && memApp.Count > 0)
+            IEnumerable<Appointment> memApp = _AppRepo.GetByMemberId(memberid);
+            if (memApp != null && memApp.Count() > 0)
             {
                 foreach (var app in memApp)
                 {   /*But first, remove appointment from time slot*/
                     // Check for time slot of each appointment
-                    List<AppointmentTimeBlock> appTimeblock = _AppTimeRepo.GetByAppointmentID(app.id).ToList();
-                    if (appTimeblock != null && appTimeblock.Count > 0)
+                    IEnumerable<AppointmentTimeSlot> appTimeblock = _AppTimeRepo.GetByAppointmentID(app.id);
+                    if (appTimeblock != null && appTimeblock.Count() > 0)
                     {
                         foreach (var apptime in appTimeblock)
                         {
                             //Update Timeblock (2)
-                            TimeBlock updateTimeBlock = _TimeBlockRepo.GetByID(apptime.timeId);
+                            TimeSlot updateTimeBlock = _TimeSlotRepo.GetByID(apptime.timeId);
                             // 2.1 reduce number of case
                             updateTimeBlock.numberofCase -= 1;
 
@@ -298,27 +277,25 @@ namespace VA.Controllers
                                 updateTimeBlock.status = "Free";
                             }
 
-                            _TimeBlockRepo.Update(updateTimeBlock);
+                            _TimeSlotRepo.Update(updateTimeBlock);
 
                             //Delete AppointmentTimeblock (1) ^
                             _AppTimeRepo.Delete(apptime);
                         }
                     }
                     // Then remove appointment (3)
-                    _db.Appointment.Remove(app);
-                    _db.SaveChanges();
+                    _AppRepo.Delete(app);
+
                 }
             }
 
             //Then Remove pet (4)
-            ViewData["DeletePet"] = _db.Pet.Where(a => a.memberId == memberid).ToList<Pet>();
-            List<Pet> memPet = (List<Pet>)ViewData["DeletePet"];
-            if (memPet != null && memPet.Count > 0)
+            IEnumerable<Pet> memPet = _PetRepo.GetByMemberID(memberid);
+            if (memPet != null && memPet.Count() > 0)
             {
                 foreach (var pet in memPet)
                 {
-                    _db.Pet.Remove(pet);
-                    _db.SaveChanges();
+                    _PetRepo.Delete(pet);
                 }
             }
 
@@ -333,49 +310,51 @@ namespace VA.Controllers
         ////      [ Pet ]   Create - Edit - Delete  ///////////////////  
 
         [HttpPost]
-        public ActionResult CreatePet(int? memberID, int? petType, string petName)
+        public ActionResult CreatePet(int memberID, int specieID, string petName)
         {
 
-            Pet Checkname = _PetRepo.GetByMemberIDAndNameAndSpecie(memberID.Value, petName, petType.Value);
+            if(specieID == 0)
+            {
+                return Json(new { Result = "Fail, pet specie is required " });
+            }
+            if (String.IsNullOrEmpty(petName))
+            {
+                return Json(new { Result = "Fail, name is required" });
+            }
+            Pet Checkname = _PetRepo.GetByMemberIDAndNameAndSpecie(memberID, petName, specieID);
             if (Checkname != null)
             {
-                return Json(new { Result = "Fail, The member already have " + (_SpecieRepo.GetById(petType.Value)).name + " name " + petName });
-            }
-
-            Pet CheckPetID = _PetRepo.GetLast();
-            int lastID;
-            if (CheckPetID == null)
-            {
-                lastID = 0;
-            }
-            else
-            {
-                lastID = CheckPetID.id;
+                return Json(new { Result = "Fail, The member already have " + (_SpecieRepo.GetById(specieID)).name + " name " + petName });
             }
 
             Pet pet = new Pet();
-            pet.id = lastID + 1;
-            pet.memberId = Int32.Parse(memberID.ToString());
-            pet.typeId = Int32.Parse(petType.ToString());
+            pet.memberId = memberID;
+            pet.specieId = specieID;
             pet.name = petName;
             _PetRepo.Add(pet);
             return Json(new { Result = "Success" });
         }
 
         [HttpPost]
-        public ActionResult EditPet(int? petID, int? petType, string petName)
+        public ActionResult EditPet(int petID, int specieID, string petName)
         {
             if (String.IsNullOrEmpty(petName))
             {
                 return Json(new { Result = "Fail, name is required" });
             }
-            Pet pet = _PetRepo.GetById(petID.Value);
-            //   Debug.WriteLine(pet.name + "first");
+
+            Pet pet = _PetRepo.GetById(petID);
+
+            Pet Checkname = _PetRepo.GetByMemberIDAndNameAndSpecie(pet.memberId, petName, specieID);
+            if (Checkname != null)
+            {
+                return Json(new { Result = "Fail, The member already have " + (_SpecieRepo.GetById(specieID)).name + " name " + petName });
+            }
+      
 
             pet.name = petName;
-            pet.typeId = petType.Value;
+            pet.specieId = specieID;
             _PetRepo.Update(pet);
-            //    Debug.WriteLine(pet.name + "second");
 
             return Json(new { Result = "Success" });
         }
@@ -389,8 +368,8 @@ namespace VA.Controllers
             {
                 foreach (var app in appointment)
                 {
-                    _db.Appointment.Remove(app);
-                    _db.SaveChanges();
+                    _AppRepo.Delete(app);
+                //    _db.SaveChanges();
                 }
             }
 
@@ -404,20 +383,41 @@ namespace VA.Controllers
         private void CheckExitsTimeSlot(int? day, int? month, int? year)
         {
             TimeSpan start = new TimeSpan(09, 30, 0);
-            TimeSpan end = new TimeSpan(21, 30, 0);
+            TimeSpan end = new TimeSpan(21, 00, 0);
             DateTime today = new DateTime(year.Value, month.Value, day.Value);
             // Check if the system already have that day time table -- if not, create one --of the week//
+            DateTime lastMonday;
+            DateTime endWeek;
+            TimeSlot checkExits = _TimeSlotRepo.GetByDate(day.Value, month.Value, year.Value);
 
-            TimeBlock checkExits = _TimeBlockRepo.GetByDate(day.Value, month.Value, year.Value);
-            var monday = today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
+            if(today.DayOfWeek == DayOfWeek.Sunday) { 
+            DateTime nextSunday = today.AddDays(7 - (int)today.DayOfWeek);
+             lastMonday = nextSunday.AddDays(-13);
+                 endWeek = lastMonday.AddDays(6);
+            }
+            else
+            {
+
+                int offset = today.DayOfWeek - DayOfWeek.Monday;
+                 lastMonday = today.AddDays(-offset);
+                endWeek = lastMonday.AddDays(6);
+            }
+         
+        
+
+
+            //  var monday = today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
+
+           // int lastDay = lastMonday.Day + 6;
+          //  var monday = today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
             if (checkExits == null)
             {
-                int lastDay = monday.Day + 7;
                 //Loop for this week
-                for (int i = monday.Day - 1; i <= lastDay; i++)
+                while (lastMonday <= endWeek)
                 {
                     //Start from monday -> sunday
-                    DateTime dt = new DateTime(monday.Year, monday.Month, i);
+                 
+                    DateTime dt = new DateTime(lastMonday.Year, lastMonday.Month, lastMonday.Day);
                     //Loop for hour in day
 
                     DateTime startTime = new DateTime(dt.Year, dt.Month, dt.Day) + start;
@@ -432,27 +432,18 @@ namespace VA.Controllers
                         hours.Add(next);
                     }
                     hours.Add(endTime);
-                    int lastTimeID;
-                    TimeBlock checkLast = _TimeBlockRepo.GetLast();
-                    if (checkLast != null)
-                    {
-                        lastTimeID = checkLast.id;
-                    }
-                    else
-                    {
-                        lastTimeID = 0;
-                    }
+
                     foreach (var hour in hours)
                     {
-                        TimeBlock timeblock = new TimeBlock();
-                        timeblock.id = lastTimeID + 1;
+                        TimeSlot timeblock = new TimeSlot();
                         timeblock.startTime = hour;
                         timeblock.endTime = hour.AddHours(0.5);
                         timeblock.numberofCase = 0;
                         timeblock.status = "Free";
-                        _TimeBlockRepo.Add(timeblock);
-                        lastTimeID += 1;
+                        _TimeSlotRepo.Add(timeblock);
                     }
+
+                    lastMonday = lastMonday.AddDays(1);
                 }
             }
         }

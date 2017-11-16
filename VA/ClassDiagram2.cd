@@ -1,2 +1,76 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="NameAndType">
+  <Class Name="VA.Repositories.AdministratorRepository" BaseTypeListCollapsed="true">
+    <Position X="14" Y="7.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\AdministratorRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VA.Repositories.AppointmentRepository" BaseTypeListCollapsed="true">
+    <Position X="14" Y="3.5" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAoAAAAAAEAAAAAAAAAAAAAAGQAAEAAAAAQAAAAIg=</HashCode>
+      <FileName>Repositories\AppointmentRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VA.Repositories.AppTimeRepository" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="0.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAgAAAgAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\AppTimeRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VA.Repositories.PetRepository" BaseTypeListCollapsed="true">
+    <Position X="5" Y="2.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAwAQAAAAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Repositories\PetRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VA.Repositories.SpecieRepository" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="3.25" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AAYAgAAAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAIg=</HashCode>
+      <FileName>Repositories\SpecieRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VA.Repositories.TimeSlotRepository" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAYAgAAAAAAEAAAAACAAAAAAAAAAAAAAAAAAgAAACAA=</HashCode>
+      <FileName>Repositories\TimeSlotRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VA.Repositories.VAServiceRepository" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAIA=</HashCode>
+      <FileName>Repositories\VAServiceRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VA.Repositories.VCRepository" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\VCRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="VA.Repositories.MemberRepository">
+    <Position X="9" Y="6.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>gAYAgAAAAAACAAAABACAAAAAEAGAAAAAAgAAgAAAAAg=</HashCode>
+      <FileName>Repositories\MemberRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

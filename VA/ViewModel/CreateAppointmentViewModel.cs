@@ -12,7 +12,7 @@ namespace VA.ViewModel
     {
         public DateTime date { get; set; }
         public Member member { get; set; }
-        public IEnumerable<TimeBlock> timeblocks { get; set; }
+        public IEnumerable<TimeSlot> timeblocks { get; set; }
         public IEnumerable<Pet> pets { get; set; }
         public IEnumerable<VAService> services { get; set; }
     }

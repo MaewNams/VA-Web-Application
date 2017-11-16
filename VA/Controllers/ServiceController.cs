@@ -14,14 +14,15 @@ namespace VA.Controllers
     public class ServiceController : Controller
     {
         private VAContext _db = new VAContext();
-        private readonly SMSService _smsService = new SMSService();
         private AppointmentRepository AppointmentService = new AppointmentRepository();
         private MemberRepository MemberService = new MemberRepository();
         private PetRepository PetService = new PetRepository();
-        private PetSpecieRepository PetTypeService = new PetSpecieRepository();
-        private VAServiceRepository VAService = new VAServiceRepository();
-        private VCRepository VCService = new VCRepository();
-        private TimeBlockRepository TimeBlockService = new TimeBlockRepository();
+        private SpecieRepository SpecieService = new SpecieRepository();
+        private TimeSlotRepository TimeSlotService = new TimeSlotRepository();
+        private AppTimeRepository AppTimeService = new AppTimeRepository();
+        private  VCRepository VCService = new VCRepository();
+
+
         // GET: Service
 
         /*public ActionResult SMSSend()
@@ -53,84 +54,88 @@ namespace VA.Controllers
         [HttpPost]
         public ActionResult TruncateDB()
         {
+            //      _db.ExecuteCommand("TRUNCATE TABLE Entity");
+
+            _db.AppointmentTimeSlot.RemoveRange(_db.AppointmentTimeSlot);
             _db.Appointment.RemoveRange(_db.Appointment);
-            _db.AppointmentTimeBlock.RemoveRange(_db.AppointmentTimeBlock);
             _db.Pet.RemoveRange(_db.Pet);
-            _db.Clinic.RemoveRange(_db.Clinic);
-            _db.PetType.RemoveRange(_db.PetType);
-            _db.Service.RemoveRange(_db.Service);
+            _db.Specie.RemoveRange(_db.Specie);
             _db.Member.RemoveRange(_db.Member);
-            _db.TimeBlock.RemoveRange(_db.TimeBlock);
+            _db.TimeSlot.RemoveRange(_db.TimeSlot);
             _db.SaveChanges();
 
+            _db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Appointment', RESEED, 0)");
+            _db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('AppointmentTimeSlot', RESEED, 0)");
+            _db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Pet', RESEED, 0)");
+            _db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Specie', RESEED, 0)");
+            _db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Member', RESEED, 0)");
+            _db.Database.ExecuteSqlCommand("DBCC CHECKIDENT('TimeSlot', RESEED, 0)");
 
-            DateTime current = DateTime.Now;
-            int day = DateTime.Now.Day;
+
+
+            //   DateTime current = DateTime.Now;
+            // int day = DateTime.Now.Day;
             //  DateTime year;
 
             TimeSpan start = new TimeSpan(09, 30, 0);
-            TimeSpan end = new TimeSpan(21, 30, 0);
+            TimeSpan end = new TimeSpan(21, 00, 0);
+
+            //Start from monday -> sunday
+
+            DateTime today = new DateTime(2017, 11, 15);
+
+            // lastMonday is always the Monday before nextSunday.
+            // When date is a Sunday, lastMonday will be tomorrow.     
+            int offset = today.DayOfWeek - DayOfWeek.Monday;
+            DateTime lastMonday = today.AddDays(-offset);
+            DateTime endWeek = lastMonday.AddDays(6);
 
 
-            //Check if the system already have today time table -- if not, create this week + next week time table 
-            TimeBlock checkTodayExits = TimeBlockService.GetByDate(current.Day, current.Month, current.Year);
-            var monday = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
-
-            //To day is not exits --> Create for this week 
-            if (checkTodayExits == null)
+            //  var monday = today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday);
+            //Loop for this week
+            while (lastMonday <= endWeek)
             {
-                int lastDay = monday.Day + 13;
-                //Loop for this week
-                for (int i = monday.Day; i <= lastDay; i++)
+                //Start from monday -> sunday
+
+                DateTime dt = new DateTime(lastMonday.Year, lastMonday.Month, lastMonday.Day);
+                //Loop for hour in day
+
+                DateTime startTime = new DateTime(dt.Year, dt.Month, dt.Day) + start;
+                DateTime endTime = new DateTime(dt.Year, dt.Month, dt.Day) + end;
+                var hours = new List<DateTime>();
+                hours.Add(startTime);
+                var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
+                                        startTime.Hour, startTime.Minute, 0, startTime.Kind);
+
+                while ((next = next.AddHours(0.5)) < endTime)
                 {
-                    //Start from monday -> sunday
-                    DateTime dt = new DateTime(monday.Year, monday.Month, i);
-                    //Loop for hour in day
-
-                        DateTime startTime = new DateTime(dt.Year, dt.Month, dt.Day) + start;
-                        DateTime endTime = new DateTime(dt.Year, dt.Month, dt.Day) + end;
-                        var hours = new List<DateTime>();
-                        hours.Add(startTime);
-                        var next = new DateTime(startTime.Year, startTime.Month, startTime.Day,
-                                                startTime.Hour, startTime.Minute, 0, startTime.Kind);
-
-                        while ((next = next.AddHours(0.5)) < endTime)
-                        {
-                            hours.Add(next);
-                        }
-                        hours.Add(endTime);
-                        int lastTimeID;
-                        TimeBlock checkLast = TimeBlockService.GetLast();
-                        if (checkLast != null)
-                        {
-                            lastTimeID = checkLast.id;
-                        }
-                        else
-                        {
-                            lastTimeID = 0;
-                        }
-                        foreach (var hour in hours)
-                        {
-                            TimeBlock timeblock = new TimeBlock();
-                            timeblock.id = lastTimeID + 1;
-                            timeblock.startTime = hour;
-                            timeblock.endTime = hour.AddHours(0.5);
-                            timeblock.numberofCase = 0;
-                            timeblock.status = "Free";
-                            TimeBlockService.Add(timeblock);
-                            lastTimeID += 1;
-                        }
+                    hours.Add(next);
                 }
+                hours.Add(endTime);
+
+                foreach (var hour in hours)
+                {
+                    TimeSlot timeblock = new TimeSlot();
+                    timeblock.startTime = hour;
+                    timeblock.endTime = hour.AddHours(0.5);
+                    timeblock.numberofCase = 0;
+                    timeblock.status = "Free";
+                    TimeSlotService.Add(timeblock);
+                    var check = timeblock.id;
+                }
+                lastMonday = lastMonday.AddDays(1);
             }
 
-            
+
+
+
             // Add member
             List<Member> members = new List<Member>()
             {
-                new Member {id=1, email="email1@mail", password="A0111111111", name ="Alice", surname ="White", address ="Wonderland 11/2", phonenumber="0111111111" },
-                 new Member {id=2,email="email2@mail",  password="R0211111113", name ="Redhood", surname ="Red", address ="Forest 123", phonenumber="0211111113" },
-                  new Member {id=3,email="email3@mail",  password="M0300000000", name ="Mad", surname ="Hatter", address ="Wonderland 3326", phonenumber="0300000000" },
-                   new Member {id=4,email="email4@mail",  password="W0888888888", name ="Wolffy", surname ="Gray", address ="Deep Deep Forest 26", phonenumber="0888888888" }
+                new Member {email="one@mail.com", password="123456", name ="one", surname ="someone", address ="t1 address", phonenumber="0950828781" },
+                 new Member {email="two@mail.com",  password="A12345", name ="two", surname ="tomorrow", address ="t2 address", phonenumber="0222222222" },
+                  new Member {email="three@mail.com",  password="654321", name ="three", surname ="teatime", address ="t3 home", phonenumber="0333333333" },
+
             };
             foreach (Member member in members)
             {
@@ -139,63 +144,133 @@ namespace VA.Controllers
 
 
             // Add type
-            List<PetType> types = new List<PetType>()
+            List<Specie> types = new List<Specie>()
             {
-                new PetType {id=1, name ="cat"},
-                new PetType {id=2, name ="dog"},
-                new PetType {id=3, name ="rabbit"},
+                new Specie {name ="cat"},
+                new Specie {name ="dog"},
+                new Specie {name ="rabbit"},
+                   new Specie {name ="fish"}
             };
-            foreach (PetType type in types)
+            foreach (Specie type in types)
             {
-                PetTypeService.Add(type);
+                SpecieService.Add(type);
             }
 
 
-            // Add type
-            List<VAService> services = new List<VAService>()
-            {
-                new VAService {id=1, description ="Vaccination"},
-                new VAService {id=2, description ="Fllow up"},
-                new VAService {id=3, description ="Surgery"},
-            };
-            foreach (VAService service in services)
-            {
-                VAService.Add(service);
-            }
+            /* // Add type
+             List<VAService> services = new List<VAService>()
+             {
+                 new VAService {description ="Vaccination"},
+                 new VAService {description ="Health check"},
+                 new VAService {description ="Fllow up"},
+                 new VAService {description ="Surgery"},
+             };
+             foreach (VAService service in services)
+             {
+                 VAService.Add(service);
+             }*/
 
             // Add pet
             List<Pet> pets = new List<Pet>()
             {
-                new Pet {id=1, memberId = 2,  name ="Little Cat", typeId = 1 },
-                new Pet {id=2, memberId = 2,  name ="Big Wolf", typeId = 2 },
-                new Pet {id=3, memberId = 1,  name ="White rabbit", typeId = 3 },
-                new Pet {id=4, memberId = 3, name ="Black cat", typeId = 1},
-                new Pet {id=5, memberId = 1,  name ="Black rabbit", typeId = 3 }
+                new Pet { memberId = 1,  name ="oneDog", specieId = 2 },
+                new Pet { memberId = 1,  name ="oneCat", specieId = 1 },
+                new Pet { memberId = 2,  name ="twoRabbit", specieId = 3 },
             };
             foreach (Pet pet in pets)
             {
                 PetService.Add(pet);
             }
 
-            //Add clinic
-            Clinic clinic = new Clinic();
-            clinic.maximumCase = 0;
-          //  VCService.Add(clinic);
-
+            //Update clinic
+              Clinic clinic = VCService.Get();
+              clinic.maximumCase = 2;
+              VCService.Update(clinic);
+            
             // Add appointment
-            /*    List<Appointment> appointments = new List<Appointment>()
+            //date for 7 aug
+            TimeSlot a = TimeSlotService.GetByID(1);
+            TimeSlot b = TimeSlotService.GetByID(2);
+            TimeSlot c = TimeSlotService.GetByID(8);
+            //
+            TimeSlot d = TimeSlotService.GetByID(9);
+            TimeSlot e = TimeSlotService.GetByID(10);
+            //
+            TimeSlot f = TimeSlotService.GetByID(11);
+            TimeSlot g = TimeSlotService.GetByID(14);
+            TimeSlot h = TimeSlotService.GetByID(26);
+
+            List<Appointment> appointments = new List<Appointment>()
                     {
-                        new Appointment {id=1, date = new DateTime(2017, 4, 6), memberId = 2, petId =1, serviceId = 1, suggestion = "Do not drink and eat 4 hour before come to clinic", status ="Complete" },
-                        new Appointment {id =2, date = new DateTime(2017, 4, 6), memberId = 3, petId =4, serviceId = 2, suggestion = "None", status ="Complete" },
-                        new Appointment {id =3, date = new DateTime(2017, 4, 10), memberId = 2, petId =2, serviceId = 3, suggestion = "None", status ="Waiting" },
-                        new Appointment {id =4, date = new DateTime(2017, 5, 10), memberId = 2, petId =1,serviceId = 1, suggestion = "None", status ="Waiting" }
+                        new Appointment { memberId = 1, petId =2, serviceId = 1, detail = "Rabies vaccine",
+                            suggestion = "",
+                            startTime = a.startTime , endTime = a.endTime , status ="Complete" },
+                        new Appointment {memberId = 2, petId =3, serviceId = 2, detail = "",
+                            suggestion = "",
+                            startTime = a.startTime, endTime = b.endTime, status ="Complete" },
+                        new Appointment {memberId = 1, petId =1, serviceId = 4, detail = "Sterilization",
+                            suggestion = "Stop drinking and eating 4 hour before come to the clinic",
+                             startTime =c.startTime , endTime = f.endTime, status ="Waiting" },
+                        new Appointment { memberId = 2, petId =3,serviceId = 3, detail = "",
+                            suggestion = "",
+                            startTime = g.startTime, endTime = g.endTime ,status ="Waiting" },
+                        new Appointment { memberId = 2, petId =3,serviceId = 4, detail = "",
+                            suggestion = "",
+                             startTime =h.startTime , endTime =h.endTime ,status ="Waiting" }
                     };
-                    foreach (Appointment appointment in appointments)
-                    {
-                      AppointmentService.Add(appointment);
+            foreach (Appointment appointment in appointments)
+            {
+                AppointmentService.Add(appointment);
 
-                    }*/
+            }
 
+            // Update timeslot's number of case and status
+            a.numberofCase = 2;
+            a.status = "Busy";
+            b.numberofCase = 1;
+            c.numberofCase = 1;
+            c.status = "Full";
+            d.numberofCase = 1;
+            d.status = "Full";
+            e.numberofCase = 1;
+            e.status = "Full";
+            f.numberofCase = 1;
+            f.status = "Full";
+            g.numberofCase = 1;
+            h.numberofCase = 1;
+            h.status = "Full";
+            TimeSlotService.Update(a);
+            TimeSlotService.Update(b);
+            TimeSlotService.Update(c);
+            TimeSlotService.Update(d);
+            TimeSlotService.Update(e);
+            TimeSlotService.Update(f);
+            TimeSlotService.Update(g);
+            TimeSlotService.Update(h);
+
+
+
+
+            //AppointmentTimeSlot
+
+            // Add pet
+            List<AppointmentTimeSlot> apptimes = new List<AppointmentTimeSlot>()
+            {
+
+                new AppointmentTimeSlot { timeId = 1,  appointmentID = 1 },
+                new AppointmentTimeSlot { timeId = 1,  appointmentID = 2 },
+                new AppointmentTimeSlot { timeId = 2,  appointmentID = 2 },
+                new AppointmentTimeSlot { timeId = 8,  appointmentID = 3 },
+                new AppointmentTimeSlot { timeId = 9,  appointmentID = 3 },
+                new AppointmentTimeSlot { timeId = 10,  appointmentID = 3 },
+                new AppointmentTimeSlot { timeId = 11,  appointmentID = 3 },
+                new AppointmentTimeSlot { timeId = 14,  appointmentID = 4 },
+                new AppointmentTimeSlot { timeId = 26,  appointmentID = 5 }
+            };
+            foreach (AppointmentTimeSlot app in apptimes)
+            {
+                AppTimeService.Add(app);
+            }
             return Json(new { Result = "Success" });
         }
     }

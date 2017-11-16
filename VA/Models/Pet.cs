@@ -10,17 +10,16 @@ namespace VA.Models
     public class Pet
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
         public int memberId { get; set; }
         public string name { get; set; }
-        public int typeId { get; set; }
+        public int specieId { get; set; }
 
         [ForeignKey("memberId")]
         public virtual Member Member { get; set; }
 
-        [ForeignKey("typeId")]
-        public virtual PetType PetType { get; set; }
+        [ForeignKey("specieId")]
+        public virtual Specie Specie { get; set; }
 
         [InverseProperty("Pet")]
         public virtual ICollection<Appointment> Appointments { get; set; }

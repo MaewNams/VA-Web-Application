@@ -10,11 +10,10 @@ namespace VA.Repositories
 {
     public interface IAppTimeRepository
     {
-        void Add(AppointmentTimeBlock model);
-        void Update(AppointmentTimeBlock model);
-        void Delete(AppointmentTimeBlock model);
-        AppointmentTimeBlock GetLast();
-   //     IEnumerable<AppointmentTimeBlock> GetAll();
-        IEnumerable<AppointmentTimeBlock> GetByAppointmentID(int id);
+        void Add(AppointmentTimeSlot model);
+        void Update(AppointmentTimeSlot model);
+        void Delete(AppointmentTimeSlot model);
+        IEnumerable<AppointmentTimeSlot> GetAll();
+        IEnumerable<AppointmentTimeSlot> GetByAppointmentID(int id);
     }
 }

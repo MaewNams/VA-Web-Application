@@ -28,7 +28,7 @@ namespace VA.Repositories
         }
         public Pet GetByMemberIDAndNameAndSpecie(int memberId,string name,int specie)
         {
-            return _db.Pet.FirstOrDefault(m => m.memberId == memberId && m.name == name && m.typeId == specie);
+            return _db.Pet.FirstOrDefault(m => m.memberId == memberId && m.name == name && m.specieId == specie);
         }
         public IEnumerable<Pet> GetByMemberID(int memberId)
         {
@@ -48,14 +48,10 @@ namespace VA.Repositories
             _db.SaveChanges();
         }
 
-        public Pet GetByType(int typeId)
+        public Pet GetBySpecie(int specieId)
         {
-            return _db.Pet.FirstOrDefault(m => m.typeId == typeId);
+            return _db.Pet.FirstOrDefault(m => m.specieId == specieId);
         }
 
-        public Pet GetLast()
-        {
-            return _db.Pet.OrderByDescending(m => m.id).FirstOrDefault();
-        }
     }
 }

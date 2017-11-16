@@ -25,7 +25,7 @@
 
                         <select name="condition" class="ui dropdown" id="select_condition">
                             <option value="address">Addresse</option>
-                            <option value="email">Email</option>
+                            <option value="email">Email address</option>
                             <option value="name">Name</option>
                             <option value="phone">Phone number</option>
                         </select>
@@ -43,38 +43,51 @@
 
         <div class="ui active tab segment" data-tab="first">
 
-            <table class="ui single line selectable  table" style="border:none!important">
-                <thead>
-                    <tr>
-                        <th class="two wide">Name</th>
-                        <th class="three wide">Surname</th>
-                        <th class="three wide">Email</th>
-                        <th class="three wide">Address</th>
-                        <th class="two wide">Phone number</th>
+
+            @{
 
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
+                if (members != null && members.ToList().Count > 0)
+                {
+                   
+                    <table class="ui single line selectable  table" style="border:none!important">
+                        <thead>
+                            <tr>
+                                <th class="two wide">Name</th>
+                                <th class="three wide">Surname</th>
+                                <th class="three wide">Email</th>
+                                <th class="three wide">Address</th>
+                                <th class="two wide">Phone number</th>
 
 
-                        if (members != null && members.ToList().Count > 0)
-                        {
-
-                            foreach (var member in members)
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                            @foreach (var member in members)
                             {
+                                <tr class="clickable-row" data-id="@member.id" style="cursor:pointer">
 
-                                Html.RenderPartial("~/Views/PatialViews/_MemberResult.cshtml", member);
-                            }
-                        }
+                                    @{Html.RenderPartial("~/Views/PatialViews/_MemberResult.cshtml", member);}
+
+                                </tr>
+                                           
+                                        }
+</tbody>
+                    </table>
+                }
+                else
+                {
+                    <h4 class="ui center aligned  header">
+                        "No result found"
+                    </h4>
+                }
 
 
 
 
-                    }
-                </tbody>
-            </table>
+            }
+
 
 
 

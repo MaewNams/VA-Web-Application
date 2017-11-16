@@ -10,7 +10,6 @@ namespace VA.Models
     public class Appointment
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
         public int memberId { get; set; }
         public int petId { get; set; }
@@ -31,7 +30,7 @@ namespace VA.Models
         public virtual VAService VAService { get; set; }
 
         [InverseProperty("Appointment")]
-        public virtual ICollection<AppointmentTimeBlock> AppointmentTimeBlock { get; set; }
+        public virtual ICollection<AppointmentTimeSlot> AppointmentTimeBlock { get; set; }
 
     }
 }

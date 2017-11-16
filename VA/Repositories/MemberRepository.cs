@@ -76,15 +76,11 @@ namespace VA.Repositories
             return memberList;
         }
 
-        public IEnumerable<Member> GetByExactlyEmail(string email)
+        public Member GetByExactlyEmail(string email)
         {
-            IEnumerable<Member> memberList = _db.Member.Where(s => s.email == email).OrderBy(s => s.email).ToList();
-            return memberList;
+            Member member = _db.Member.FirstOrDefault(s => s.email == email);
+            return member;
         }
 
-        public Member GetLast()
-        {
-                return _db.Member.OrderByDescending(m => m.id).FirstOrDefault();   
-        }
     }
 }

@@ -24,6 +24,9 @@
             Name : @Model.name @Model.surname
         </div>
         <div class="item" style="font-size:16px">
+            Email : @Model.email
+        </div>
+        <div class="item" style="font-size:16px">
             Address : @Model.address
         </div>
         <div class="item" style="font-size:16px">
@@ -41,7 +44,7 @@
         <div class="ui modal" id="edit_member_modal">
             <div class="header">Edit member account</div>
             <div class="content">
-                <input type="hidden" id="edit_member_id" value="'@Model.id'">
+                <input type="hidden" id="edit_member_id" value="@Model.id">
                 <form class="ui form">
                     <div class="inline fields">
                         <div class="six wide field">

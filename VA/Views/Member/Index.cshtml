@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-
+            <input type="hidden" id="member" value="@Model.member.id">
             <div class="ui grid">
 
 
@@ -62,11 +62,11 @@
                                 <thead>
                                     <tr>
                                         <th class="two wide">Date</th>
+                                        <th class="three wide">Time</th>
                                         <th class="two wide">Pet name</th>
-                                        <th class="two wide">Service</th>
-                                        <th class="three wide">Detail</th>
+                                        <th class="one wide">Service</th>
+                                        <th class="two wide">Detail</th>
                                         <th class="three wide">Suggestion</th>
-                                        <th class="one wide">Status</th>
                                         <th class="one wide" style="text-align:center">Edit</th>
                                         <th class="one wide" style="text-align:center">Delete</th>
                                     </tr>
@@ -95,15 +95,15 @@
 
                         @if (appCom != null && appCom.ToList().Count > 0)
                         {
-                            <table class="ui single line selectable  table" style="border:none!important">
+                            <table class="ui selectable  table" style="border:none!important">
                                 <thead>
                                     <tr>
                                         <th class="two wide">Date</th>
+                                        <th class="three wide">Time</th>
                                         <th class="two wide">Pet name</th>
-                                        <th class="two wide">Service</th>
-                                        <th class="three wide">Detail</th>
+                                        <th class="one wide">Service</th>
+                                        <th class="two wide">Detail</th>
                                         <th class="three wide">Suggestion</th>
-                                        <th class="one wide">Status</th>
                                         <th class="one wide" style="text-align:center">Edit</th>
                                         <th class="one wide" style="text-align:center">Delete</th>
                                     </tr>

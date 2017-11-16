@@ -17,10 +17,11 @@
     <h2 class="ui header" style="margin-bottom: 25px;">
         <div class="content">
             <i class="time icon"></i>   @Model.date.ToString("MMM"), @Model.date.Day  @Model.date.Year
-            <div class="sub header">Today we have : @{int numApp = AppWait.Count() + AppCom.Count(); } @numApp appointments</div>
         </div>
     </h2>
-
+    <div class="ui secondary  menu">
+        @*<button class="ui teal left floated button reset_data_button">Reset database</button>*@
+    </div>
     <div class="ui secondary pointing menu">
         <a class="active item ">
             Daily
@@ -41,87 +42,85 @@
 
         <div class="ui segment">
             @* Waiting monthly appointment *@
-            <div class="ui teal large label">
-                Waiting appointment
-            </div>
-            @if (AppWait != null && AppWait.ToList().Count > 0)
+                <div class="ui teal large label">
+                    Waiting appointment
+                </div>
+                @if (AppWait != null && AppWait.ToList().Count > 0)
             {
-                <table class="ui single line selectable  table" style="border:none!important">
-                    <thead>
-                        <tr>
-                            <th class="one wide">Date</th>
-                            <th class="two wide">Member name</th>
-                            <th class="two wide">Pet name</th>
-                            <th class="four wide">Service</th>
-                            <th class="one wide">Status</th>
-                            <th class="two wide" style="text-align:center">View</th>
-                            <th class="two wide" style="text-align:center">Edit</th>
-                            <th class="two wide">Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @{
-                            foreach (var app in AppWait)
-                            {
-                                Html.RenderPartial("~/Views/PatialViews/_AllAppointment.cshtml", app);
-                            }
-                        }
-
-                    </tbody>
-                </table>
-                            }
-                            else
-                            {  <div style="text-align:center"> No Appointment</div>}
-        </div>
-        <div class="ui segment">
-
-            @* Complete monthly appointment *@
-            <div class="ui grey large label">
-                Complete appointment
-            </div>
-
-            @{if (AppCom != null && AppCom.ToList().Count > 0)
-            {
-                    <table class="ui single line selectable  table" style="border:none!important">
+                    <table class="ui selectable  table" style="border:none!important">
                         <thead>
                             <tr>
-                                <th class="one wide">Date</th>
+                                <th class="two wide">Date</th>
+                                <th class="three wide">Time</th>
                                 <th class="two wide">Member name</th>
                                 <th class="two wide">Pet name</th>
-                                <th class="four wide">Detail</th>
-                                <th class="one wide">Status</th>
-                                <th class="two wide" style="text-align:center">View</th>
-                                <th class="two wide" style="text-align:center">Delete</th>
-                                <th class="two wide"></th>
+                                <th class="two wide">Service</th>
+                                <th class="two wide">Detail</th>
+                                <th class="three wide">Suggestion</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @* Complete monthly appointment *@
+
                             @{
-
-
-                                foreach (var app in AppCom)
+                                foreach (var app in AppWait)
                                 {
-
                                     Html.RenderPartial("~/Views/PatialViews/_AllAppointment.cshtml", app);
                                 }
                             }
 
-
                         </tbody>
                     </table>
-
                                 }
                                 else
                                 {  <div style="text-align:center"> No Appointment</div>}
+            </div>
+            <div class="ui segment">
 
-            }
+                @* Complete monthly appointment *@
+                <div class="ui grey large label">
+                    Complete appointment
+                </div>
+
+                @{if (AppCom != null && AppCom.ToList().Count > 0)
+            {
+                        <table class="ui selectable  table" style="border:none!important">
+                            <thead>
+                                <tr>
+                                    <th class="two wide">Date</th>
+                                    <th class="three wide">Time</th>
+                                    <th class="two wide">Member name</th>
+                                    <th class="two wide">Pet name</th>
+                                    <th class="two wide">Service</th>
+                                    <th class="two wide">Detail</th>
+                                    <th class="three wide">Suggestion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @* Complete monthly appointment *@
+                                @{
+
+
+                                    foreach (var app in AppCom)
+                                    {
+
+                                        Html.RenderPartial("~/Views/PatialViews/_AllAppointment.cshtml", app);
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+
+                                    }
+                                    else
+                                    {  <div style="text-align:center"> No Appointment</div>}
+
+                }
+
+            </div>
 
         </div>
 
+
     </div>
-
-
-</div>
 
