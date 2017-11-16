@@ -35,6 +35,7 @@ namespace VA.DAL
             modelBuilder.Entity<Member>().HasMany(i => i.Pets).WithRequired().WillCascadeOnDelete(false);
             modelBuilder.Entity<Member>().HasMany(i => i.Appointments).WithRequired().WillCascadeOnDelete(false);
             modelBuilder.Entity<VAService>().HasMany(i => i.Appointments).WithRequired().WillCascadeOnDelete(false);
+            modelBuilder.Entity<TimeBlock>().HasMany(i => i.AppointmentTimeBlock).WithRequired().WillCascadeOnDelete(false);
         }
        
     }

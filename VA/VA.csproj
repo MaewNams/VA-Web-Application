@@ -318,7 +318,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ClassDiagram1.cd" />
+    <Content Include="ClassDiagram11.cd" />
     <Content Include="ClassDiagram2.cd" />
     <Content Include="ClassDiagram3.cd" />
     <None Include="Properties\PublishProfiles\ruttikar - FTP.pubxml" />

@@ -16,10 +16,17 @@ namespace VA.Controllers
 {
     public class AppointmentController : Controller
     {
+<<<<<<< HEAD
         // private VAContext _db = new VAContext();
         //    private AdministratorRepository AdminService = new AdministratorRepository();
         private MemberRepository MemberService = new MemberRepository();
         private AppointmentRepository AppointmentService = new AppointmentRepository();
+=======
+        private VAContext _db = new VAContext();
+    //    private AdministratorRepository AdminService = new AdministratorRepository();
+    //    private MemberRepository MemberService = new MemberRepository();
+     //   private AppointmentRepository AppointmentService = new AppointmentRepository();
+>>>>>>> 77357a911c4c8b10fde568890d9b5e97c99aa41a
         // GET: Appointment
 
         private readonly IAppointmentRepository _AppRepo;
@@ -256,16 +263,23 @@ namespace VA.Controllers
         [HttpPost]
         public ActionResult Edit(int appid, string detail, string suggestion)
         {
+<<<<<<< HEAD
             Appointment appointment = _AppRepo.GetById(appid);
             appointment.suggestion = suggestion;
             appointment.detail = detail;
             AppointmentService.Update(appointment);
+=======
+            Appointment appointment = _AppRepo.GetById(appid.Value);
+            appointment.suggestion = suggestion;
+            _AppRepo.Update(appointment);
+>>>>>>> 77357a911c4c8b10fde568890d9b5e97c99aa41a
             return Json(new { Result = "Success" });
         }
 
         [HttpPost]
         public ActionResult Delete(int appid)
         {
+<<<<<<< HEAD
             // Clinic object
             Clinic clinic = _VCRepo.Get();
 
@@ -295,6 +309,10 @@ namespace VA.Controllers
             // Then remove appointment (3)
             Appointment app = _AppRepo.GetById(appid);
             _AppRepo.Delete(app);
+=======
+            Appointment appointment = _AppRepo.GetById(appid);
+            _AppRepo.Delete(appointment);
+>>>>>>> 77357a911c4c8b10fde568890d9b5e97c99aa41a
             return Json(new { Result = "Success" });
         }
     }
