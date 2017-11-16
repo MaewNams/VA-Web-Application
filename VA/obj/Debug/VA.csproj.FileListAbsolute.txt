@@ -222,14 +222,4 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.Migra
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.csproj.GenerateResource.Cache
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\obj\Debug\VA.csprojResolveAssemblyReference.cache
 =======
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Practices.ServiceLocation.dll
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Practices.Unity.Configuration.dll
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Practices.Unity.dll
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Practices.ServiceLocation.pdb
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Practices.ServiceLocation.xml
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Practices.Unity.xml
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Practices.Unity.Configuration.xml
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VA\bin\Unity.Mvc4.dll
 >>>>>>> 77357a911c4c8b10fde568890d9b5e97c99aa41a

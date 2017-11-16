@@ -108,14 +108,13 @@ namespace VATests.RepositoryTests
             Assert.IsInstanceOfType(testAppointment, typeof(Appointment)); // Test type
             Assert.AreEqual("This is appointment 3", testAppointment.detail); // Verify it is the right product
 
-<<<<<<< HEAD
+
             // Try finding all products
         //    IEnumerable<Appointment> testProducts = this.MockAppointmentsRepository.GetAll();
 
          //   Assert.IsNotNull(testProducts); // Test if null
          //   Assert.AreEqual(3, testProducts.Count()); // Verify the correct Number
-=======
->>>>>>> 77357a911c4c8b10fde568890d9b5e97c99aa41a
+
 
         }
 

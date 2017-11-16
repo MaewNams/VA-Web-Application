@@ -67,6 +67,5 @@ C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Com
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Common.Logging.Core.xml
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Common.Logging.pdb
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\bin\Debug\Common.Logging.xml
-C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\obj\Debug\VATests.csprojResolveAssemblyReference.cache
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\obj\Debug\VATests.dll
 C:\Users\MaewNamS\Documents\Visual Studio 2017\Projects\VA\VATests\obj\Debug\VATests.pdb
